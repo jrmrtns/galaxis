@@ -1,0 +1,22 @@
+//
+// Created by jmartens on 20.10.2023.
+//
+
+#ifndef GALAXIS_SINGLE_PLAYER_GAME_H
+#define GALAXIS_SINGLE_PLAYER_GAME_H
+
+#include "abstract-game.h"
+#include "galaxis.h"
+#include <memory>
+
+class SinglePlayerGame: public AbstractGame {
+public:
+    explicit SinglePlayerGame();
+
+    void makeGuess(uint8_t x, uint8_t y) override;
+private:
+    std::unique_ptr<Galaxis> _galaxis;
+};
+
+
+#endif //GALAXIS_SINGLE_PLAYER_GAME_H
