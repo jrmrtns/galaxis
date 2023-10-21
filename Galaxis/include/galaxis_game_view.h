@@ -37,6 +37,8 @@ private:
     uint32_t debounceTimeSpan = 25;
 
     void updateShipCount();
+
+    void updateActive();
 };
 
 

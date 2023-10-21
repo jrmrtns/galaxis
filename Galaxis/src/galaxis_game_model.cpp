@@ -2,6 +2,7 @@
 // Created by jmartens on 17.10.2023.
 //
 
+#include <HWCDC.h>
 #include "galaxis_game_model.h"
 
 uint8_t GalaxisGameModel::getX() const {
@@ -21,7 +22,7 @@ void GalaxisGameModel::setShipCount(uint8_t shipCount) {
         return;
 
     _shipCount = shipCount;
-    notifyObservers(UpdateMessage::ShipCount);
+    notifyView(ViewUpdateMessage::ShipCount);
 }
 
 uint8_t GalaxisGameModel::getMe() const {
@@ -37,13 +38,17 @@ uint8_t GalaxisGameModel::getCurrent() const {
 }
 
 void GalaxisGameModel::setCurrent(uint8_t current) {
+    if (current == _current)
+        return;
+
     _current = current;
+    notifyView(ViewUpdateMessage::Active);
 }
 
 void GalaxisGameModel::setCoordinates(uint8_t x, uint8_t y) {
     _x = x;
     _y = y;
-    notifyObservers(UpdateMessage::Coordinates);
+    notifyView(ViewUpdateMessage::Coordinates);
 }
 
 uint8_t GalaxisGameModel::getLastSearchResult() const {
@@ -54,5 +59,9 @@ void GalaxisGameModel::setLastSearchResult(uint8_t lastSearchResult) {
     if (_lastSearchResult == lastSearchResult)
         return;
     _lastSearchResult = lastSearchResult;
-    notifyObservers(UpdateMessage::SearchResult);
+    notifyView(ViewUpdateMessage::SearchResult);
+}
+
+bool GalaxisGameModel::isActive() const {
+    return _current == _me;
 }

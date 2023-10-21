@@ -3,7 +3,6 @@
 //
 
 #include <WString.h>
-
 #include <utility>
 #include "galaxis_game_view.h"
 #include "ui.h"
@@ -11,8 +10,10 @@
 
 GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, GalaxisGameController *galaxisController,
                                  std::shared_ptr<GalaxisGameModel> galaxisModel) : _encoder(encoder),
-                                                                   _galaxisController(galaxisController),
-                                                                   _galaxisModel(std::move(galaxisModel)) {
+                                                                                   _galaxisController(
+                                                                                           galaxisController),
+                                                                                   _galaxisModel(
+                                                                                           std::move(galaxisModel)) {
     _galaxisModel->registerObserver(this);
 }
 
@@ -21,7 +22,7 @@ GalaxisGameView::~GalaxisGameView() {
 }
 
 void GalaxisGameView::update(int param) {
-    switch ((UpdateMessage) param) {
+    switch ((ViewUpdateMessage) param) {
         case Coordinates:
             updateCoordinates();
             break;
@@ -31,11 +32,15 @@ void GalaxisGameView::update(int param) {
         case ShipCount:
             updateShipCount();
             break;
+        case Active:
+            updateActive();
+            break;
     }
 }
 
 void GalaxisGameView::show() {
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
+    _galaxisController->initialize();
 }
 
 void GalaxisGameView::updateCoordinates() {
@@ -52,6 +57,14 @@ void GalaxisGameView::updateShipCount() {
     txt[2] = char(0x30 + SHIP_COUNT);
 
     lv_label_set_text(ui_ShipCount, txt.c_str());
+}
+
+void GalaxisGameView::updateActive() {
+    Serial.println(_galaxisModel->isActive());
+    if (_galaxisModel->isActive())
+        _ui_state_modify(ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+    else
+        _ui_state_modify(ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
 }
 
 void GalaxisGameView::updateSearchResult() {

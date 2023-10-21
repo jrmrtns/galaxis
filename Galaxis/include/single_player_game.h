@@ -16,6 +16,12 @@ public:
     void makeGuess(uint8_t x, uint8_t y) override;
 private:
     std::unique_ptr<Galaxis> _galaxis;
+
+    void SendNextPlayerNotification(uint8_t nextPlayer) const;
+
+    void SendGameOverNotification(uint8_t winner) const;
+
+    void SendGuessResponse(uint8_t receiver, uint8_t guessResult) const;
 };
 
 

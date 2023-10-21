@@ -11,6 +11,7 @@
 #include "galaxis_game_view.h"
 #include "galaxis_game_controller.h"
 #include "settings.h"
+#include "single_player_game.h"
 
 //Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
@@ -106,7 +107,7 @@ void setup()
     delay(2500);
 
     gameModel = std::make_shared<GalaxisGameModel>();
-    gameController = new GalaxisGameController(gameModel);
+    gameController = new GalaxisGameController(std::unique_ptr<SinglePlayerGame>(new  SinglePlayerGame()), gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();
 }

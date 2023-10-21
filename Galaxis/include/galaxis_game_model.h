@@ -8,8 +8,8 @@
 #include <cstdio>
 #include "subject.h"
 
-enum UpdateMessage {
-    Coordinates, SearchResult, ShipCount
+enum ViewUpdateMessage {
+    Coordinates, SearchResult, ShipCount, Active
 };
 
 class GalaxisGameModel : public Subject {
@@ -38,11 +38,14 @@ public:
 
 private:
     uint8_t _me = 0;
-    uint8_t _current = 0;
+    uint8_t _current = 0xff;
     uint8_t _x = 0;
     uint8_t _y = 0;
     uint8_t _shipCount = 0;
     uint8_t _lastSearchResult = 0xfa;
+    bool _active = false;
+public:
+    bool isActive() const;
 };
 
 

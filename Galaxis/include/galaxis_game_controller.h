@@ -14,17 +14,27 @@
 
 class GalaxisGameController: protected MessageObserver{
 public:
-    explicit GalaxisGameController(std::shared_ptr<GalaxisGameModel> galaxisModel);
+    GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame, std::shared_ptr<GalaxisGameModel> galaxisModel);
 
     void move(int position);
 
     void btnClick(int position);
+
+    void initialize();
+
 protected:
     void messageReceived(GalaxisMessage param) override;
 
 private:
     std::shared_ptr<GalaxisGameModel> _galaxisModel;
-    std::unique_ptr<AbstractGame> _galaxisGame;
+
+    std::shared_ptr<AbstractGame> _galaxisGame;
+
+    void handleSearchMessage(const GalaxisMessage &param);
+
+    void handleNextMessage(const GalaxisMessage &message);
+
+    void handleGameOver(const GalaxisMessage &message);
 };
 
 

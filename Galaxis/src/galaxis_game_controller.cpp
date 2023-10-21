@@ -8,9 +8,9 @@
 #include "settings.h"
 #include "single_player_game.h"
 
-GalaxisGameController::GalaxisGameController(std::shared_ptr<GalaxisGameModel> galaxisModel) {
+GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame, std::shared_ptr<GalaxisGameModel> galaxisModel) {
     _galaxisModel = std::move(galaxisModel);
-    _galaxisGame =  std::unique_ptr<SinglePlayerGame>(new  SinglePlayerGame());
+    _galaxisGame = std::move(galaxisGame);
     _galaxisGame->registerObserver(this);
 }
 
@@ -29,10 +29,35 @@ void GalaxisGameController::messageReceived(GalaxisMessage param) {
         return;
 
     if (param.command == SEARCH) {
-        _galaxisModel->setLastSearchResult(param.param1);
-        if (param.param1 == 0xff)
-        {
-            _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
-        }
+        handleSearchMessage(param);
     }
+
+    if (param.command == NEXT) {
+        handleNextMessage(param);
+    }
+
+    if (param.command == GAME_OVER) {
+        handleGameOver(param);
+    }
+}
+
+void GalaxisGameController::handleSearchMessage(const GalaxisMessage &param) {
+    _galaxisModel->setLastSearchResult(param.param1);
+    if (param.param1 == 0xff)
+    {
+        _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
+    }
+}
+
+void GalaxisGameController::initialize() {
+    _galaxisModel->setCurrent(_galaxisModel->getMe());
+}
+
+void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
+    uint8_t nextUser = message.param1;
+    _galaxisModel->setCurrent(nextUser);
+}
+
+void GalaxisGameController::handleGameOver(const GalaxisMessage &message) {
+    // TODO: handle game over
 }

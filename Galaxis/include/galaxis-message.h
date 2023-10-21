@@ -10,12 +10,13 @@ enum MessageType {
 };
 
 enum Command {
-    SEARCH
+    SEARCH, NEXT, GAME_OVER
 };
 
 typedef struct GalaxisMessage {
     uint8_t msgType;
     uint8_t command;
+    uint8_t receiver;
     uint8_t param1;
     uint8_t param2;
 } GalaxisMessage;
