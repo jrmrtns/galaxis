@@ -7,9 +7,10 @@
 
 #include <cstdio>
 #include "subject.h"
+#include "WString.h"
 
 enum ViewUpdateMessage {
-    Coordinates, SearchResult, ShipCount, Active
+    Coordinates, SearchResult, ShipCount, Active, Hint
 };
 
 class GalaxisGameModel : public Subject {
@@ -43,7 +44,12 @@ private:
     uint8_t _y = 0;
     uint8_t _shipCount = 0;
     uint8_t _lastSearchResult = 0xfa;
-    bool _active = false;
+    String _hint = "";
+public:
+    const String &getHint() const;
+
+    void setHint(const String hint);
+
 public:
     bool isActive() const;
 };

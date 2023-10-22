@@ -22,11 +22,11 @@ GalaxisGameController *gameController;
 
 int screen_rotation = 1;
 
-static const uint16_t screenWidth  = 240;
+static const uint16_t screenWidth = 240;
 static const uint16_t screenHeight = 240;
 
 static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[ screenWidth * screenHeight / 10 ];
+static lv_color_t buf[screenWidth * screenHeight / 10];
 
 TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 
@@ -53,22 +53,21 @@ void initialize_encoder() {
     attachInterrupt(digitalPinToInterrupt(PIN_ENC_IN2), checkPosition, CHANGE);
 }
 
-void dispFlushCallback( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p )
-{
-    uint32_t w = ( area->x2 - area->x1 + 1 );
-    uint32_t h = ( area->y2 - area->y1 + 1 );
+void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
+    uint32_t w = (area->x2 - area->x1 + 1);
+    uint32_t h = (area->y2 - area->y1 + 1);
 
     tft.startWrite();
-    tft.setAddrWindow( area->x1, area->y1, w, h );
-    tft.pushColors( ( uint16_t * )&color_p->full, w * h, true );
+    tft.setAddrWindow(area->x1, area->y1, w, h);
+    tft.pushColors((uint16_t *) &color_p->full, w * h, true);
     tft.endWrite();
 
-    lv_disp_flush_ready( disp );
+    lv_disp_flush_ready(disp);
 }
 
-void setup()
-{
-    Serial.begin( 115200 );
+void setup() {
+    Serial.begin(115200);
+    //randomSeed(analogRead(A0));
 
     lv_init();
 
@@ -86,18 +85,18 @@ void setup()
 #endif
 
     tft.begin();
-    tft.setRotation( screen_rotation );
+    tft.setRotation(screen_rotation);
 
-    lv_disp_draw_buf_init( &draw_buf, buf, nullptr, screenWidth * screenHeight / 10 );
+    lv_disp_draw_buf_init(&draw_buf, buf, nullptr, screenWidth * screenHeight / 10);
 
     static lv_disp_drv_t disp_drv;
-    lv_disp_drv_init( &disp_drv );
+    lv_disp_drv_init(&disp_drv);
 
     disp_drv.hor_res = screenWidth;
     disp_drv.ver_res = screenHeight;
     disp_drv.flush_cb = dispFlushCallback;
     disp_drv.draw_buf = &draw_buf;
-    lv_disp_drv_register( &disp_drv );
+    lv_disp_drv_register(&disp_drv);
 
     ui_init();
 
@@ -107,16 +106,16 @@ void setup()
     delay(2500);
 
     gameModel = std::make_shared<GalaxisGameModel>();
-    gameController = new GalaxisGameController(std::unique_ptr<SinglePlayerGame>(new  SinglePlayerGame()), gameModel);
+    std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
+    gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();
 }
 
-void loop()
-{
+void loop() {
     lv_timer_handler();
     BLE.poll();
-    delay(5);
+    //delay(5);
 
     encoder->tick();
     screenManager->tick();

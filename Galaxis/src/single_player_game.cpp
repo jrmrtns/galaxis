@@ -9,11 +9,13 @@ SinglePlayerGame::SinglePlayerGame() {
 }
 
 void SinglePlayerGame::makeGuess(uint8_t x, uint8_t y) {
+    _galaxis->dumpCurrent();
     uint8_t currentPlayer = _galaxis->getCurrentPlayer();
     uint8_t guessResult = _galaxis->guess(x, y);
     SendGuessResponse(currentPlayer, guessResult);
     SendNextPlayerNotification(_galaxis->getCurrentPlayer());
-    SendGameOverNotification(currentPlayer);
+    if (_galaxis->getGameState() == gameOver)
+        SendGameOverNotification(currentPlayer);
 }
 
 void SinglePlayerGame::SendGameOverNotification(uint8_t winner) const {
@@ -21,7 +23,7 @@ void SinglePlayerGame::SendGameOverNotification(uint8_t winner) const {
     message = GalaxisMessage();
     message.msgType = RESPONSE;
     message.command = GAME_OVER;
-    message.receiver = 0xff;
+    message.id = 0xff;
     message.param1 = winner;
     notifyObservers(message);
 }
@@ -30,7 +32,7 @@ void SinglePlayerGame::SendNextPlayerNotification(uint8_t nextPlayer) const {
     GalaxisMessage message;
     message.msgType = RESPONSE;
     message.command = NEXT;
-    message.receiver = 0xff;
+    message.id = 0xff;
     message.param1 = nextPlayer;
     notifyObservers(message);
 }
@@ -39,7 +41,7 @@ void SinglePlayerGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult) 
     GalaxisMessage message;
     message.msgType = RESPONSE;
     message.command = SEARCH;
-    message.receiver = receiver;
+    message.id = receiver;
     message.param1 = guessResult;
     notifyObservers(message);
 }

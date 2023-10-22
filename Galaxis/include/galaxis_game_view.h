@@ -39,6 +39,8 @@ private:
     void updateShipCount();
 
     void updateActive();
+
+    void updateHint();
 };
 
 

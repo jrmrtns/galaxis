@@ -9,13 +9,14 @@
 #include "RotaryEncoder.h"
 
 class ScreenManager {
-private :
-    RotaryEncoder *_encoder;
-    int _lastPosition = 0;
 public:
     explicit ScreenManager(RotaryEncoder *encoder);
 
     void tick();
+
+private :
+    RotaryEncoder *_encoder;
+    int _lastPosition = 0;
 };
 
 

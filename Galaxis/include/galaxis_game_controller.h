@@ -23,14 +23,14 @@ public:
     void initialize();
 
 protected:
-    void messageReceived(GalaxisMessage param) override;
+    void messageReceived(GalaxisMessage message) override;
 
 private:
     std::shared_ptr<GalaxisGameModel> _galaxisModel;
 
     std::shared_ptr<AbstractGame> _galaxisGame;
 
-    void handleSearchMessage(const GalaxisMessage &param);
+    void handleSearchMessage(const GalaxisMessage &message);
 
     void handleNextMessage(const GalaxisMessage &message);
 

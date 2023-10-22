@@ -65,3 +65,15 @@ void GalaxisGameModel::setLastSearchResult(uint8_t lastSearchResult) {
 bool GalaxisGameModel::isActive() const {
     return _current == _me;
 }
+
+const String &GalaxisGameModel::getHint() const {
+    return _hint;
+}
+
+void GalaxisGameModel::setHint(const String hint) {
+    if (_hint == hint)
+        return;
+
+    _hint = hint;
+    notifyView(ViewUpdateMessage::Hint);
+}

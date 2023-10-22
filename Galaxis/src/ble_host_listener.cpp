@@ -7,7 +7,7 @@
 
 BLE_HostListener* BLE_HostListener::_instance = nullptr;
 BLEService galaxisHostService("{5A9AB000-CF0B-4281-BB4F-60C67E9ACC28}"); // create service
-BLEByteCharacteristic galaxisCharacteristic("5A9AB001-CF0B-4281-BB4F-60C67E9ACC28", BLERead | BLEWrite | BLEIndicate);
+BLECharacteristic galaxisCharacteristic("5A9AB001-CF0B-4281-BB4F-60C67E9ACC28", BLERead | BLEWrite | BLEIndicate, sizeof (GalaxisMessage));
 
 BLE_HostListener::BLE_HostListener() {
     BLE.setLocalName("Galaxis");
@@ -18,7 +18,7 @@ BLE_HostListener::BLE_HostListener() {
     BLE.setEventHandler(BLEConnected, blePeripheralConnectHandler);
     BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
     galaxisCharacteristic.setEventHandler(BLEWritten, galaxisCharacteristicWritten);
-    galaxisCharacteristic.setValue(0);
+    //galaxisCharacteristic.setValue(0);
 
     BLE.advertise();
 }
@@ -42,17 +42,15 @@ void BLE_HostListener::blePeripheralDisconnectHandler(BLEDevice central) {
 void BLE_HostListener::galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
     Serial.print("Characteristic event, written: ");
     Serial.println(central.address());
+    Serial.println(characteristic.valueSize());
 
-    //GalaxisMessage galaxisMessage;
-    //memcpy(&galaxisMessage, incomingData, sizeof(galaxisMessage));
+    GalaxisMessage galaxisMessage = {0};
+    //memset(&galaxisMessage, 0, sizeof(galaxisMessage));
+    characteristic.readValue(&galaxisMessage, sizeof (galaxisMessage));
+    if (galaxisMessage.msgType != REQUEST)
+        return;
 
-    if (characteristic.value()) {
-        //_ui_state_modify( ui_GamePanel, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
-        //lv_event_send(ui_GamePanel, LV_EVENT_VALUE_CHANGED, nullptr);
-        _ui_state_modify( ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
-    } else {
-        //_ui_state_modify( ui_GamePanel, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-        //lv_event_send(ui_GamePanel, LV_EVENT_VALUE_CHANGED, nullptr);
-        _ui_state_modify( ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-    }
+    Serial.println(galaxisMessage.msgType);
+    Serial.println(galaxisMessage.command);
+    Serial.println(galaxisMessage.id);
 }

@@ -35,6 +35,9 @@ void GalaxisGameView::update(int param) {
         case Active:
             updateActive();
             break;
+        case Hint:
+            updateHint();
+            break;
     }
 }
 
@@ -60,7 +63,6 @@ void GalaxisGameView::updateShipCount() {
 }
 
 void GalaxisGameView::updateActive() {
-    Serial.println(_galaxisModel->isActive());
     if (_galaxisModel->isActive())
         _ui_state_modify(ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
     else
@@ -99,3 +101,6 @@ void GalaxisGameView::tick() {
     }
 }
 
+void GalaxisGameView::updateHint() {
+    lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
+}

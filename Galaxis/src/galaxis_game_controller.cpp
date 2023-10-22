@@ -24,26 +24,26 @@ void GalaxisGameController::btnClick(int position) {
     _galaxisGame->makeGuess(p / MAX_Y, p % MAX_Y);
 }
 
-void GalaxisGameController::messageReceived(GalaxisMessage param) {
-    if (param.msgType != RESPONSE)
+void GalaxisGameController::messageReceived(GalaxisMessage message) {
+    if (message.msgType != RESPONSE)
         return;
 
-    if (param.command == SEARCH) {
-        handleSearchMessage(param);
+    if (message.command == SEARCH) {
+        handleSearchMessage(message);
     }
 
-    if (param.command == NEXT) {
-        handleNextMessage(param);
+    if (message.command == NEXT) {
+        handleNextMessage(message);
     }
 
-    if (param.command == GAME_OVER) {
-        handleGameOver(param);
+    if (message.command == GAME_OVER) {
+        handleGameOver(message);
     }
 }
 
-void GalaxisGameController::handleSearchMessage(const GalaxisMessage &param) {
-    _galaxisModel->setLastSearchResult(param.param1);
-    if (param.param1 == 0xff)
+void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
+    _galaxisModel->setLastSearchResult(message.param1);
+    if (message.param1 == 0xff)
     {
         _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
     }
@@ -59,5 +59,5 @@ void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
 }
 
 void GalaxisGameController::handleGameOver(const GalaxisMessage &message) {
-    // TODO: handle game over
+    _galaxisModel->setHint("Game Over");
 }

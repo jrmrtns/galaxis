@@ -10,22 +10,15 @@ enum MessageType {
 };
 
 enum Command {
-    SEARCH, NEXT, GAME_OVER
+    SEARCH, NEXT, GAME_OVER, HINT
 };
 
 typedef struct GalaxisMessage {
     uint8_t msgType;
     uint8_t command;
-    uint8_t receiver;
+    uint8_t id;
     uint8_t param1;
     uint8_t param2;
 } GalaxisMessage;
-
-typedef struct PairingMessage {
-    uint8_t msgType;
-    uint8_t id;
-    uint8_t macAddr[6];
-    uint8_t channel;
-} PairingMessage;
 
 #endif //GALAXIS_GALAXIS_MESSAGE_H
