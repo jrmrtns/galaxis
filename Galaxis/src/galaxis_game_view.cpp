@@ -71,6 +71,9 @@ void GalaxisGameView::updateActive() {
 
 void GalaxisGameView::updateSearchResult() {
     uint8_t n = _galaxisModel->getLastSearchResult();
+    if (n == 0xf0)
+        return;
+
     String txt = " ";
     if (n == 0xff)
         txt = "X";

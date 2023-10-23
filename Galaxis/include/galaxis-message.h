@@ -10,7 +10,7 @@ enum MessageType {
 };
 
 enum Command {
-    SEARCH, NEXT, GAME_OVER, HINT
+    SEARCH, NEXT, GAME_OVER, HINT, ERROR
 };
 
 typedef struct GalaxisMessage {

@@ -21,7 +21,10 @@ Galaxis::Galaxis(int count, gameType gameType, bool time_limited) {
     }
 }
 
-uint8_t Galaxis::guess(uint8_t x, uint8_t y) {
+uint8_t Galaxis::guess(uint8_t playerId, uint8_t x, uint8_t y) {
+    if (_currentPlayer != playerId)
+        return 0xf0;
+
     Player *current = _players.at(_currentPlayer);
     uint8_t result = current->makeMove(x, y);
 
@@ -29,6 +32,10 @@ uint8_t Galaxis::guess(uint8_t x, uint8_t y) {
         _gameState = gameState::gameOver;
         result = 0xff;
     }
+
+    if (result != 0xff)
+        next(0);
+
     return result;
 }
 
@@ -57,9 +64,9 @@ gameState Galaxis::getGameState() const {
 }
 
 void Galaxis::next(uint64_t elapsed) {
-    _currentPlayer++;
     _time_limit = elapsed + MAX_TIME * 1000 * 1000;
 
+    _currentPlayer++;
     if (_currentPlayer >= _playerCount)
         _currentPlayer = 0;
     _gameState = gameState::idle;

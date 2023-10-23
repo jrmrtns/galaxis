@@ -13,7 +13,7 @@ class SinglePlayerGame: public AbstractGame {
 public:
     explicit SinglePlayerGame();
 
-    void makeGuess(uint8_t x, uint8_t y) override;
+    void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) override;
 private:
     std::unique_ptr<Galaxis> _galaxis;
 

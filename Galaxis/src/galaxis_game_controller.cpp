@@ -21,7 +21,7 @@ void GalaxisGameController::move(int position) {
 
 void GalaxisGameController::btnClick(int position) {
     uint32_t p = position % (MAX_X * MAX_Y);
-    _galaxisGame->makeGuess(p / MAX_Y, p % MAX_Y);
+    _galaxisGame->makeGuess(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
 }
 
 void GalaxisGameController::messageReceived(GalaxisMessage message) {

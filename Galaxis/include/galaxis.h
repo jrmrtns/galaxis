@@ -17,7 +17,7 @@ public:
 
     virtual ~Galaxis();
 
-    uint8_t guess(uint8_t x, uint8_t y);
+    uint8_t guess(uint8_t playerId, uint8_t x, uint8_t y);
 
     void next(uint64_t elapsed);
 

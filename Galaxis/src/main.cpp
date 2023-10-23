@@ -5,7 +5,7 @@
 #include <ArduinoBLE.h>
 
 #include <memory>
-#include "ble_host_listener.h"
+#include "ble_central_game.h"
 #include "screen_manager.h"
 #include "galaxis_game_model.h"
 #include "galaxis_game_view.h"
@@ -67,7 +67,7 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    //randomSeed(analogRead(A0));
+    randomSeed(analogRead(A0));
 
     lv_init();
 
@@ -100,13 +100,15 @@ void setup() {
 
     ui_init();
 
-    BLE_HostListener::getInstance();
+    //BLECentralGame::getInstance();
 
     lv_timer_handler();
     delay(2500);
 
     gameModel = std::make_shared<GalaxisGameModel>();
-    std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
+    randomSeed(1);
+    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
+    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
     gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();
@@ -116,7 +118,6 @@ void loop() {
     lv_timer_handler();
     BLE.poll();
     //delay(5);
-
     encoder->tick();
     screenManager->tick();
     gameView->tick();
