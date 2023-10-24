@@ -21,7 +21,7 @@ private:
 
     void SendGameOverNotification(uint8_t winner) const;
 
-    void SendGuessResponse(uint8_t receiver, uint8_t guessResult) const;
+    void SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const;
 };
 
 

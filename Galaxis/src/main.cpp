@@ -34,7 +34,7 @@ TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 /* Serial debugging */
 void my_print(const char * buf)
 {
-    Serial.printf(buf);
+    //Serial.printf(buf);
     Serial.flush();
 }
 #endif
@@ -107,8 +107,12 @@ void setup() {
 
     gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
+
     std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
+    gameModel->setMe(1);
+
     //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
+
     gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();

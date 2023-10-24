@@ -2,7 +2,6 @@
 // Created by jmartens on 17.10.2023.
 //
 
-#include <HWCDC.h>
 #include "galaxis_game_model.h"
 
 uint8_t GalaxisGameModel::getX() const {

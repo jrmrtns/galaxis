@@ -24,13 +24,13 @@ public:
     void update(int param) override;
 
 private:
-    std::shared_ptr<GalaxisGameModel> _galaxisModel;
+    RotaryEncoder *_encoder;
     GalaxisGameController *_galaxisController;
+    std::shared_ptr<GalaxisGameModel> _galaxisModel;
 
     void updateCoordinates();
     void updateSearchResult();
 
-    RotaryEncoder *_encoder;
     int _lastPosition = 0;
     int lastButtonState = HIGH;
     uint32_t lastButtonPress = 0;

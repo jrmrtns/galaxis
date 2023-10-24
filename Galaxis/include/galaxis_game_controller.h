@@ -35,6 +35,8 @@ private:
     void handleNextMessage(const GalaxisMessage &message);
 
     void handleGameOver(const GalaxisMessage &message);
+
+    void handleSearchMessageForParticipants(GalaxisMessage message);
 };
 
 

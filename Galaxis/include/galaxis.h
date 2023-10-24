@@ -25,7 +25,9 @@ public:
 
     int getPlayerCount() const;
 
-    int getCurrentPlayer() const;
+    int getCurrentPlayerId() const;
+
+    Player * player(uint8_t player) const;
 
     gameState getGameState() const;
 
@@ -48,7 +50,6 @@ private:
 public:
     void setTimeLimit(uint64_t timeLimit);
 
-public:
     uint64_t getTimeLimit() const;
 };
 

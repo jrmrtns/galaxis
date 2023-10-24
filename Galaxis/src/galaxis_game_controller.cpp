@@ -29,7 +29,10 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
         return;
 
     if (message.command == SEARCH) {
-        handleSearchMessage(message);
+        if (message.id == _galaxisModel->getMe())
+            handleSearchMessage(message);
+        else
+            handleSearchMessageForParticipants(message);
     }
 
     if (message.command == NEXT) {
@@ -50,7 +53,7 @@ void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
 }
 
 void GalaxisGameController::initialize() {
-    _galaxisModel->setCurrent(_galaxisModel->getMe());
+    _galaxisModel->setMe(_galaxisModel->getMe());
 }
 
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
@@ -60,4 +63,23 @@ void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
 
 void GalaxisGameController::handleGameOver(const GalaxisMessage &message) {
     _galaxisModel->setHint("Game Over");
+}
+
+void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage message) {
+    if (message.param1 == 0xfe || message.param1 == 0xfd ||  message.param1 == 0xfa ||  message.param1 == 0xf0)
+        return;
+
+    String text = "Spieler ";
+    text += char(0x41 + message.id);
+    text += ": ";
+    if (message.param1 == 0xff) {
+        String counter = "0/0";
+        counter[0] = char(0x30 + message.param2);
+        counter[2] = char(0x30 + SHIP_COUNT);
+        text += counter;
+    } else {
+        text += message.param1;
+    }
+
+    _galaxisModel->setHint(text);
 }

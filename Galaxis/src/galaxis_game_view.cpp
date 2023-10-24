@@ -43,6 +43,7 @@ void GalaxisGameView::update(int param) {
 
 void GalaxisGameView::show() {
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
+    updateActive();
     _galaxisController->initialize();
 }
 
@@ -70,19 +71,19 @@ void GalaxisGameView::updateActive() {
 }
 
 void GalaxisGameView::updateSearchResult() {
-    uint8_t n = _galaxisModel->getLastSearchResult();
-    if (n == 0xf0)
+    uint8_t searchResult = _galaxisModel->getLastSearchResult();
+    if (searchResult == 0xf0)
         return;
 
     String txt = " ";
-    if (n == 0xff)
+    if (searchResult == 0xff)
         txt = "X";
-    else if (n == 0xfe)
+    else if (searchResult == 0xfe)
         txt = "-";
-    else if (n == 0xfa)
+    else if (searchResult == 0xfa)
         txt = " ";
     else
-        txt[0] = char(0x30 + n);
+        txt[0] = char(0x30 + searchResult);
 
     lv_label_set_text(ui_SearchResult, txt.c_str());
 }

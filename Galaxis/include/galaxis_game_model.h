@@ -39,7 +39,7 @@ public:
 
 private:
     uint8_t _me = 0;
-    uint8_t _current = 0xff;
+    uint8_t _current = 0;
     uint8_t _x = 0;
     uint8_t _y = 0;
     uint8_t _shipCount = 0;

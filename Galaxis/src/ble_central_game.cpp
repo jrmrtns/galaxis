@@ -6,9 +6,10 @@
 
 BLECentralGame* BLECentralGame::_instance = nullptr;
 BLEService galaxisHostService("{5A9AB000-CF0B-4281-BB4F-60C67E9ACC28}");
-BLECharacteristic galaxisCharacteristic("5A9AB001-CF0B-4281-BB4F-60C67E9ACC28", BLERead | BLEWrite | BLEIndicate, sizeof (GalaxisMessage));
+BLECharacteristic galaxisCharacteristic("5A9AB001-CF0B-4281-BB4F-60C67E9ACC28", BLERead | BLEWrite | BLENotify, sizeof (GalaxisMessage));
 
 BLECentralGame::BLECentralGame() {
+    _instance = this;
     _galaxis = std::unique_ptr<Galaxis>(new Galaxis(2, single_board, false));
 
     BLE.setLocalName("Galaxis");
@@ -20,12 +21,11 @@ BLECentralGame::BLECentralGame() {
     BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
     galaxisCharacteristic.setEventHandler(BLEWritten, galaxisCharacteristicWritten);
 
+    //galaxisCharacteristic.setValue(0, sizeof(GalaxisMessage));
     BLE.advertise();
 }
 
 BLECentralGame *BLECentralGame::getInstance() {
-    if (_instance == nullptr)
-        _instance = new BLECentralGame();
     return _instance;
 }
 
@@ -49,18 +49,19 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
         return;
 
     if (galaxisMessage.command == SEARCH){
-        BLECentralGame::getInstance()->makeRemoteGuess(galaxisMessage.id, galaxisMessage.param1, galaxisMessage.param2);
+        BLECentralGame::getInstance()->makeGuess(galaxisMessage.id, galaxisMessage.param1, galaxisMessage.param2);
     }
 }
 
 void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
-    _galaxis->dumpCurrent();
-    uint8_t currentPlayer = _galaxis->getCurrentPlayer();
+    uint8_t currentPlayerId = _galaxis->getCurrentPlayerId();
     uint8_t guessResult = _galaxis->guess(playerId, x, y);
-    SendGuessResponse(currentPlayer, guessResult);
-    SendNextPlayerNotification(_galaxis->getCurrentPlayer());
+    uint8_t discovered = _galaxis->player(currentPlayerId)->getDiscovered();
+
+    SendGuessResponse(currentPlayerId, guessResult, discovered);
+    SendNextPlayerNotification(_galaxis->getCurrentPlayerId());
     if (_galaxis->getGameState() == gameOver)
-        SendGameOverNotification(currentPlayer);
+        SendGameOverNotification(currentPlayerId);
 }
 
 void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
@@ -77,33 +78,17 @@ void BLECentralGame::SendNextPlayerNotification(uint8_t nextPlayer) const {
     message.msgType = RESPONSE;
     message.command = NEXT;
     message.id = 0xff;
-    Serial.println(nextPlayer);
     message.param1 = nextPlayer;
     notifyObservers(message);
 }
 
-void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult) const {
+void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const {
     GalaxisMessage message = {0};
     message.msgType = RESPONSE;
     message.command = SEARCH;
     message.id = receiver;
     message.param1 = guessResult;
+    message.param2 = discovered;
     notifyObservers(message);
+    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage), true);
 }
-
-void BLECentralGame::makeRemoteGuess(uint8_t playerId, uint8_t x, uint8_t y) {
-    _galaxis->dumpCurrent();
-
-    uint8_t currentPlayer = _galaxis->getCurrentPlayer();
-    uint8_t guessResult = _galaxis->guess(playerId, x, y);
-
-    GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
-    message.command = SEARCH;
-    message.id = playerId;
-    message.param1 = guessResult;
-
-    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage), false);
-}
-
-

@@ -55,7 +55,7 @@ int Galaxis::getPlayerCount() const {
     return _playerCount;
 }
 
-int Galaxis::getCurrentPlayer() const {
+int Galaxis::getCurrentPlayerId() const {
     return _currentPlayer;
 }
 
@@ -98,4 +98,11 @@ const std::vector<Ship *> &Galaxis::get_ships_by_player(uint8_t player) {
 
 void Galaxis::setTimeLimit(uint64_t timeLimit) {
     _time_limit = timeLimit + (MAX_TIME + 5) * 1000 * 1000;
+}
+
+Player *Galaxis::player(uint8_t player) const {
+    if (player >= _playerCount)
+        return nullptr;
+
+    return _players.at(player);
 }
