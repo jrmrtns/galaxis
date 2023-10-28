@@ -45,6 +45,7 @@ void GalaxisGameView::show() {
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
     updateActive();
     _galaxisController->initialize();
+    updateHint();
 }
 
 void GalaxisGameView::updateCoordinates() {

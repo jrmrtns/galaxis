@@ -1,94 +1,79 @@
 //
-// Created by jmartens on 17.10.2023.
+// Created by jmartens on 25.10.2023.
 //
 
 #include "ble_central_game.h"
+#include "settings.h"
+#include <ArduinoBLE.h>
 
-BLECentralGame* BLECentralGame::_instance = nullptr;
-BLEService galaxisHostService("{5A9AB000-CF0B-4281-BB4F-60C67E9ACC28}");
-BLECharacteristic galaxisCharacteristic("5A9AB001-CF0B-4281-BB4F-60C67E9ACC28", BLERead | BLEWrite | BLENotify, sizeof (GalaxisMessage));
+BLECentralGame *BLECentralGame::_instance = nullptr;
+BLECharacteristic BLECentralGame::_galaxisCharacteristic;
 
 BLECentralGame::BLECentralGame() {
     _instance = this;
-    _galaxis = std::unique_ptr<Galaxis>(new Galaxis(2, single_board, false));
 
-    BLE.setLocalName("Galaxis");
-    BLE.setAdvertisedService(galaxisHostService);
-    galaxisHostService.addCharacteristic(galaxisCharacteristic);
-    BLE.addService(galaxisHostService);
-
-    BLE.setEventHandler(BLEConnected, blePeripheralConnectHandler);
-    BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
-    galaxisCharacteristic.setEventHandler(BLEWritten, galaxisCharacteristicWritten);
-
-    //galaxisCharacteristic.setValue(0, sizeof(GalaxisMessage));
-    BLE.advertise();
+    BLE.setEventHandler(BLEDiscovered, discoverHandler);
+    BLE.setEventHandler(BLEDisconnected, peripheralDisconnectHandler);
+    BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
 }
 
 BLECentralGame *BLECentralGame::getInstance() {
     return _instance;
 }
 
-// NOLINTNEXTLINE
-void BLECentralGame::blePeripheralConnectHandler(BLEDevice central)  {
-    Serial.print("Connected event, central: ");
-    Serial.println(central.address());
+void BLECentralGame::discoverHandler(BLEDevice peripheral) {
+    if (!peripheral.connect()) {
+        return;
+    }
+
+    if (!peripheral.discoverAttributes()) {
+        peripheral.disconnect();
+        return;
+    }
+
+    _galaxisCharacteristic = peripheral.characteristic(GALAXIS_CHARACTERISTIC_UUID);
+    _galaxisCharacteristic.setEventHandler(BLEWritten, galaxisCharacteristicWritten);
+    if (!_galaxisCharacteristic || !_galaxisCharacteristic.canSubscribe()) {
+        peripheral.disconnect();
+        return;
+    }
+
+    _galaxisCharacteristic.subscribe();
 }
 
-// NOLINTNEXTLINE
-void BLECentralGame::blePeripheralDisconnectHandler(BLEDevice central) {
-    Serial.print("Disconnected event, central: ");
+void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
+    Serial.print("Disconnected event: ");
     Serial.println(central.address());
+    BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
 }
 
 // NOLINTNEXTLINE
 void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
     GalaxisMessage galaxisMessage = {0};
-    characteristic.readValue(&galaxisMessage, sizeof (galaxisMessage));
-    if (galaxisMessage.msgType != REQUEST)
+    characteristic.readValue(&galaxisMessage, sizeof(galaxisMessage));
+
+    Serial.print(galaxisMessage.msgType);
+    Serial.print(":");
+    Serial.print(galaxisMessage.command);
+    Serial.print(":");
+    Serial.print(galaxisMessage.id);
+    Serial.print(":");
+    Serial.print(galaxisMessage.param1);
+    Serial.print(":");
+    Serial.println(galaxisMessage.param2);
+
+    if (galaxisMessage.msgType != RESPONSE)
         return;
 
-    if (galaxisMessage.command == SEARCH){
-        BLECentralGame::getInstance()->makeGuess(galaxisMessage.id, galaxisMessage.param1, galaxisMessage.param2);
-    }
+    BLECentralGame::getInstance()->notifyObservers(galaxisMessage);
 }
 
 void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
-    uint8_t currentPlayerId = _galaxis->getCurrentPlayerId();
-    uint8_t guessResult = _galaxis->guess(playerId, x, y);
-    uint8_t discovered = _galaxis->player(currentPlayerId)->getDiscovered();
-
-    SendGuessResponse(currentPlayerId, guessResult, discovered);
-    SendNextPlayerNotification(_galaxis->getCurrentPlayerId());
-    if (_galaxis->getGameState() == gameOver)
-        SendGameOverNotification(currentPlayerId);
-}
-
-void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
     GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
-    message.command = GAME_OVER;
-    message.id = 0xff;
-    message.param1 = winner;
-    notifyObservers(message);
-}
-
-void BLECentralGame::SendNextPlayerNotification(uint8_t nextPlayer) const {
-    GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
-    message.command = NEXT;
-    message.id = 0xff;
-    message.param1 = nextPlayer;
-    notifyObservers(message);
-}
-
-void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const {
-    GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
+    message.msgType = REQUEST;
     message.command = SEARCH;
-    message.id = receiver;
-    message.param1 = guessResult;
-    message.param2 = discovered;
-    notifyObservers(message);
-    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+    message.id = playerId;
+    message.param1 = x;
+    message.param2 = y;
+    _galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
 }

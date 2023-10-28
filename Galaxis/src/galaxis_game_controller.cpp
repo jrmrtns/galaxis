@@ -54,6 +54,7 @@ void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
 
 void GalaxisGameController::initialize() {
     _galaxisModel->setMe(_galaxisModel->getMe());
+    _galaxisModel->setHint("");
 }
 
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {

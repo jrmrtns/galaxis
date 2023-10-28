@@ -5,13 +5,14 @@
 #include <ArduinoBLE.h>
 
 #include <memory>
-#include "ble_central_game.h"
+#include "ble_device_game.h"
 #include "screen_manager.h"
 #include "galaxis_game_model.h"
 #include "galaxis_game_view.h"
 #include "galaxis_game_controller.h"
 #include "settings.h"
 #include "single_player_game.h"
+#include "ble_central_game.h"
 
 //Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
@@ -69,6 +70,9 @@ void setup() {
     Serial.begin(115200);
     randomSeed(analogRead(A0));
 
+    pinMode(PIN_ENC_GROUND, OUTPUT);
+    digitalWrite(PIN_ENC_GROUND, LOW);
+
     lv_init();
 
     initialize_encoder();
@@ -100,18 +104,20 @@ void setup() {
 
     ui_init();
 
-    //BLECentralGame::getInstance();
-
     lv_timer_handler();
     delay(2500);
 
     gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
 
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
-    gameModel->setMe(1);
-
+#ifndef ARDUINO_XIAO_ESP32C3
     //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
+    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
+    gameModel->setMe(0);
+#else
+    std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
+    gameModel->setMe(1);
+#endif
 
     gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
