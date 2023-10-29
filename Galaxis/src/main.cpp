@@ -110,15 +110,14 @@ void setup() {
     gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
 
-#ifndef ARDUINO_XIAO_ESP32C3
-    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
-    gameModel->setMe(0);
-#else
+#ifdef ARDUINO_XIAO_ESP32C3
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
     gameModel->setMe(1);
+#else
+    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
+    gameModel->setMe(0);
+    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 #endif
-
     gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();
