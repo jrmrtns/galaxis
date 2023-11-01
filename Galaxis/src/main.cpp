@@ -14,6 +14,7 @@
 #include "single_player_game.h"
 #include "ble_central_game.h"
 
+// <a href="https://www.flaticon.com/free-icons/url" title="url icons">Url icons created by Freepik - Flaticon</a>
 //Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
@@ -110,15 +111,14 @@ void setup() {
     gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
 
-#ifndef ARDUINO_XIAO_ESP32C3
-    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
-    gameModel->setMe(0);
-#else
+#ifdef ARDUINO_XIAO_ESP32C3
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
     gameModel->setMe(1);
+#else
+    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
+    gameModel->setMe(0);
+    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 #endif
-
     gameController = new GalaxisGameController(game, gameModel);
     gameView = new GalaxisGameView(encoder, gameController, gameModel);
     gameView->show();

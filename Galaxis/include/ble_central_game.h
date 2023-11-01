@@ -9,6 +9,7 @@
 #include "subject.h"
 #include "abstract-game.h"
 #include "BLEDevice.h"
+#include "galaxis.h"
 
 class BLECentralGame : public Subject, public AbstractGame {
 public:
@@ -19,6 +20,7 @@ public:
 private:
     static BLECentralGame *_instance;
     static BLECharacteristic _galaxisCharacteristic;
+    std::unique_ptr<Galaxis> _galaxis;
 
     static void discoverHandler(BLEDevice peripheral);
 
@@ -27,6 +29,14 @@ private:
     void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) override;
 
     static void peripheralDisconnectHandler(BLEDevice central);
+
+    void SendGameOverNotification(uint8_t winner) const;
+
+    void SendNextPlayerNotification() const;
+
+    void SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const;
+
+    void NotifyUiConnected(bool connected);
 };
 
 

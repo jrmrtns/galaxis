@@ -31,6 +31,7 @@ lv_obj_t *ui_Coordinates;
 lv_obj_t *ui_StatusLabel;
 lv_obj_t *ui_SearchResult;
 lv_obj_t *ui_ShipCount;
+lv_obj_t *ui_Connected;
 lv_obj_t *ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////

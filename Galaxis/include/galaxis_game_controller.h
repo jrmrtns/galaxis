@@ -37,6 +37,8 @@ private:
     void handleGameOver(const GalaxisMessage &message);
 
     void handleSearchMessageForParticipants(GalaxisMessage message);
+
+    void handleConnectedMessage(GalaxisMessage message);
 };
 
 

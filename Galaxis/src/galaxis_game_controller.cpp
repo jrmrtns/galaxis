@@ -39,6 +39,10 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
         handleNextMessage(message);
     }
 
+    if (message.command == CONNECTED) {
+        handleConnectedMessage(message);
+    }
+
     if (message.command == GAME_OVER) {
         handleGameOver(message);
     }
@@ -54,7 +58,7 @@ void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
 
 void GalaxisGameController::initialize() {
     _galaxisModel->setMe(_galaxisModel->getMe());
-    _galaxisModel->setHint("");
+    _galaxisModel->setHint("Verbinde ...");
 }
 
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
@@ -83,4 +87,8 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
     }
 
     _galaxisModel->setHint(text);
+}
+
+void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
+    _galaxisModel->setConnected(message.param1);
 }
