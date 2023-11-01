@@ -33,12 +33,16 @@ BLEDeviceGame *BLEDeviceGame::getInstance() {
 void BLEDeviceGame::peripheralConnectHandler(BLEDevice central)  {
     Serial.print("Connected event, central: ");
     Serial.println(central.address());
+
+    BLEDeviceGame::getInstance()->NotifyUiConnected(true);
 }
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::peripheralDisconnectHandler(BLEDevice central) {
     Serial.print("Disconnected event, central: ");
     Serial.println(central.address());
+
+    BLEDeviceGame::getInstance()->NotifyUiConnected(false);
 }
 
 // NOLINTNEXTLINE
@@ -57,6 +61,10 @@ void BLEDeviceGame::galaxisCharacteristicSubscribed(BLEDevice central, BLECharac
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
+    Serial.print("Write event, central: ");
+    Serial.print(central.address());
+    Serial.print(" Message: ");
+
     GalaxisMessage galaxisMessage = {0};
     characteristic.readValue(&galaxisMessage, sizeof (galaxisMessage));
 
@@ -84,4 +92,14 @@ void BLEDeviceGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
     message.param1 = x;
     message.param2 = y;
     galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
+}
+
+void BLEDeviceGame::NotifyUiConnected(bool connected) {
+    GalaxisMessage message = {0};
+    message.msgType = RESPONSE;
+    message.command = CONNECTED;
+    message.id = 0;
+    message.param1 = connected;
+    message.param2 = 0;
+    notifyObservers(message);
 }

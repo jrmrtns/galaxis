@@ -76,3 +76,15 @@ void GalaxisGameModel::setHint(const String hint) {
     _hint = hint;
     notifyView(ViewUpdateMessage::Hint);
 }
+
+bool GalaxisGameModel::isConnected() const {
+    return _connected;
+}
+
+void GalaxisGameModel::setConnected(bool connected) {
+    if (_connected == connected)
+        return;
+
+    _connected = connected;
+    notifyView(ViewUpdateMessage::Connected);
+}

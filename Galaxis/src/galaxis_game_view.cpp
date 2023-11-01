@@ -38,14 +38,18 @@ void GalaxisGameView::update(int param) {
         case Hint:
             updateHint();
             break;
+        case Connected:
+            updateConnected();
+            break;
     }
 }
 
 void GalaxisGameView::show() {
-    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
     updateActive();
     _galaxisController->initialize();
     updateHint();
+    updateConnected();
+    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
 }
 
 void GalaxisGameView::updateCoordinates() {
@@ -108,4 +112,9 @@ void GalaxisGameView::tick() {
 
 void GalaxisGameView::updateHint() {
     lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
+}
+
+void GalaxisGameView::updateConnected() {
+    int opacity = _galaxisModel->isConnected() * 255;
+    _ui_opacity_set(ui_Connected, opacity);
 }

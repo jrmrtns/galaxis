@@ -43,7 +43,7 @@ lv_obj_set_height( ui_StatusLabel, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_StatusLabel, 0 );
 lv_obj_set_y( ui_StatusLabel, 9 );
 lv_obj_set_align( ui_StatusLabel, LV_ALIGN_CENTER );
-lv_label_set_text(ui_StatusLabel,"Searching...");
+lv_label_set_text(ui_StatusLabel,"Connecting ...");
 
 ui_SearchResult = lv_label_create(ui_GamePanel);
 lv_obj_set_width( ui_SearchResult, LV_SIZE_CONTENT);  /// 1
@@ -51,12 +51,10 @@ lv_obj_set_height( ui_SearchResult, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_SearchResult, 0 );
 lv_obj_set_y( ui_SearchResult, 50 );
 lv_obj_set_align( ui_SearchResult, LV_ALIGN_CENTER );
-lv_label_set_text(ui_SearchResult,"");
+lv_label_set_text(ui_SearchResult,"-");
 lv_obj_set_style_text_color(ui_SearchResult, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_text_opa(ui_SearchResult, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 lv_obj_set_style_text_font(ui_SearchResult, &ui_font_Destruct36, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_bg_color(ui_SearchResult, lv_color_hex(0x6B6B6B), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_SearchResult, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_ShipCount = lv_label_create(ui_GamePanel);
 lv_obj_set_width( ui_ShipCount, LV_SIZE_CONTENT);  /// 1
@@ -65,5 +63,16 @@ lv_obj_set_x( ui_ShipCount, 0 );
 lv_obj_set_y( ui_ShipCount, 90 );
 lv_obj_set_align( ui_ShipCount, LV_ALIGN_CENTER );
 lv_label_set_text(ui_ShipCount,"0/4");
+
+ui_Connected = lv_img_create(ui_GamePanel);
+lv_img_set_src(ui_Connected, &ui_img_connected_png);
+lv_obj_set_width( ui_Connected, LV_SIZE_CONTENT);  /// 16
+lv_obj_set_height( ui_Connected, LV_SIZE_CONTENT);   /// 16
+lv_obj_set_x( ui_Connected, -31 );
+lv_obj_set_y( ui_Connected, 88 );
+lv_obj_set_align( ui_Connected, LV_ALIGN_CENTER );
+lv_obj_add_flag( ui_Connected, LV_OBJ_FLAG_ADV_HITTEST );   /// Flags
+lv_obj_clear_flag( ui_Connected, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_set_style_opa(ui_Connected, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 }

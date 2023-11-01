@@ -40,6 +40,8 @@ void BLECentralGame::discoverHandler(BLEDevice peripheral) {
         return;
     }
 
+    BLECentralGame::getInstance()->NotifyUiConnected(true);
+
     _galaxisCharacteristic.subscribe();
 }
 
@@ -59,7 +61,8 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
     Serial.print(galaxisMessage.command);
     Serial.print(":");
     Serial.print(galaxisMessage.id);
-    Serial.print(":");
+    Serial.print(":");    BLECentralGame::getInstance()->NotifyUiConnected(false);
+
     Serial.print(galaxisMessage.param1);
     Serial.print(":");
     Serial.println(galaxisMessage.param2);
@@ -116,4 +119,14 @@ void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, ui
     message.param2 = discovered;
     notifyObservers(message);
     _galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+}
+
+void BLECentralGame::NotifyUiConnected(bool connected) {
+    GalaxisMessage message = {0};
+    message.msgType = RESPONSE;
+    message.command = CONNECTED;
+    message.id = _galaxis->getPlayerCount();
+    message.param1 = connected;
+    message.param2 = 0;
+    notifyObservers(message);
 }

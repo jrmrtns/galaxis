@@ -29,6 +29,8 @@ private:
     static void galaxisCharacteristicSubscribed(BLEDevice central, BLECharacteristic characteristic);
 
     void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) override;
+
+    void NotifyUiConnected(bool connected);
 };
 
 #endif //GALAXIS_BLE_DEVICE_GAME_H

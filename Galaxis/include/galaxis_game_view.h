@@ -41,6 +41,8 @@ private:
     void updateActive();
 
     void updateHint();
+
+    void updateConnected();
 };
 
 

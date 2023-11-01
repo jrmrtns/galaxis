@@ -35,6 +35,8 @@ private:
     void SendNextPlayerNotification() const;
 
     void SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const;
+
+    void NotifyUiConnected(bool connected);
 };
 
 

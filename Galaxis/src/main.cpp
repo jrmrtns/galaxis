@@ -14,6 +14,7 @@
 #include "single_player_game.h"
 #include "ble_central_game.h"
 
+// <a href="https://www.flaticon.com/free-icons/url" title="url icons">Url icons created by Freepik - Flaticon</a>
 //Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
