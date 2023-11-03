@@ -46,7 +46,7 @@ extern lv_obj_t *ui_Connected;
 extern lv_obj_t *ui____initial_actions0;
 
 LV_IMG_DECLARE( ui_img_bg_png);   // assets\bg.png
-LV_IMG_DECLARE( ui_img_connected_png);   // assets\connected.png
+LV_IMG_DECLARE( ui_img_wifi_png);   // assets\wifi.png
 
 LV_FONT_DECLARE( ui_font_Destruct36);
 

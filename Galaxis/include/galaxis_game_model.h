@@ -10,7 +10,7 @@
 #include "WString.h"
 
 enum ViewUpdateMessage {
-    Coordinates, SearchResult, ShipCount, Active, Hint, Connected
+    Coordinates, SearchResult, ShipCount, Active, Hint, Connected, GameOver
 };
 
 class GalaxisGameModel : public Subject {
@@ -37,6 +37,7 @@ public:
 
     void setCurrent(uint8_t current);
 
+    void reset();
 private:
     uint8_t _me = 0;
     uint8_t _current = 0;
@@ -46,6 +47,12 @@ private:
     uint8_t _lastSearchResult = 0xfa;
     String _hint = "";
     bool _connected = false;
+    bool _gameOver = false;
+public:
+    bool isGameOver() const;
+
+    void setGameOver(bool gameOver);
+
 public:
     bool isConnected() const;
 

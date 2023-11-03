@@ -34,11 +34,13 @@ private:
 
     void handleNextMessage(const GalaxisMessage &message);
 
-    void handleGameOver(const GalaxisMessage &message);
+    void handleGameOver();
 
     void handleSearchMessageForParticipants(GalaxisMessage message);
 
     void handleConnectedMessage(GalaxisMessage message);
+
+    void reset();
 };
 
 

@@ -65,7 +65,7 @@ lv_obj_set_align( ui_ShipCount, LV_ALIGN_CENTER );
 lv_label_set_text(ui_ShipCount,"0/4");
 
 ui_Connected = lv_img_create(ui_GamePanel);
-lv_img_set_src(ui_Connected, &ui_img_connected_png);
+lv_img_set_src(ui_Connected, &ui_img_wifi_png);
 lv_obj_set_width( ui_Connected, LV_SIZE_CONTENT);  /// 16
 lv_obj_set_height( ui_Connected, LV_SIZE_CONTENT);   /// 16
 lv_obj_set_x( ui_Connected, -31 );

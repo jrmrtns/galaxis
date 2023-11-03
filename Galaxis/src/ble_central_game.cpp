@@ -61,7 +61,8 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
     Serial.print(galaxisMessage.command);
     Serial.print(":");
     Serial.print(galaxisMessage.id);
-    Serial.print(":");    BLECentralGame::getInstance()->NotifyUiConnected(false);
+    Serial.print(":");
+    BLECentralGame::getInstance()->NotifyUiConnected(false);
 
     Serial.print(galaxisMessage.param1);
     Serial.print(":");

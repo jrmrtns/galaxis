@@ -43,6 +43,8 @@ private:
     void updateHint();
 
     void updateConnected();
+
+    void updateGameOver();
 };
 
 

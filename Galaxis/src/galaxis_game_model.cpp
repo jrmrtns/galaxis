@@ -88,3 +88,19 @@ void GalaxisGameModel::setConnected(bool connected) {
     _connected = connected;
     notifyView(ViewUpdateMessage::Connected);
 }
+
+bool GalaxisGameModel::isGameOver() const {
+    return _gameOver;
+}
+
+void GalaxisGameModel::setGameOver(bool gameOver) {
+    if (gameOver == _gameOver)
+        return;
+
+    _gameOver = gameOver;
+    notifyView(ViewUpdateMessage::GameOver);
+}
+
+void GalaxisGameModel::reset() {
+
+}

@@ -41,6 +41,9 @@ void GalaxisGameView::update(int param) {
         case Connected:
             updateConnected();
             break;
+        case GameOver:
+            updateGameOver();
+            break;
     }
 }
 
@@ -117,4 +120,11 @@ void GalaxisGameView::updateHint() {
 void GalaxisGameView::updateConnected() {
     int opacity = _galaxisModel->isConnected() * 255;
     _ui_opacity_set(ui_Connected, opacity);
+}
+
+void GalaxisGameView::updateGameOver() {
+    if (_galaxisModel->isGameOver())
+        lv_label_set_text(ui_StatusLabel, String("Game over").c_str());
+    else
+        lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }
