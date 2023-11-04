@@ -12,7 +12,7 @@ class ScreenManager {
 public:
     explicit ScreenManager(RotaryEncoder *encoder);
 
-    void tick();
+    void loop();
 
 private :
     RotaryEncoder *_encoder;

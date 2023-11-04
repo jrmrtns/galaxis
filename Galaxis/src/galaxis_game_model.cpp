@@ -102,5 +102,8 @@ void GalaxisGameModel::setGameOver(bool gameOver) {
 }
 
 void GalaxisGameModel::reset() {
-
+    setHint("");
+    setShipCount(0);
+    setLastSearchResult(0xfe);
+    setCoordinates(0, 0);
 }

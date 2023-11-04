@@ -19,7 +19,7 @@ public:
 
     void show();
 
-    void tick();
+    void loop();
 
     void update(int param) override;
 

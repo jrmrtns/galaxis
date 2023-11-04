@@ -128,8 +128,7 @@ void setup() {
 void loop() {
     lv_timer_handler();
     BLE.poll();
-    //delay(5);
     encoder->tick();
-    screenManager->tick();
-    gameView->tick();
+    screenManager->loop();
+    gameView->loop();
 }

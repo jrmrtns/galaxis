@@ -33,7 +33,7 @@ uint8_t Galaxis::guess(uint8_t playerId, uint8_t x, uint8_t y) {
         result = 0xff;
     }
 
-    if (result != 0xff)
+    if (result != 0xff && result !=  0xfe)
         next(0);
 
     return result;

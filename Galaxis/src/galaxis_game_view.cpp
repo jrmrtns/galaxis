@@ -52,7 +52,7 @@ void GalaxisGameView::show() {
     _galaxisController->initialize();
     updateHint();
     updateConnected();
-    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
+    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
 void GalaxisGameView::updateCoordinates() {
@@ -96,7 +96,7 @@ void GalaxisGameView::updateSearchResult() {
     lv_label_set_text(ui_SearchResult, txt.c_str());
 }
 
-void GalaxisGameView::tick() {
+void GalaxisGameView::loop() {
     int position = _encoder->getPosition();
     if (_lastPosition != position) {
         _galaxisController->move(position);
@@ -124,7 +124,7 @@ void GalaxisGameView::updateConnected() {
 
 void GalaxisGameView::updateGameOver() {
     if (_galaxisModel->isGameOver())
-        lv_label_set_text(ui_StatusLabel, String("Game over").c_str());
+        lv_label_set_text(ui_StatusLabel, String(GAME_OVER_MESSAGE).c_str());
     else
         lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }

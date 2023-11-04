@@ -49,6 +49,7 @@ void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
     Serial.print("Disconnected event: ");
     Serial.println(central.address());
     BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
+    BLECentralGame::getInstance()->NotifyUiConnected(false);
 }
 
 // NOLINTNEXTLINE
@@ -62,7 +63,6 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
     Serial.print(":");
     Serial.print(galaxisMessage.id);
     Serial.print(":");
-    BLECentralGame::getInstance()->NotifyUiConnected(false);
 
     Serial.print(galaxisMessage.param1);
     Serial.print(":");
@@ -123,10 +123,12 @@ void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, ui
 }
 
 void BLECentralGame::NotifyUiConnected(bool connected) {
+    Serial.print("Connected: ");
+    Serial.println(connected);
     GalaxisMessage message = {0};
     message.msgType = RESPONSE;
     message.command = CONNECTED;
-    message.id = _galaxis->getPlayerCount();
+    message.id = 0;
     message.param1 = connected;
     message.param2 = 0;
     notifyObservers(message);
