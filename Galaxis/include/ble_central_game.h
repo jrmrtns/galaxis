@@ -17,6 +17,10 @@ public:
 
     static BLECentralGame *getInstance();
 
+    ~BLECentralGame() override;
+
+    void shutdown() override;
+
 private:
     static BLECentralGame *_instance;
     static BLECharacteristic _galaxisCharacteristic;

@@ -15,9 +15,9 @@ void MainMenuController::move(int position) {
 void MainMenuController::btnClick(int position) {
     uint32_t p = position % (3);
     if (p == 0)
-        _model->setSelectedMenuItem(Screen::SINGLE_GAME);
+        _model->setSelectedMenuItem(Screen::PERIPHERAL_GAME);
     if (p == 1)
         _model->setSelectedMenuItem(Screen::CENTRAL_GAME);
     if (p == 2)
-        _model->setSelectedMenuItem(Screen::PERIPHERAL_GAME);
+        _model->setSelectedMenuItem(Screen::SINGLE_GAME);
 }

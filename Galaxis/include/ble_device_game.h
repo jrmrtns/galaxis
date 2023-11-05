@@ -17,6 +17,10 @@ public:
 
     static BLEDeviceGame *getInstance();
 
+    ~BLEDeviceGame() override;
+
+    void shutdown() override;
+
 private:
     static BLEDeviceGame *_instance;
 

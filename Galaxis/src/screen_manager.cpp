@@ -22,9 +22,18 @@ void ScreenManager::loop() {
         _lastPosition = tick;
     }
 
-    int result = _view->loop();
-    if (result != 0)
-        show((Screen)result);
+    int result = 0;
+    if (_view != nullptr)
+        result = _view->loop();
+
+    if (result != 0) {
+        _view = nullptr;
+        _encoder->setPosition((1000 * MAX_X * MAX_Y));
+        BLE.end();
+
+        BLE.begin();
+        show((Screen) result);
+    }
 }
 
 void ScreenManager::show(Screen screen) {
@@ -32,23 +41,18 @@ void ScreenManager::show(Screen screen) {
         case NONE:
             break;
         case MENU:
-            _encoder->setPosition((1000 * MAX_X * MAX_Y));
             showMainMenu();
             break;
         case SINGLE_GAME:
-            _encoder->setPosition((1000 * MAX_X * MAX_Y));
             showSingleGameView();
             break;
         case CENTRAL_GAME:
-            _encoder->setPosition((1000 * MAX_X * MAX_Y));
             showCentralGameView();
             break;
         case PERIPHERAL_GAME:
-            _encoder->setPosition((1000 * MAX_X * MAX_Y));
             showPeriheralGameView();
             break;
         case GAME_OVER_SCREEN:
-            _encoder->setPosition((1000 * MAX_X * MAX_Y));
             break;
     }
 }
@@ -56,6 +60,7 @@ void ScreenManager::show(Screen screen) {
 void ScreenManager::showSingleGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
+    //randomSeed(micros());
 
     std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 
@@ -74,6 +79,7 @@ void ScreenManager::showMainMenu() {
 void ScreenManager::showCentralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
     randomSeed(1);
+    //randomSeed(micros());
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
     gameModel->setMe(0);
@@ -85,7 +91,6 @@ void ScreenManager::showCentralGameView() {
 
 void ScreenManager::showPeriheralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
-    randomSeed(1);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
     gameModel->setMe(1);

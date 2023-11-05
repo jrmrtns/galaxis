@@ -74,6 +74,7 @@ void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
 }
 
 void GalaxisGameController::handleGameOver() {
+    _galaxisGame->shutdown();
     _galaxisModel->setGameOver(true);
 }
 

@@ -18,6 +18,7 @@ MainMenuView::MainMenuView(RotaryEncoder *encoder, std::shared_ptr<MainMenuContr
 }
 
 void MainMenuView::show() {
+    updateMenuItem();
     lv_scr_load_anim(ui_MainMenu, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
@@ -59,11 +60,11 @@ void MainMenuView::update(int param) {
 void MainMenuView::updateMenuItem() {
     String txt = "";
     if (_model->getMenu() == 0)
-        txt = MAIN_MENU_SINGLE;
+        txt = MAIN_MENU_JOIN;
     if (_model->getMenu() == 1)
         txt = MAIN_MENU_NEW_GAME;
     if (_model->getMenu() == 2)
-        txt = MAIN_MENU_JOIN;
+        txt = MAIN_MENU_SINGLE;
 
     lv_label_set_text(ui_MainMenuItem, txt.c_str());
 }
