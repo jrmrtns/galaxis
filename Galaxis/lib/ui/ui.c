@@ -32,6 +32,14 @@ lv_obj_t *ui_StatusLabel;
 lv_obj_t *ui_SearchResult;
 lv_obj_t *ui_ShipCount;
 lv_obj_t *ui_Connected;
+
+
+// SCREEN: ui_GameOver
+void ui_GameOver_screen_init(void);
+lv_obj_t *ui_GameOver;
+lv_obj_t *ui_GameOverPanel;
+lv_obj_t *ui_GameOverItem;
+lv_obj_t *ui_GameOverHint;
 lv_obj_t *ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -56,6 +64,7 @@ lv_disp_set_theme(dispp, theme);
 ui_SplashScreen_screen_init();
 ui_MainMenu_screen_init();
 ui_Game_screen_init();
+ui_GameOver_screen_init();
 ui____initial_actions0 = lv_obj_create(NULL);
 lv_disp_load_scr( ui_SplashScreen);
 }

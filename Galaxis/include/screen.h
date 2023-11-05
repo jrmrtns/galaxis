@@ -1,0 +1,11 @@
+//
+// Created by jmartens on 05.11.2023.
+//
+
+#ifndef GALAXIS_SCREEN_H
+#define GALAXIS_SCREEN_H
+
+enum Screen {
+    NONE, MENU, SINGLE_GAME, CENTRAL_GAME, PERIPHERAL_GAME, GAME_OVER_SCREEN
+};
+#endif //GALAXIS_SCREEN_H

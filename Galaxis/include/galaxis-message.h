@@ -5,6 +5,8 @@
 #ifndef GALAXIS_GALAXIS_MESSAGE_H
 #define GALAXIS_GALAXIS_MESSAGE_H
 
+#include <cstdint>
+
 enum MessageType {
     PAIRING, PAIRING_RESPONSE, REQUEST, RESPONSE
 };

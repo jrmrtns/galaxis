@@ -22,5 +22,8 @@
 #define CONNECTING "Verbinde ..."
 #define PLAYER "Spieler "
 #define GAME_OVER_MESSAGE "Game over"
+#define MAIN_MENU_SINGLE "Einzel";
+#define MAIN_MENU_NEW_GAME "Start";
+#define MAIN_MENU_JOIN "Beitreten";
 
 #endif //GALAXIS_SETTINGS_H

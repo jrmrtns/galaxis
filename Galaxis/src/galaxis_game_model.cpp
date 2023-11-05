@@ -3,6 +3,7 @@
 //
 
 #include "galaxis_game_model.h"
+#include "view-update-message.h"
 
 uint8_t GalaxisGameModel::getX() const {
     return _x;

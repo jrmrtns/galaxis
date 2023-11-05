@@ -43,6 +43,12 @@ extern lv_obj_t *ui_StatusLabel;
 extern lv_obj_t *ui_SearchResult;
 extern lv_obj_t *ui_ShipCount;
 extern lv_obj_t *ui_Connected;
+// SCREEN: ui_GameOver
+void ui_GameOver_screen_init(void);
+extern lv_obj_t *ui_GameOver;
+extern lv_obj_t *ui_GameOverPanel;
+extern lv_obj_t *ui_GameOverItem;
+extern lv_obj_t *ui_GameOverHint;
 extern lv_obj_t *ui____initial_actions0;
 
 LV_IMG_DECLARE( ui_img_bg_png);   // assets\bg.png

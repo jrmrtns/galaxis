@@ -3,25 +3,14 @@
 #include <ui.h>
 #include "RotaryEncoder.h"
 #include <ArduinoBLE.h>
-
-#include <memory>
-#include "ble_device_game.h"
 #include "screen_manager.h"
-#include "galaxis_game_model.h"
-#include "galaxis_game_view.h"
-#include "galaxis_game_controller.h"
 #include "settings.h"
-#include "single_player_game.h"
-#include "ble_central_game.h"
 
 //<a href="https://www.flaticon.com/free-icons/internet-connection" title="internet connection icons">Internet connection icons created by Erix - Flaticon</a>
 //<a href="https://www.flaticon.com/free-icons/connection" title="connection icons">Connection icons created by Freepik - Flaticon</a>
 //Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
-std::shared_ptr<GalaxisGameModel> gameModel;
-GalaxisGameView *gameView;
-GalaxisGameController *gameController;
 
 int screen_rotation = 1;
 
@@ -108,27 +97,11 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
-
-    gameModel = std::make_shared<GalaxisGameModel>();
-    randomSeed(1);
-
-#ifdef ARDUINO_XIAO_ESP32C3
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
-    gameModel->setMe(1);
-#else
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
-    gameModel->setMe(0);
-    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-#endif
-    gameController = new GalaxisGameController(game, gameModel);
-    gameView = new GalaxisGameView(encoder, gameController, gameModel);
-    gameView->show();
+    screenManager->show(MENU);
 }
 
 void loop() {
     lv_timer_handler();
     BLE.poll();
-    encoder->tick();
     screenManager->loop();
-    gameView->loop();
 }

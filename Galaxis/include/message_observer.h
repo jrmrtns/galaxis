@@ -7,7 +7,6 @@
 
 #include "galaxis-message.h"
 
-
 class MessageObserver {
 public:
     virtual ~MessageObserver() = default;

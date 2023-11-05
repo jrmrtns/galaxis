@@ -5,8 +5,9 @@
 #ifndef GALAXIS_SCREEN_MANAGER_H
 #define GALAXIS_SCREEN_MANAGER_H
 
-
 #include "RotaryEncoder.h"
+#include "galaxis_game_view.h"
+#include "screen.h"
 
 class ScreenManager {
 public:
@@ -14,9 +15,22 @@ public:
 
     void loop();
 
+    void show(Screen screen);
+
 private :
     RotaryEncoder *_encoder;
+
     int _lastPosition = 0;
+
+    std::shared_ptr<IView> _view;
+
+    void showSingleGameView();
+
+    void showMainMenu();
+
+    void showCentralGameView();
+
+    void showPeriheralGameView();
 };
 
 

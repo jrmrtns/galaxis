@@ -7,11 +7,12 @@
 #include "galaxis_game_view.h"
 #include "ui.h"
 #include "settings.h"
+#include "view-update-message.h"
 
-GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, GalaxisGameController *galaxisController,
+GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<GalaxisGameController> galaxisController,
                                  std::shared_ptr<GalaxisGameModel> galaxisModel) : _encoder(encoder),
-                                                                                   _galaxisController(
-                                                                                           galaxisController),
+                                                                                   _galaxisController(std::move(
+                                                                                           galaxisController)),
                                                                                    _galaxisModel(
                                                                                            std::move(galaxisModel)) {
     _galaxisModel->registerObserver(this);
@@ -44,6 +45,8 @@ void GalaxisGameView::update(int param) {
         case GameOver:
             updateGameOver();
             break;
+        case MenuItemChanged:
+            break;
     }
 }
 
@@ -52,6 +55,7 @@ void GalaxisGameView::show() {
     _galaxisController->initialize();
     updateHint();
     updateConnected();
+    updateShipCount();
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
@@ -96,7 +100,7 @@ void GalaxisGameView::updateSearchResult() {
     lv_label_set_text(ui_SearchResult, txt.c_str());
 }
 
-void GalaxisGameView::loop() {
+Screen GalaxisGameView::loop() {
     int position = _encoder->getPosition();
     if (_lastPosition != position) {
         _galaxisController->move(position);
@@ -111,6 +115,11 @@ void GalaxisGameView::loop() {
         lastButtonState = button;
         lastButtonPress = millis();
     }
+
+    if (_galaxisModel->isGameOver())
+        return Screen::MENU;
+
+    return Screen::NONE;
 }
 
 void GalaxisGameView::updateHint() {
