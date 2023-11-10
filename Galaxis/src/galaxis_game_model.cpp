@@ -108,3 +108,15 @@ void GalaxisGameModel::reset() {
     setLastSearchResult(0xfe);
     setCoordinates(0, 0);
 }
+
+uint8_t GalaxisGameModel::getParticipantShipCount() const {
+    return _participantShipCount;
+}
+
+void GalaxisGameModel::setParticipantShipCount(uint8_t participantShipCount) {
+    if (_participantShipCount == participantShipCount)
+        return;
+
+    _participantShipCount = participantShipCount;
+    notifyView(ViewUpdateMessage::ParticipantShipCount);
+}

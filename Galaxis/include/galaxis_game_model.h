@@ -55,6 +55,13 @@ private:
     uint8_t _x = 0;
     uint8_t _y = 0;
     uint8_t _shipCount = 0;
+    uint8_t _participantShipCount = 0;
+public:
+    uint8_t getParticipantShipCount() const;
+
+    void setParticipantShipCount(uint8_t participantShipCount);
+
+private:
     uint8_t _lastSearchResult = 0xfa;
     String _hint = "";
     bool _connected = false;

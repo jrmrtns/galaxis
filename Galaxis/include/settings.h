@@ -25,5 +25,6 @@
 #define MAIN_MENU_SINGLE "Single";
 #define MAIN_MENU_NEW_GAME "Host";
 #define MAIN_MENU_JOIN "Join";
+#define MAIN_MENU_OFF "Off";
 
 #endif //GALAXIS_SETTINGS_H

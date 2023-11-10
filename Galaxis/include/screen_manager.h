@@ -22,7 +22,7 @@ private :
 
     int _lastPosition = 0;
 
-    std::shared_ptr<IView> _view;
+    std::shared_ptr<IView> _currentView;
 
     void showSingleGameView();
 
@@ -31,6 +31,8 @@ private :
     void showCentralGameView();
 
     void showPeriheralGameView();
+
+    void showGameOverView();
 };
 
 

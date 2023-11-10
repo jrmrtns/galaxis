@@ -540,7 +540,7 @@
 
 #define LV_USE_MENU       0
 
-#define LV_USE_METER      0
+#define LV_USE_METER      1
 
 #define LV_USE_MSGBOX     0
 
@@ -760,6 +760,7 @@
 #endif /*LV_CONF_H*/
 
 #endif /*End of "Content enable"*/
+
 
 
 

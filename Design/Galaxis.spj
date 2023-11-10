@@ -529,8 +529,8 @@
             "InheritedType": 11
           },
           {
-            "nid": -138253703,
-            "strtype": "SCREEN/Don’t export screen",
+            "nid": -226293122,
+            "strtype": "SCREEN/Don't export screen",
             "strval": "False",
             "InheritedType": 2
           }
@@ -585,7 +585,7 @@
                     "strtype": "OBJECT/Position",
                     "intarray": [
                       0,
-                      -25
+                      -35
                     ],
                     "InheritedType": 7
                   },
@@ -1662,8 +1662,8 @@
             "InheritedType": 11
           },
           {
-            "nid": -1153154554,
-            "strtype": "SCREEN/Don’t export screen",
+            "nid": 2086563120,
+            "strtype": "SCREEN/Don't export screen",
             "strval": "False",
             "InheritedType": 2
           }
@@ -3740,8 +3740,8 @@
             "InheritedType": 11
           },
           {
-            "nid": 1027588933,
-            "strtype": "SCREEN/Don’t export screen",
+            "nid": 1606011332,
+            "strtype": "SCREEN/Don't export screen",
             "strval": "False",
             "InheritedType": 2
           }
@@ -3797,7 +3797,7 @@
                     "strtype": "OBJECT/Position",
                     "intarray": [
                       0,
-                      -25
+                      -35
                     ],
                     "InheritedType": 7
                   },
@@ -4874,8 +4874,8 @@
             "InheritedType": 11
           },
           {
-            "nid": -386539591,
-            "strtype": "SCREEN/Don’t export screen",
+            "nid": -1755341813,
+            "strtype": "SCREEN/Don't export screen",
             "strval": "False",
             "InheritedType": 2
           }
@@ -4908,7 +4908,7 @@
     "description": "",
     "board": "Arduino with TFT_eSPI",
     "board_version": "v1.1.0",
-    "editor_version": "1.3.2",
+    "editor_version": "1.3.3",
     "image": "",
     "force_export_images": false,
     "flat_export": false,

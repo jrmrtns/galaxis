@@ -12,6 +12,7 @@
 #include "main_menu_view.h"
 #include "screen.h"
 #include "settings.h"
+#include "game_over_view.h"
 
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
 
@@ -23,11 +24,10 @@ void ScreenManager::loop() {
     }
 
     int result = 0;
-    if (_view != nullptr)
-        result = _view->loop();
+    if (_currentView != nullptr)
+        result = _currentView->loop();
 
     if (result != 0) {
-        _view = nullptr;
         _encoder->setPosition((1000 * MAX_X * MAX_Y));
         BLE.end();
 
@@ -53,6 +53,7 @@ void ScreenManager::show(Screen screen) {
             showPeriheralGameView();
             break;
         case GAME_OVER_SCREEN:
+            showGameOverView();
             break;
     }
 }
@@ -65,15 +66,15 @@ void ScreenManager::showSingleGameView() {
     std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
-    _view = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
-    _view->show();
+    _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
+    _currentView->show();
 }
 
 void ScreenManager::showMainMenu() {
     auto model = std::make_shared<MainMenuModel>();
     auto controller = std::make_shared<MainMenuController>(model);
-    _view = std::make_shared<MainMenuView>(_encoder, controller, model);
-    _view->show();
+    _currentView = std::make_shared<MainMenuView>(_encoder, controller, model);
+    _currentView->show();
 }
 
 void ScreenManager::showCentralGameView() {
@@ -85,8 +86,8 @@ void ScreenManager::showCentralGameView() {
     gameModel->setMe(0);
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
-    _view = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
-    _view->show();
+    _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
+    _currentView->show();
 }
 
 void ScreenManager::showPeriheralGameView() {
@@ -96,6 +97,11 @@ void ScreenManager::showPeriheralGameView() {
     gameModel->setMe(1);
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
-    _view = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
-    _view->show();
+    _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
+    _currentView->show();
+}
+
+void ScreenManager::showGameOverView() {
+    _currentView = std::make_shared<GameOverView>(_encoder);
+    _currentView->show();
 }

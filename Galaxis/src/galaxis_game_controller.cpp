@@ -94,6 +94,7 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
         text += message.param1;
     }
 
+    _galaxisModel->setParticipantShipCount(message.param2);
     _galaxisModel->setHint(text);
 }
 

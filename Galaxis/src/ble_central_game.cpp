@@ -56,6 +56,7 @@ void BLECentralGame::discoverHandler(BLEDevice peripheral) {
     _galaxisCharacteristic.subscribe();
 }
 
+// NOLINTNEXTLINE
 void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
     Serial.print("Disconnected event: ");
     Serial.println(central.address());

@@ -19,6 +19,7 @@ MainMenuView::MainMenuView(RotaryEncoder *encoder, std::shared_ptr<MainMenuContr
 
 void MainMenuView::show() {
     updateMenuItem();
+
     lv_scr_load_anim(ui_MainMenu, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
@@ -30,12 +31,12 @@ Screen MainMenuView::loop() {
     }
 
     int button = digitalRead(PIN_ENC_BUTTON);
-    if (button != lastButtonState && ((millis() - lastButtonPress) > debounceTimeSpan)) {
+    if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
         if (button == HIGH) {
             _controller->btnClick(position);
         }
-        lastButtonState = button;
-        lastButtonPress = millis();
+        _lastButtonState = button;
+        _lastButtonPress = millis();
     }
 
     return _model->getSelectedMenuItem();
@@ -50,6 +51,7 @@ void MainMenuView::update(int param) {
         case Hint:
         case Connected:
         case GameOver:
+        case ParticipantShipCount:
             break;
         case MenuItemChanged:
             updateMenuItem();
@@ -60,11 +62,13 @@ void MainMenuView::update(int param) {
 void MainMenuView::updateMenuItem() {
     String txt = "";
     if (_model->getMenu() == 0)
-        txt = MAIN_MENU_JOIN;
+        txt = MAIN_MENU_JOIN
     if (_model->getMenu() == 1)
-        txt = MAIN_MENU_NEW_GAME;
+        txt = MAIN_MENU_NEW_GAME
     if (_model->getMenu() == 2)
-        txt = MAIN_MENU_SINGLE;
+        txt = MAIN_MENU_SINGLE
+    if (_model->getMenu() == 3)
+        txt = MAIN_MENU_OFF
 
     lv_label_set_text(ui_MainMenuItem, txt.c_str());
 }
