@@ -61,14 +61,23 @@ void MainMenuView::update(int param) {
 
 void MainMenuView::updateMenuItem() {
     String txt = "";
-    if (_model->getMenu() == 0)
-        txt = MAIN_MENU_JOIN
-    if (_model->getMenu() == 1)
-        txt = MAIN_MENU_NEW_GAME
-    if (_model->getMenu() == 2)
-        txt = MAIN_MENU_SINGLE
+    String hint = "";
+
+    if (_model->getMenu() == 0) {
+        txt = MAIN_MENU_JOIN;
+        hint = MAIN_MENU_JOIN_HINT;
+    }
+    if (_model->getMenu() == 1) {
+        txt = MAIN_MENU_NEW_GAME;
+        hint = MAIN_MENU_NEW_GAME_HINT;
+    }
+    if (_model->getMenu() == 2) {
+        hint = MAIN_MENU_SINGLE_HINT;
+        txt = MAIN_MENU_SINGLE;
+    }
     if (_model->getMenu() == 3)
         txt = MAIN_MENU_OFF
 
     lv_label_set_text(ui_MainMenuItem, txt.c_str());
+    lv_label_set_text(ui_MainMenuHint, hint.c_str());
 }

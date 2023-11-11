@@ -37,7 +37,7 @@ ui_GameOverHint = lv_label_create(ui_GameOverPanel);
 lv_obj_set_width( ui_GameOverHint, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_GameOverHint, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_GameOverHint, 0 );
-lv_obj_set_y( ui_GameOverHint, 39 );
+lv_obj_set_y( ui_GameOverHint, 9 );
 lv_obj_set_align( ui_GameOverHint, LV_ALIGN_CENTER );
 lv_label_set_text(ui_GameOverHint,"");
 

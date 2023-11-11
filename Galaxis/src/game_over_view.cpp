@@ -15,6 +15,7 @@ Screen GameOverView::loop() {
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
         if (button == HIGH) {
+            ESP.restart();
             return Screen::MENU;
         }
         _lastButtonState = button;

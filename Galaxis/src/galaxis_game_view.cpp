@@ -65,6 +65,7 @@ void GalaxisGameView::show() {
     updateHint();
     updateConnected();
     updateShipCount();
+    updateParticipantShipCount();
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 

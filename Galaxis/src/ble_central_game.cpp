@@ -27,7 +27,6 @@ void BLECentralGame::shutdown() {
     BLE.disconnect();
     BLE.stopScan();
     removeAllObservers();
-    //BLE.end();
 }
 
 BLECentralGame *BLECentralGame::getInstance() {

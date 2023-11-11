@@ -45,7 +45,7 @@ public:
 
     const String &getHint() const;
 
-    void setHint(const String hint);
+    void setHint(const String& hint);
 
     bool isActive() const;
 

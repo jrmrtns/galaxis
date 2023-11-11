@@ -897,7 +897,7 @@
                     "strtype": "OBJECT/Position",
                     "intarray": [
                       0,
-                      39
+                      9
                     ],
                     "InheritedType": 7
                   },
@@ -3746,8 +3746,7 @@
             "InheritedType": 2
           }
         ],
-        "saved_objtypeKey": "SCREEN",
-        "tree_closed": true
+        "saved_objtypeKey": "SCREEN"
       },
       {
         "guid": "GUID67263156-535357S1992309",
@@ -4109,7 +4108,7 @@
                     "strtype": "OBJECT/Position",
                     "intarray": [
                       0,
-                      39
+                      9
                     ],
                     "InheritedType": 7
                   },
@@ -4919,7 +4918,7 @@
     "theme_color2": 0,
     "exportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib\\ui",
     "projectExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib",
-    "backup_cnt": 150,
+    "backup_cnt": 151,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",

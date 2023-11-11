@@ -37,7 +37,7 @@ ui_MainMenuHint = lv_label_create(ui_MainMenuPanel);
 lv_obj_set_width( ui_MainMenuHint, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_MainMenuHint, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_MainMenuHint, 0 );
-lv_obj_set_y( ui_MainMenuHint, 39 );
+lv_obj_set_y( ui_MainMenuHint, 9 );
 lv_obj_set_align( ui_MainMenuHint, LV_ALIGN_CENTER );
 lv_label_set_text(ui_MainMenuHint,"");
 

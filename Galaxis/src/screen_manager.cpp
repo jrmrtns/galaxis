@@ -28,6 +28,7 @@ void ScreenManager::loop() {
         result = _currentView->loop();
 
     if (result != 0) {
+        _currentView = nullptr;
         _encoder->setPosition((1000 * MAX_X * MAX_Y));
         BLE.end();
 

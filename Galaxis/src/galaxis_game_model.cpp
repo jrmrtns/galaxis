@@ -70,7 +70,7 @@ const String &GalaxisGameModel::getHint() const {
     return _hint;
 }
 
-void GalaxisGameModel::setHint(const String hint) {
+void GalaxisGameModel::setHint(const String& hint) {
     if (_hint == hint)
         return;
 
