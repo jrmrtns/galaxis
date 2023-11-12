@@ -6,9 +6,6 @@
 #include "screen_manager.h"
 #include "settings.h"
 
-//<a href="https://www.flaticon.com/free-icons/internet-connection" title="internet connection icons">Internet connection icons created by Erix - Flaticon</a>
-//<a href="https://www.flaticon.com/free-icons/connection" title="connection icons">Connection icons created by Freepik - Flaticon</a>
-//Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 
@@ -21,7 +18,7 @@ lv_obj_t *your_meter;
 lv_meter_indicator_t *your_indicator;
 
 lv_color_t primary = lv_palette_main(LV_PALETTE_CYAN);
-lv_color_t secondary = lv_palette_main(LV_PALETTE_CYAN);
+lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
 
 static const uint16_t screenWidth = 240;
 static const uint16_t screenHeight = 240;
@@ -52,7 +49,7 @@ void extendGameView() {
     lv_obj_set_style_text_color(ui_Coordinates, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_GameOverItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, primary, LV_PART_MAIN | LV_STATE_CHECKED );
+    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED );
 
     my_meter = lv_meter_create(ui_GamePanel);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);

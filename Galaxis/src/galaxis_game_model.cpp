@@ -70,7 +70,7 @@ const String &GalaxisGameModel::getHint() const {
     return _hint;
 }
 
-void GalaxisGameModel::setHint(const String& hint) {
+void GalaxisGameModel::setHint(const String &hint) {
     if (_hint == hint)
         return;
 
@@ -119,4 +119,16 @@ void GalaxisGameModel::setParticipantShipCount(uint8_t participantShipCount) {
 
     _participantShipCount = participantShipCount;
     notifyView(ViewUpdateMessage::ParticipantShipCount);
+}
+
+bool GalaxisGameModel::isStarted() const {
+    return _started;
+}
+
+void GalaxisGameModel::setStarted(bool started) {
+    if (started == _started)
+        return;
+
+    _started = started;
+    notifyView(ViewUpdateMessage::Started);
 }

@@ -8,7 +8,8 @@
 #include "settings.h"
 #include "single_player_game.h"
 
-GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame, std::shared_ptr<GalaxisGameModel> galaxisModel) {
+GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame,
+                                             std::shared_ptr<GalaxisGameModel> galaxisModel) {
     _galaxisModel = std::move(galaxisModel);
     _galaxisGame = std::move(galaxisGame);
     _galaxisGame->registerObserver(this);
@@ -57,20 +58,23 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
 
 void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
     _galaxisModel->setLastSearchResult(message.param1);
-    if (message.param1 == 0xff)
-    {
+    if (message.param1 == 0xff) {
         _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
     }
 }
 
 void GalaxisGameController::initialize() {
     _galaxisModel->setMe(_galaxisModel->getMe());
-    _galaxisModel->setHint(CONNECTING);
+    if (_galaxisModel->isStarted())
+        _galaxisModel->setHint(START_MESSAGE);
+    else
+        _galaxisModel->setHint(CONNECTING);
 }
 
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
     uint8_t nextUser = message.param1;
     _galaxisModel->setCurrent(nextUser);
+//    _galaxisModel->setHint("");
 }
 
 void GalaxisGameController::handleGameOver() {
@@ -79,7 +83,7 @@ void GalaxisGameController::handleGameOver() {
 }
 
 void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage message) {
-    if (message.param1 == 0xfe || message.param1 == 0xfd ||  message.param1 == 0xfa ||  message.param1 == 0xf0)
+    if (message.param1 == 0xfe || message.param1 == 0xfd || message.param1 == 0xfa || message.param1 == 0xf0)
         return;
 
     String text = PLAYER;
@@ -102,8 +106,7 @@ void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
     _galaxisModel->setConnected(message.param1);
     if (_galaxisModel->isActive())
         _galaxisModel->setHint(START_MESSAGE);
-    else
-    {
+    else {
         String text = WAITING_FOR_PLAYER;
         text += char(0x41 + _galaxisModel->getCurrent());
         _galaxisModel->setHint(text.c_str());

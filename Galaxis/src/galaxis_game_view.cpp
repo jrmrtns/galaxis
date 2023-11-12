@@ -56,6 +56,8 @@ void GalaxisGameView::update(int param) {
         case ParticipantShipCount:
             updateParticipantShipCount();
             break;
+        case Started:
+            break;
     }
 }
 
@@ -102,7 +104,7 @@ void GalaxisGameView::updateSearchResult() {
 
     String txt = " ";
     if (searchResult == 0xff)
-        txt = "X";
+        txt = "*";
     else if (searchResult == 0xfe)
         txt = "-";
     else if (searchResult == 0xfa)
