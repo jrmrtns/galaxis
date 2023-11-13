@@ -1,8 +1,8 @@
 # Galaxis
-A tribute to Galaxis, an electronic game from Ravensburger I loved to play as child.
-<br/>This version of the game runs un a ESP32-C3 or ESP32-S3 and makes use of Bluetooth LE to connect two players.
+A tribute to Galaxis, an electronic game from Ravensburger, I loved to play as child.
+<br/>This version of the game runs on a ESP32-C3 or ESP32-S3 and makes use of Bluetooth LE to connect two players.
 
-The game is a kind of deductive boardgame like Mastermind. The goal of the game is to find missing space ships, lost in space. These ships can be found if you enter coordinates into the board computer. Then the computer answers with the number of ships which can be seen in horizontally, vertically or diagonal in a direct line.<br/>
+The game is a kind of deductive boardgame like Mastermind. The goal of the game is to discover missing space ships, lost in space. These ships can be found if you enter coordinates into the board computer. Then the computer answers with the number of ships which can be seen in horizontally, vertically or diagonal in a direct line.<br/>
 Who wil find the missing spaceships first?
 
 <img height="367" src="https://www.spiel-des-jahres.de/wp-content/uploads/2019/04/Galaxis_low.jpg" title="Original Game" width="500" alt="Original Game"/>
@@ -14,7 +14,9 @@ Who wil find the missing spaceships first?
 [The original rules from 1980](https://www.ravensburger.de/spielanleitungen/ecm/Spielanleitungen/Galaxis_Electronic.pdf)
 
 ### Build
-The build-process requires an installation of [PlatformIO Core CLI](https://docs.platformio.org/en/stable/core/index.html#piocore) or your favorite IDE with a PlatformIO extension.
+The build-process requires an installation of [PlatformIO Core CLI](https://docs.platformio.org/en/stable/core/index.html#piocore), or your favorite IDE with a PlatformIO extension.
+
+In case of PlatformIO Core CLI, please follow these instructions:
 
 * `git clone https://github.com/jrmrtns/galaxis.git`
 * `cd ./galaxis/Galaxis`
@@ -38,7 +40,8 @@ The build-process requires an installation of [PlatformIO Core CLI](https://docs
 * [PCB for Adafruit ANO Rotary Encoder](https://www.berrybase.de/en/adafruit-breakout-pcb-fuer-ano-scrollrad-drehgeber)
 
 ### 3D Files
-To assemble one dashboard, you need to print the following parts: Even if there is a single player version, you should print the dashboard twice.
+To assemble one dashboard, you need to print all of the following parts: Even if there is a single player version, you should print the dashboard twice.
+
 * 1 x [Bottom of the case](./3d/Boden.stl)
 * 1 x [Lid of the case](./3d/Deckel.stl)
 * 1 x [Inlay for the case](./3d/Inlay.stl)
@@ -53,8 +56,8 @@ To assemble one dashboard, you need to print the following parts: Even if there 
 * 4 x Pins with Spaceships (coming soon, in the meanwhile I use the black pins printed with white filament)
 
 ### Paperware
-While your printer is working, and mine was working for long time, there is a 
-[pdf to print out a board](./assets/sheet.pdf). Galaxis can be played using paper and pencil.
+If you do not have access to a 3d printer, or while your printer is working, and mine was working for long time, there is a 
+[pdf to print out a board](./assets/sheet.pdf). With this sheet, Galaxis can be played using paper and pencil.
 
 ### Credits
 * [Internet connection icons created by Erix - Flaticon](https://www.flaticon.com/free-icons/internet-connection)
