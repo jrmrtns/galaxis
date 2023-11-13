@@ -19,6 +19,16 @@ BLECentralGame::BLECentralGame() {
     BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
 }
 
+BLECentralGame::~BLECentralGame() {
+    _instance = nullptr;
+}
+
+void BLECentralGame::shutdown() {
+    BLE.disconnect();
+    BLE.stopScan();
+    removeAllObservers();
+}
+
 BLECentralGame *BLECentralGame::getInstance() {
     return _instance;
 }
@@ -45,10 +55,12 @@ void BLECentralGame::discoverHandler(BLEDevice peripheral) {
     _galaxisCharacteristic.subscribe();
 }
 
+// NOLINTNEXTLINE
 void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
     Serial.print("Disconnected event: ");
     Serial.println(central.address());
     BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
+    BLECentralGame::getInstance()->NotifyUiConnected(false);
 }
 
 // NOLINTNEXTLINE
@@ -61,7 +73,7 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
     Serial.print(galaxisMessage.command);
     Serial.print(":");
     Serial.print(galaxisMessage.id);
-    Serial.print(":");    BLECentralGame::getInstance()->NotifyUiConnected(false);
+    Serial.print(":");
 
     Serial.print(galaxisMessage.param1);
     Serial.print(":");
@@ -85,9 +97,10 @@ void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
     uint8_t discovered = _galaxis->player(currentPlayerId)->getDiscovered();
 
     SendGuessResponse(currentPlayerId, guessResult, discovered);
-    SendNextPlayerNotification();
     if (_galaxis->getGameState() == gameOver)
         SendGameOverNotification(currentPlayerId);
+    else
+        SendNextPlayerNotification();
 }
 
 void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
@@ -96,8 +109,8 @@ void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
     message.command = GAME_OVER;
     message.id = 0xff;
     message.param1 = winner;
-    notifyObservers(message);
     _galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+    notifyObservers(message);
 }
 
 void BLECentralGame::SendNextPlayerNotification() const {
@@ -125,7 +138,7 @@ void BLECentralGame::NotifyUiConnected(bool connected) {
     GalaxisMessage message = {0};
     message.msgType = RESPONSE;
     message.command = CONNECTED;
-    message.id = _galaxis->getPlayerCount();
+    message.id = 0;
     message.param1 = connected;
     message.param2 = 0;
     notifyObservers(message);

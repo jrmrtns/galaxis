@@ -3,32 +3,32 @@
 #include <ui.h>
 #include "RotaryEncoder.h"
 #include <ArduinoBLE.h>
-
-#include <memory>
-#include "ble_device_game.h"
 #include "screen_manager.h"
-#include "galaxis_game_model.h"
-#include "galaxis_game_view.h"
-#include "galaxis_game_controller.h"
 #include "settings.h"
-#include "single_player_game.h"
-#include "ble_central_game.h"
 
-// <a href="https://www.flaticon.com/free-icons/url" title="url icons">Url icons created by Freepik - Flaticon</a>
-//Image by <a href="https://pixabay.com/users/luminas_art-4128746/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Lumina Obscura</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3608029">Pixabay</a>
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
-std::shared_ptr<GalaxisGameModel> gameModel;
-GalaxisGameView *gameView;
-GalaxisGameController *gameController;
 
 int screen_rotation = 1;
+
+lv_obj_t *my_meter;
+lv_meter_indicator_t *my_indicator;
+
+lv_obj_t *your_meter;
+lv_meter_indicator_t *your_indicator;
+
+lv_color_t primary = lv_palette_main(LV_PALETTE_CYAN);
+lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
 
 static const uint16_t screenWidth = 240;
 static const uint16_t screenHeight = 240;
 
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * screenHeight / 10];
+
+int lastButtonState = HIGH;
+uint32_t lastButtonPress = 0;
+uint32_t debounceTimeSpan = 25;
 
 TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 
@@ -45,6 +45,40 @@ void checkPosition() {
     encoder->tick();
 }
 
+void extendGameView() {
+    lv_obj_set_style_text_color(ui_Coordinates, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_MainMenuItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_GameOverItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED );
+
+    my_meter = lv_meter_create(ui_GamePanel);
+    lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
+    lv_obj_remove_style(my_meter, nullptr, LV_PART_MAIN);
+
+    lv_obj_center(my_meter);
+    lv_obj_set_size(my_meter, 220, 220);
+
+    lv_meter_scale_t *scale = lv_meter_add_scale(my_meter);
+    lv_meter_set_scale_ticks(my_meter, scale, 5, 6, 35, lv_color_hex(0x292831));
+    lv_meter_set_scale_range(my_meter, scale, 0, 100, 30, 180);
+
+    my_indicator = lv_meter_add_arc(my_meter, scale, 20, primary, 0);
+
+    your_meter = lv_meter_create(ui_GamePanel);
+    lv_obj_remove_style(your_meter, nullptr, LV_PART_INDICATOR);
+    lv_obj_remove_style(your_meter, nullptr, LV_PART_MAIN);
+
+    lv_obj_center(your_meter);
+    lv_obj_set_size(your_meter, 220, 220);
+
+    lv_meter_scale_t *your_scale = lv_meter_add_scale(your_meter);
+    lv_meter_set_scale_ticks(your_meter, your_scale, 5, 6, 35, lv_color_hex(0x292831));
+    lv_meter_set_scale_range(your_meter, your_scale, 0, 100, 30, 330);
+
+    your_indicator = lv_meter_add_arc(your_meter, your_scale, 20, secondary, 0);
+}
+
+
 void initialize_encoder() {
     pinMode(PIN_ENC_BUTTON, INPUT_PULLUP);
 
@@ -56,8 +90,8 @@ void initialize_encoder() {
 }
 
 void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
-    uint32_t w = (area->x2 - area->x1 + 1);
-    uint32_t h = (area->y2 - area->y1 + 1);
+    int32_t w = (area->x2 - area->x1 + 1);
+    int32_t h = (area->y2 - area->y1 + 1);
 
     tft.startWrite();
     tft.setAddrWindow(area->x1, area->y1, w, h);
@@ -82,7 +116,7 @@ void setup() {
     if (!BLE.begin()) {
         Serial.println("starting Bluetooth® Low Energy module failed!");
 
-        while (1);
+        while (true);
     }
 
 #if LV_USE_LOG != 0
@@ -104,31 +138,28 @@ void setup() {
     lv_disp_drv_register(&disp_drv);
 
     ui_init();
+    extendGameView();
 
     lv_timer_handler();
     delay(2500);
+    screenManager->show(MENU);
+}
 
-    gameModel = std::make_shared<GalaxisGameModel>();
-    randomSeed(1);
+void checkButtonState() {
+    int button = digitalRead(PIN_ENC_BUTTON);
+    if (button != lastButtonState && ((millis() - lastButtonPress) > debounceTimeSpan)) {
+        lastButtonState = button;
+        lastButtonPress = millis();
+    }
 
-#ifdef ARDUINO_XIAO_ESP32C3
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
-    gameModel->setMe(1);
-#else
-    std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
-    gameModel->setMe(0);
-    //std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-#endif
-    gameController = new GalaxisGameController(game, gameModel);
-    gameView = new GalaxisGameView(encoder, gameController, gameModel);
-    gameView->show();
+    if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)){
+        esp_restart();
+    }
 }
 
 void loop() {
+    checkButtonState();
     lv_timer_handler();
     BLE.poll();
-    //delay(5);
-    encoder->tick();
-    screenManager->tick();
-    gameView->tick();
+    screenManager->loop();
 }

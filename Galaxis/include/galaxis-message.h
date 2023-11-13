@@ -5,12 +5,14 @@
 #ifndef GALAXIS_GALAXIS_MESSAGE_H
 #define GALAXIS_GALAXIS_MESSAGE_H
 
+#include <cstdint>
+
 enum MessageType {
     PAIRING, PAIRING_RESPONSE, REQUEST, RESPONSE
 };
 
 enum Command {
-    SEARCH, NEXT, GAME_OVER, CONNECTED, HINT, ERROR
+    CONNECTED, SEARCH, NEXT, GAME_OVER, NEW_GAME, HINT, ERROR
 };
 
 typedef struct GalaxisMessage {

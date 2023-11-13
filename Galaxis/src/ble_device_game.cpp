@@ -25,6 +25,16 @@ BLEDeviceGame::BLEDeviceGame() {
     BLE.advertise();
 }
 
+BLEDeviceGame::~BLEDeviceGame() {
+    _instance = nullptr;
+}
+
+void BLEDeviceGame::shutdown() {
+    BLE.stopAdvertise();
+    BLE.disconnect();
+    removeAllObservers();
+}
+
 BLEDeviceGame *BLEDeviceGame::getInstance() {
     return _instance;
 }
@@ -56,7 +66,7 @@ void BLEDeviceGame::galaxisCharacteristicSubscribed(BLEDevice central, BLECharac
     message.id = 0x00;
     message.param1 = 0x00;
     message.param2 = 0x00;
-    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
+    characteristic.writeValue(&message, sizeof(GalaxisMessage));
 }
 
 // NOLINTNEXTLINE

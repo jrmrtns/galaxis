@@ -10,31 +10,32 @@
 #include "galaxis_game_model.h"
 #include "RotaryEncoder.h"
 #include "galaxis_game_controller.h"
+#include "view.h"
 
-class GalaxisGameView : public Observer {
+class GalaxisGameView : public Observer, public IView {
 public:
-    GalaxisGameView(RotaryEncoder *encoder, GalaxisGameController *galaxisController, std::shared_ptr<GalaxisGameModel> galaxisModel);
+    GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<GalaxisGameController> galaxisController, std::shared_ptr<GalaxisGameModel> galaxisModel);
 
     ~GalaxisGameView() override;
 
-    void show();
+    void show() override;
 
-    void tick();
+    Screen loop() override;
 
     void update(int param) override;
 
 private:
     RotaryEncoder *_encoder;
-    GalaxisGameController *_galaxisController;
+    std::shared_ptr<GalaxisGameController> _galaxisController;
     std::shared_ptr<GalaxisGameModel> _galaxisModel;
 
     void updateCoordinates();
     void updateSearchResult();
 
     int _lastPosition = 0;
-    int lastButtonState = HIGH;
-    uint32_t lastButtonPress = 0;
-    uint32_t debounceTimeSpan = 25;
+    int _lastButtonState = HIGH;
+    uint32_t _lastButtonPress = 0;
+    uint32_t _debounceTimeSpan = 25;
 
     void updateShipCount();
 
@@ -43,6 +44,10 @@ private:
     void updateHint();
 
     void updateConnected();
+
+    void updateGameOver();
+
+    void updateParticipantShipCount();
 };
 
 

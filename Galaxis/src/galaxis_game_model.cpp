@@ -3,6 +3,7 @@
 //
 
 #include "galaxis_game_model.h"
+#include "view-update-message.h"
 
 uint8_t GalaxisGameModel::getX() const {
     return _x;
@@ -69,7 +70,7 @@ const String &GalaxisGameModel::getHint() const {
     return _hint;
 }
 
-void GalaxisGameModel::setHint(const String hint) {
+void GalaxisGameModel::setHint(const String &hint) {
     if (_hint == hint)
         return;
 
@@ -87,4 +88,47 @@ void GalaxisGameModel::setConnected(bool connected) {
 
     _connected = connected;
     notifyView(ViewUpdateMessage::Connected);
+}
+
+bool GalaxisGameModel::isGameOver() const {
+    return _gameOver;
+}
+
+void GalaxisGameModel::setGameOver(bool gameOver) {
+    if (gameOver == _gameOver)
+        return;
+
+    _gameOver = gameOver;
+    notifyView(ViewUpdateMessage::GameOver);
+}
+
+void GalaxisGameModel::reset() {
+    setHint("");
+    setShipCount(0);
+    setLastSearchResult(0xfe);
+    setCoordinates(0, 0);
+}
+
+uint8_t GalaxisGameModel::getParticipantShipCount() const {
+    return _participantShipCount;
+}
+
+void GalaxisGameModel::setParticipantShipCount(uint8_t participantShipCount) {
+    if (_participantShipCount == participantShipCount)
+        return;
+
+    _participantShipCount = participantShipCount;
+    notifyView(ViewUpdateMessage::ParticipantShipCount);
+}
+
+bool GalaxisGameModel::isStarted() const {
+    return _started;
+}
+
+void GalaxisGameModel::setStarted(bool started) {
+    if (started == _started)
+        return;
+
+    _started = started;
+    notifyView(ViewUpdateMessage::Started);
 }

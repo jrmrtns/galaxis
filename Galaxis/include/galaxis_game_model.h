@@ -9,10 +9,6 @@
 #include "subject.h"
 #include "WString.h"
 
-enum ViewUpdateMessage {
-    Coordinates, SearchResult, ShipCount, Active, Hint, Connected
-};
-
 class GalaxisGameModel : public Subject {
 public:
     uint8_t getLastSearchResult() const;
@@ -37,27 +33,42 @@ public:
 
     void setCurrent(uint8_t current);
 
+    void reset();
+
+    bool isGameOver() const;
+
+    void setGameOver(bool gameOver);
+
+    bool isConnected() const;
+
+    void setConnected(bool connected);
+
+    const String &getHint() const;
+
+    void setHint(const String &hint);
+
+    bool isActive() const;
+
+    uint8_t getParticipantShipCount() const;
+
+    void setParticipantShipCount(uint8_t participantShipCount);
+
+    bool isStarted() const;
+
+    void setStarted(bool started);
+
 private:
     uint8_t _me = 0;
     uint8_t _current = 0;
     uint8_t _x = 0;
     uint8_t _y = 0;
     uint8_t _shipCount = 0;
+    uint8_t _participantShipCount = 0;
     uint8_t _lastSearchResult = 0xfa;
     String _hint = "";
     bool _connected = false;
-public:
-    bool isConnected() const;
-
-    void setConnected(bool connected);
-
-public:
-    const String &getHint() const;
-
-    void setHint(const String hint);
-
-public:
-    bool isActive() const;
+    bool _gameOver = false;
+    bool _started = false;
 };
 
 

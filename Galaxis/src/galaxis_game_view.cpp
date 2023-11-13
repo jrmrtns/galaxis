@@ -7,11 +7,18 @@
 #include "galaxis_game_view.h"
 #include "ui.h"
 #include "settings.h"
+#include "view-update-message.h"
 
-GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, GalaxisGameController *galaxisController,
+extern lv_obj_t * my_meter;
+extern lv_meter_indicator_t * my_indicator;
+
+extern lv_obj_t * your_meter;
+extern lv_meter_indicator_t * your_indicator;
+
+GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<GalaxisGameController> galaxisController,
                                  std::shared_ptr<GalaxisGameModel> galaxisModel) : _encoder(encoder),
-                                                                                   _galaxisController(
-                                                                                           galaxisController),
+                                                                                   _galaxisController(std::move(
+                                                                                           galaxisController)),
                                                                                    _galaxisModel(
                                                                                            std::move(galaxisModel)) {
     _galaxisModel->registerObserver(this);
@@ -41,6 +48,16 @@ void GalaxisGameView::update(int param) {
         case Connected:
             updateConnected();
             break;
+        case GameOver:
+            updateGameOver();
+            break;
+        case MenuItemChanged:
+            break;
+        case ParticipantShipCount:
+            updateParticipantShipCount();
+            break;
+        case Started:
+            break;
     }
 }
 
@@ -49,7 +66,9 @@ void GalaxisGameView::show() {
     _galaxisController->initialize();
     updateHint();
     updateConnected();
-    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, true);
+    updateShipCount();
+    updateParticipantShipCount();
+    lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
 void GalaxisGameView::updateCoordinates() {
@@ -64,6 +83,9 @@ void GalaxisGameView::updateShipCount() {
     String txt = "0/0";
     txt[0] = char(0x30 + _galaxisModel->getShipCount());
     txt[2] = char(0x30 + SHIP_COUNT);
+
+    lv_meter_set_indicator_start_value(my_meter, my_indicator, 0);
+    lv_meter_set_indicator_end_value(my_meter, my_indicator, _galaxisModel->getShipCount() * 25);
 
     lv_label_set_text(ui_ShipCount, txt.c_str());
 }
@@ -82,7 +104,7 @@ void GalaxisGameView::updateSearchResult() {
 
     String txt = " ";
     if (searchResult == 0xff)
-        txt = "X";
+        txt = "*";
     else if (searchResult == 0xfe)
         txt = "-";
     else if (searchResult == 0xfa)
@@ -93,7 +115,7 @@ void GalaxisGameView::updateSearchResult() {
     lv_label_set_text(ui_SearchResult, txt.c_str());
 }
 
-void GalaxisGameView::tick() {
+Screen GalaxisGameView::loop() {
     int position = _encoder->getPosition();
     if (_lastPosition != position) {
         _galaxisController->move(position);
@@ -101,13 +123,18 @@ void GalaxisGameView::tick() {
     }
 
     int button = digitalRead(PIN_ENC_BUTTON);
-    if (button != lastButtonState && ((millis() - lastButtonPress) > debounceTimeSpan)) {
+    if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
         if (button == HIGH) {
             _galaxisController->btnClick(position);
         }
-        lastButtonState = button;
-        lastButtonPress = millis();
+        _lastButtonState = button;
+        _lastButtonPress = millis();
     }
+
+    if (_galaxisModel->isGameOver())
+        return Screen::GAME_OVER_SCREEN;
+
+    return Screen::NONE;
 }
 
 void GalaxisGameView::updateHint() {
@@ -117,4 +144,16 @@ void GalaxisGameView::updateHint() {
 void GalaxisGameView::updateConnected() {
     int opacity = _galaxisModel->isConnected() * 255;
     _ui_opacity_set(ui_Connected, opacity);
+}
+
+void GalaxisGameView::updateGameOver() {
+    if (_galaxisModel->isGameOver())
+        lv_label_set_text(ui_StatusLabel, String(GAME_OVER_MESSAGE).c_str());
+    else
+        lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
+}
+
+void GalaxisGameView::updateParticipantShipCount() {
+    lv_meter_set_indicator_start_value(your_meter, your_indicator, 100 - (_galaxisModel->getParticipantShipCount() * 25));
+    lv_meter_set_indicator_end_value(your_meter, your_indicator, 100);
 }

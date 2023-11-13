@@ -8,6 +8,10 @@ SinglePlayerGame::SinglePlayerGame() {
     _galaxis = std::unique_ptr<Galaxis>(new Galaxis(1, single_board, false));
 }
 
+void SinglePlayerGame::shutdown() {
+
+}
+
 void SinglePlayerGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
     uint8_t currentPlayerId = _galaxis->getCurrentPlayerId();
     uint8_t guessResult = _galaxis->guess(playerId, x, y);

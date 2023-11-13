@@ -19,6 +19,10 @@ public:
         observers.remove(observer);
     }
 
+    void removeAllObservers(){
+        observers.clear();
+    }
+
     void notifyObservers(GalaxisMessage param) const {
         for (auto observer: observers) observer->messageReceived(param);
     }
