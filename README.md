@@ -5,9 +5,7 @@ A tribute to Galaxis, an electronic game from Ravensburger, I loved to play as c
 The game is a kind of deductive boardgame like Mastermind. The goal of the game is to discover missing space ships, lost in space. These ships can be found if you enter coordinates into the board computer. Then the computer answers with the number of ships which can be seen in horizontally, vertically or diagonal in a direct line.<br/>
 Who wil find the missing spaceships first?
 
-<img height="367" src="https://www.spiel-des-jahres.de/wp-content/uploads/2019/04/Galaxis_low.jpg" title="Original Game" width="500" alt="Original Game"/>
-<br/><sup>Image taken from https://www.spiel-des-jahres.de/wp-content/uploads/2019/04/Galaxis_low.jpg
-</sup>
+![](./assets/game.jpg)
 
 ### Rules
 
@@ -40,7 +38,7 @@ In case of PlatformIO Core CLI, please follow these instructions:
 * [PCB for Adafruit ANO Rotary Encoder](https://www.berrybase.de/en/adafruit-breakout-pcb-fuer-ano-scrollrad-drehgeber)
 
 ### 3D Files
-To assemble one dashboard, you need to print all of the following parts: Even if there is a single player version, you should print the dashboard twice.
+To assemble one dashboard, you need to print all of the following parts: Even if there is a single player version, I recommend to print the dashboard twice.
 
 * 1 x [Bottom of the case](./3d/Boden.stl)
 * 1 x [Lid of the case](./3d/Deckel.stl)
