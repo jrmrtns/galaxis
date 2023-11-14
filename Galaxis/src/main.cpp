@@ -46,10 +46,10 @@ void checkPosition() {
 }
 
 void extendGameView() {
-    lv_obj_set_style_text_color(ui_Coordinates, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_MainMenuItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_GameOverItem, primary , LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED );
+    lv_obj_set_style_text_color(ui_Coordinates, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED);
 
     my_meter = lv_meter_create(ui_GamePanel);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
@@ -152,7 +152,7 @@ void checkButtonState() {
         lastButtonPress = millis();
     }
 
-    if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)){
+    if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)) {
         esp_restart();
     }
 }
