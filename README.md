@@ -56,35 +56,35 @@ Even if there is a single player version, I recommend to print the deck twice. T
 ## Assembly
 ### Step 1
 Prepare some cables. This is optional, you can soltder cables directly to the board. If you have a possibility to crimp some conectors to cables, its getting easier to assemble. Otherwise you can use [Dupont Cables](https://www.berrybase.de/40pin-jumper/dupont-kabel-male-female-trennbar) and remove one end.
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-01.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-01.jpg" title="Assembly step 1"/>
 
 ### Step 2
 Solder the cable in the middle (from step 1 above) to the rotatry encoder
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-02.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-02.jpg" title="Assembly step 2"/>
 
 ### Step 3
 Place the cable between the gap of the bottom side of Inlay.stl.
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-03.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-03.jpg" title="Assembly step 3"/>
 
 ### Step 4
 Insert the inlay into the bottom of the case.
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-04.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-04.jpg" title="Assembly step 4"/>
 
 ### Step 5
 Solder the remaining two cables directly to the pads of the board.
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-05.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-05.jpg" title="Assembly step 5"/>
 
 ### Step 6
 Let the board snap into the case.
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-06.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-06.jpg" title="Assembly step 6"/>
 
 ### Step 7
 Connect the display and snap the display into Display.stl
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-07.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-07.jpg" title="Assembly step 7"/>
 
 ### Step 8
 Build and upload the software to the chip, snap the Display.stl into the case and connect power to USB-C
-![](D:\Projekte\Galaxis.Nxt\assets\assembly-08.jpg)
+<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-08.jpg" title="Final assembly"/>
 
 ## Paperware
 If you do not have access to a 3d printer, or while your printer is working (and mine was working for quite a long time), there is a 
