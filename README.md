@@ -56,35 +56,35 @@ Even if there is a single player version, I recommend to print the deck twice. T
 ## Assembly
 ### Step 1
 Prepare some cables. This is optional, you can soltder cables directly to the board. If you have a possibility to crimp some conectors to cables, its getting easier to assemble. Otherwise you can use [Dupont Cables](https://www.berrybase.de/40pin-jumper/dupont-kabel-male-female-trennbar) and remove one end.
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-01.jpg" title="Assembly step 1"/>
+![](./assets/assembly-01.jpg)
 
 ### Step 2
 Solder the cable in the middle (from step 1 above) to the rotatry encoder
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-02.jpg" title="Assembly step 2"/>
+![](./assets/assembly-02.jpg)
 
 ### Step 3
 Place the cable between the gap of the bottom side of Inlay.stl.
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-03.jpg" title="Assembly step 3"/>
+![](./assets/assembly-03.jpg)
 
 ### Step 4
 Insert the inlay into the bottom of the case.
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-04.jpg" title="Assembly step 4"/>
+![](./assets/assembly-04.jpg)
 
 ### Step 5
 Solder the remaining two cables directly to the pads of the board.
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-05.jpg" title="Assembly step 5"/>
+![](./assets/assembly-05.jpg)
 
 ### Step 6
 Let the board snap into the case.
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-06.jpg" title="Assembly step 6"/>
+![](./assets/assembly-06.jpg)
 
 ### Step 7
 Connect the display and snap the display into Display.stl
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-07.jpg" title="Assembly step 7"/>
+![](./assets/assembly-07.jpg)
 
 ### Step 8
 Build and upload the software to the chip, snap the Display.stl into the case and connect power to USB-C
-<img src="D:\Projekte\Galaxis.Nxt\assets\assembly-08.jpg" title="Final assembly"/>
+![](./assets/assembly-08.jpg)
 
 ## Paperware
 If you do not have access to a 3d printer, or while your printer is working (and mine was working for quite a long time), there is a 
