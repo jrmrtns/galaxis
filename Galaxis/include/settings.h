@@ -17,6 +17,7 @@
 #define GALAXIS_SERVICE_UUID "5A9AB000-CF0B-4281-BB4F-60C67E9ACC28"
 #define GALAXIS_CHARACTERISTIC_UUID "5A9AB001-CF0B-4281-BB4F-60C67E9ACC28"
 
+#ifdef DE
 #define START_MESSAGE "Los gehts"
 #define WAITING_FOR_PLAYER "Warte auf Spieler "
 #define CONNECTING "Verbinde ..."
@@ -29,5 +30,19 @@
 #define MAIN_MENU_JOIN "Join";
 #define MAIN_MENU_JOIN_HINT "Einem Spiel beitreten";
 #define MAIN_MENU_OFF "Off";
+#else
+#define START_MESSAGE "Start..."
+#define WAITING_FOR_PLAYER "Waiting for player "
+#define CONNECTING "Connecting ..."
+#define PLAYER "Player "
+#define GAME_OVER_MESSAGE "Game over"
+#define MAIN_MENU_SINGLE "Single";
+#define MAIN_MENU_SINGLE_HINT "Singleplayer game";
+#define MAIN_MENU_NEW_GAME "New";
+#define MAIN_MENU_NEW_GAME_HINT "Start new game";
+#define MAIN_MENU_JOIN "Join";
+#define MAIN_MENU_JOIN_HINT "Join a game";
+#define MAIN_MENU_OFF "Off";
+#endif
 
 #endif //GALAXIS_SETTINGS_H
