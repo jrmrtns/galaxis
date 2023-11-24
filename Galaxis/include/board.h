@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <memory>
 #include "ship.h"
 
 class Board {
@@ -22,10 +23,10 @@ public:
 
     void dump();
 
-    const std::vector<Ship *> &getHiddenShips() const;
+    std::vector<Ship *> getHiddenShips() const;
 
 private:
-    std::vector<Ship *> _ships;
+    std::vector<std::unique_ptr<Ship>> _ships;
 
     void initialize();
 

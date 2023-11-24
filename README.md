@@ -96,7 +96,7 @@ all the following parts:
 
 Prepare some cables. This is optional, you can soltder cables directly to the board. If you have a possibility to crimp
 some conectors to cables, its getting easier to assemble. Otherwise you can
-use [Dupont Cables](https://www.berrybase.de/40pin-jumper/dupont-kabel-male-female-trennbar) and remove one end.
+use [Dupont Cables](https://www.berrybase.de/40pin-jumper/dupont-kabel-male-female-trennbar?number=DUPK-40-FM-20) and remove one end.
 ![](./assets/assembly-01.jpg)
 
 ### Step 2

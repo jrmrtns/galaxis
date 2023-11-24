@@ -6,6 +6,7 @@
 #include "settings.h"
 #include <cmath>
 #include <cstdio>
+#include <algorithm>
 
 int sgn(int val) {
     return (0 < val) - (val < 0);
@@ -17,25 +18,27 @@ Board::Board() {
 
 void Board::initialize() {
     for (int i = 0; i < SHIP_COUNT; ++i) {
-        bool duplicate = true;
-        Ship *ship;
-        while (duplicate) {
+        std::unique_ptr<Ship> ship;
+
+        bool duplicate;
+        do {
             duplicate = false;
-            ship = new Ship();
+            ship = std::make_unique<Ship>();
+
             for (int j = 0; j < i; ++j) {
-                duplicate = duplicate || *ship == *_ships[j];
+                if (*ship == *_ships[j]) {
+                    duplicate = true;
+                    break;
+                }
             }
-            if (duplicate)
-                delete ship;
-        }
-        _ships.push_back(ship);
+
+        } while (duplicate);
+
+        _ships.push_back(std::move(ship));
     }
 }
 
 Board::~Board() {
-    for (Ship *ship: _ships) {
-        delete ship;
-    }
     _ships.clear();
 }
 
@@ -43,7 +46,7 @@ uint8_t Board::scan(uint8_t x, uint8_t y) {
     uint16_t result = 0;
 
     for (int i = 0; i < SHIP_COUNT; i++) {
-        uint16_t s = find(_ships[i], x, y);
+        uint16_t s = find(_ships[i].get(), x, y);
         result = result | s;
     }
 
@@ -95,15 +98,18 @@ void Board::dump() {
 }
 
 Ship *Board::findShip(uint8_t x, uint8_t y) {
-    for (int i = 0; i < SHIP_COUNT; ++i) {
-        auto ship = _ships[i];
-        if (ship->getX() == x && ship->getY() == y) {
-            return ship;
-        }
-    }
-    return nullptr;
+    auto it = std::find_if(_ships.begin(), _ships.end(), [x, y](const auto& ship)
+    {
+        return ship->getX() == x && ship->getY() == y;
+    });
+
+    return (it != _ships.end()) ? it->get() : nullptr;
 }
 
-const std::vector<Ship *> &Board::getHiddenShips() const {
-    return _ships;
-}
+std::vector<Ship *> Board::getHiddenShips() const {
+    std::vector<Ship*> ships;
+    for (const auto& ship : _ships)
+    {
+        ships.push_back(ship.get());
+    }
+    return ships;}
