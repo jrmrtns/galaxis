@@ -63,8 +63,8 @@ void ScreenManager::showSingleGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
     gameModel->setConnected(true);
     gameModel->setStarted(true);
-    //randomSeed(1);
     randomSeed(micros());
+    //randomSeed(1);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 
@@ -82,8 +82,8 @@ void ScreenManager::showMainMenu() {
 
 void ScreenManager::showCentralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
-    //randomSeed(1);
     randomSeed(micros());
+    //randomSeed(1);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLECentralGame>();
     gameModel->setMe(0);

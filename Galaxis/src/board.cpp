@@ -6,6 +6,8 @@
 #include "settings.h"
 #include <cmath>
 #include <cstdio>
+#include <algorithm>
+#include <bitset>
 
 int sgn(int val) {
     return (0 < val) - (val < 0);
@@ -17,25 +19,15 @@ Board::Board() {
 
 void Board::initialize() {
     for (int i = 0; i < SHIP_COUNT; ++i) {
-        bool duplicate = true;
-        Ship *ship;
-        while (duplicate) {
-            duplicate = false;
-            ship = new Ship();
-            for (int j = 0; j < i; ++j) {
-                duplicate = duplicate || *ship == *_ships[j];
-            }
-            if (duplicate)
-                delete ship;
-        }
-        _ships.push_back(ship);
+        std::unique_ptr<Ship> ship;
+        do {
+            ship = std::make_unique<Ship>();
+        } while (std::any_of(begin(_ships), end(_ships), [&](const auto& existing) { return *ship == *existing; }));
+        _ships.push_back(std::move(ship));
     }
 }
 
 Board::~Board() {
-    for (Ship *ship: _ships) {
-        delete ship;
-    }
     _ships.clear();
 }
 
@@ -43,7 +35,7 @@ uint8_t Board::scan(uint8_t x, uint8_t y) {
     uint16_t result = 0;
 
     for (int i = 0; i < SHIP_COUNT; i++) {
-        uint16_t s = find(_ships[i], x, y);
+        uint16_t s = find(_ships[i].get(), x, y);
         result = result | s;
     }
 
@@ -56,13 +48,7 @@ uint8_t Board::scan(uint8_t x, uint8_t y) {
 }
 
 uint8_t Board::countBits(uint16_t value) {
-    int count = 0;
-    while (value > 0) {
-        if ((value & 1) == 1)
-            count++;
-        value >>= 1;
-    }
-    return count;
+    return std::bitset<16>(value).count();
 }
 
 uint16_t Board::find(Ship *ship, uint16_t x, uint16_t y) {
@@ -95,15 +81,18 @@ void Board::dump() {
 }
 
 Ship *Board::findShip(uint8_t x, uint8_t y) {
-    for (int i = 0; i < SHIP_COUNT; ++i) {
-        auto ship = _ships[i];
-        if (ship->getX() == x && ship->getY() == y) {
-            return ship;
-        }
-    }
-    return nullptr;
+    auto it = std::find_if(_ships.begin(), _ships.end(), [x, y](const auto& ship)
+    {
+        return ship->getX() == x && ship->getY() == y;
+    });
+
+    return (it != _ships.end()) ? it->get() : nullptr;
 }
 
-const std::vector<Ship *> &Board::getHiddenShips() const {
-    return _ships;
-}
+std::vector<Ship *> Board::getHiddenShips() const {
+    std::vector<Ship*> ships;
+    for (const auto& ship : _ships)
+    {
+        ships.push_back(ship.get());
+    }
+    return ships;}

@@ -45,6 +45,16 @@ void checkPosition() {
     encoder->tick();
 }
 
+void sleep(bool value) {
+    if (value) {
+        tft.writecommand(0x10);   // Send command to put the display to sleep.
+        delay(150);           // Delay for shutdown time before another command can be sent.
+    } else {
+        tft.init();               // This sends the wake up command and initialises the display
+        delay(50);            // Extra delay to stop a "white flash" while the TFT is initialising.
+    }
+}
+
 void extendGameView() {
     lv_obj_set_style_text_color(ui_Coordinates, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
