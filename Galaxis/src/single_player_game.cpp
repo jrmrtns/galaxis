@@ -4,8 +4,10 @@
 
 #include "single_player_game.h"
 
+#include <memory>
+
 SinglePlayerGame::SinglePlayerGame() {
-    _galaxis = std::unique_ptr<Galaxis>(new Galaxis(1, single_board, false));
+    _galaxis = std::make_unique<Galaxis>(1, single_board, false);
 }
 
 void SinglePlayerGame::shutdown() {
