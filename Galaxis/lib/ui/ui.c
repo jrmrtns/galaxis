@@ -25,10 +25,11 @@ lv_obj_t * ui_MainMenuHint;
 // SCREEN: ui_Game
 void ui_Game_screen_init(void);
 lv_obj_t * ui_Game;
+lv_obj_t * ui_GamePanel;
+lv_obj_t * ui_Connected;
+lv_obj_t * ui_StatusLabel;
 lv_obj_t * ui_SearchResult;
 lv_obj_t * ui_CoordinatesX;
-lv_obj_t * ui_StatusLabel;
-lv_obj_t * ui_Connected;
 lv_obj_t * ui_CoordinatesY;
 
 
@@ -38,8 +39,7 @@ lv_obj_t * ui_GameOver;
 lv_obj_t * ui_GameOverItem;
 lv_obj_t * ui_GameOverHint;
 lv_obj_t * ui____initial_actions0;
-const lv_img_dsc_t * ui_imgset_1309046032[1] = {&ui_img_682575846};
-const lv_img_dsc_t * ui_imgset_799728257[1] = {&ui_img_489371723};
+const lv_img_dsc_t * ui_imgset_bg[1] = {&ui_img_bg2_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16

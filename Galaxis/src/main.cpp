@@ -61,7 +61,7 @@ void extendGameView() {
     lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, secondary, LV_STATE_CHECKED);
+    lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x79e6f2), LV_STATE_CHECKED);
 
     my_meter = lv_meter_create(ui_Game);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);

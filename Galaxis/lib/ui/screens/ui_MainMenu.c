@@ -9,7 +9,9 @@ void ui_MainMenu_screen_init(void)
 {
     ui_MainMenu = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_MainMenu, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_img_src(ui_MainMenu, &ui_img_489371723, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_MainMenu, &ui_img_bg2_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_bg_img_src(ui_MainMenu, &ui_img_bg2_png, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
 
     ui_MainMenuItem = lv_label_create(ui_MainMenu);
     lv_obj_set_width(ui_MainMenuItem, lv_pct(100));

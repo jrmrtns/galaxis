@@ -11,15 +11,43 @@ void ui_Game_screen_init(void)
     lv_obj_clear_flag(ui_Game, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_img_src(ui_Game, &ui_img_489371723, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x4183FC), LV_PART_MAIN | LV_STATE_CHECKED);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
-    ui_SearchResult = lv_label_create(ui_Game);
+    ui_GamePanel = lv_obj_create(ui_Game);
+    lv_obj_set_width(ui_GamePanel, 220);
+    lv_obj_set_height(ui_GamePanel, 220);
+    lv_obj_set_align(ui_GamePanel, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_GamePanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_GamePanel, 110, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_GamePanel, &ui_img_bg2_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Connected = lv_img_create(ui_GamePanel);
+    lv_img_set_src(ui_Connected, &ui_img_wifi_png);
+    lv_obj_set_width(ui_Connected, LV_SIZE_CONTENT);   /// 16
+    lv_obj_set_height(ui_Connected, LV_SIZE_CONTENT);    /// 16
+    lv_obj_set_x(ui_Connected, 0);
+    lv_obj_set_y(ui_Connected, -42);
+    lv_obj_set_align(ui_Connected, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Connected, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Connected, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_opa(ui_Connected, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_StatusLabel = lv_label_create(ui_GamePanel);
+    lv_obj_set_width(ui_StatusLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_StatusLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_StatusLabel, 2);
+    lv_obj_set_y(ui_StatusLabel, 38);
+    lv_obj_set_align(ui_StatusLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_StatusLabel, "Connecting ...");
+    lv_obj_set_style_bg_color(ui_StatusLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_StatusLabel, 148, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_SearchResult = lv_label_create(ui_GamePanel);
     lv_obj_set_width(ui_SearchResult, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_SearchResult, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_SearchResult, -1);
-    lv_obj_set_y(ui_SearchResult, -13);
+    lv_obj_set_y(ui_SearchResult, -11);
     lv_obj_set_align(ui_SearchResult, LV_ALIGN_CENTER);
     lv_label_set_text(ui_SearchResult, "-");
     lv_obj_set_style_text_color(ui_SearchResult, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -33,7 +61,7 @@ void ui_Game_screen_init(void)
     lv_obj_set_style_pad_top(ui_SearchResult, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_SearchResult, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_CoordinatesX = lv_label_create(ui_Game);
+    ui_CoordinatesX = lv_label_create(ui_GamePanel);
     lv_obj_set_width(ui_CoordinatesX, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_CoordinatesX, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_CoordinatesX, -76);
@@ -47,28 +75,7 @@ void ui_Game_screen_init(void)
     lv_obj_set_style_text_align(ui_CoordinatesX, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_CoordinatesX, &ui_font_Destruct24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_StatusLabel = lv_label_create(ui_Game);
-    lv_obj_set_width(ui_StatusLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_StatusLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_StatusLabel, 2);
-    lv_obj_set_y(ui_StatusLabel, 38);
-    lv_obj_set_align(ui_StatusLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_StatusLabel, "Connecting ...");
-    lv_obj_set_style_bg_color(ui_StatusLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_StatusLabel, 148, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Connected = lv_img_create(ui_Game);
-    lv_img_set_src(ui_Connected, &ui_img_wifi_png);
-    lv_obj_set_width(ui_Connected, LV_SIZE_CONTENT);   /// 16
-    lv_obj_set_height(ui_Connected, LV_SIZE_CONTENT);    /// 16
-    lv_obj_set_x(ui_Connected, 0);
-    lv_obj_set_y(ui_Connected, -42);
-    lv_obj_set_align(ui_Connected, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Connected, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
-    lv_obj_clear_flag(ui_Connected, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_opa(ui_Connected, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_CoordinatesY = lv_label_create(ui_Game);
+    ui_CoordinatesY = lv_label_create(ui_GamePanel);
     lv_obj_set_width(ui_CoordinatesY, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_CoordinatesY, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_CoordinatesY, 72);
