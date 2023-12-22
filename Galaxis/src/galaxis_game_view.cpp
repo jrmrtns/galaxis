@@ -72,11 +72,11 @@ void GalaxisGameView::show() {
 }
 
 void GalaxisGameView::updateCoordinates() {
-    String txt = "  ";
-    txt[0] = char(0x41 + _galaxisModel->getX());
-    txt[1] = char(0x31 + _galaxisModel->getY());
+    String txtX = String(char(0x41 + _galaxisModel->getX()));
+    String txtY = String( char(0x31 + _galaxisModel->getY()));
 
-    lv_label_set_text(ui_Coordinates, txt.c_str());
+    lv_label_set_text(ui_CoordinatesX, txtX.c_str());
+    lv_label_set_text(ui_CoordinatesY, txtY.c_str());
 }
 
 void GalaxisGameView::updateShipCount() {

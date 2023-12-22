@@ -11,15 +11,15 @@ void ui_Game_screen_init(void)
     lv_obj_clear_flag(ui_Game, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_img_src(ui_Game, &ui_img_682575846, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Game, &ui_img_489371723, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x4183FC), LV_PART_MAIN | LV_STATE_CHECKED);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_SearchResult = lv_label_create(ui_Game);
     lv_obj_set_width(ui_SearchResult, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_SearchResult, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_SearchResult, 0);
-    lv_obj_set_y(ui_SearchResult, 80);
+    lv_obj_set_x(ui_SearchResult, -1);
+    lv_obj_set_y(ui_SearchResult, -13);
     lv_obj_set_align(ui_SearchResult, LV_ALIGN_CENTER);
     lv_label_set_text(ui_SearchResult, "-");
     lv_obj_set_style_text_color(ui_SearchResult, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -33,19 +33,19 @@ void ui_Game_screen_init(void)
     lv_obj_set_style_pad_top(ui_SearchResult, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_SearchResult, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Coordinates = lv_label_create(ui_Game);
-    lv_obj_set_width(ui_Coordinates, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Coordinates, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Coordinates, -2);
-    lv_obj_set_y(ui_Coordinates, -4);
-    lv_obj_set_align(ui_Coordinates, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Coordinates, "A1");
-    lv_obj_set_style_text_color(ui_Coordinates, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Coordinates, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui_Coordinates, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui_Coordinates, 12, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui_Coordinates, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Coordinates, &ui_font_Destruct36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_CoordinatesX = lv_label_create(ui_Game);
+    lv_obj_set_width(ui_CoordinatesX, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_CoordinatesX, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_CoordinatesX, -76);
+    lv_obj_set_y(ui_CoordinatesX, 3);
+    lv_obj_set_align(ui_CoordinatesX, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_CoordinatesX, "A");
+    lv_obj_set_style_text_color(ui_CoordinatesX, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_CoordinatesX, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui_CoordinatesX, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui_CoordinatesX, 12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_CoordinatesX, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_CoordinatesX, &ui_font_Destruct24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_StatusLabel = lv_label_create(ui_Game);
     lv_obj_set_width(ui_StatusLabel, LV_SIZE_CONTENT);   /// 1
@@ -67,5 +67,19 @@ void ui_Game_screen_init(void)
     lv_obj_add_flag(ui_Connected, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_Connected, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_opa(ui_Connected, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_CoordinatesY = lv_label_create(ui_Game);
+    lv_obj_set_width(ui_CoordinatesY, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_CoordinatesY, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_CoordinatesY, 72);
+    lv_obj_set_y(ui_CoordinatesY, 3);
+    lv_obj_set_align(ui_CoordinatesY, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_CoordinatesY, "1");
+    lv_obj_set_style_text_color(ui_CoordinatesY, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_CoordinatesY, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui_CoordinatesY, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui_CoordinatesY, 12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_CoordinatesY, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_CoordinatesY, &ui_font_Destruct24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }

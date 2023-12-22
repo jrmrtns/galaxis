@@ -17,7 +17,7 @@ lv_meter_indicator_t *my_indicator;
 lv_obj_t *your_meter;
 lv_meter_indicator_t *your_indicator;
 
-lv_color_t primary = lv_palette_main(LV_PALETTE_RED);
+lv_color_t primary = lv_color_white();
 lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
 
 static const uint16_t screenWidth = 240;
@@ -56,7 +56,8 @@ void sleep(bool value) {
 }
 
 void extendGameView() {
-    lv_obj_set_style_text_color(ui_Coordinates, primary,  LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_CoordinatesX, primary,  LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_CoordinatesY, primary,  LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
@@ -70,7 +71,7 @@ void extendGameView() {
     lv_obj_set_size(my_meter, 220, 220);
 
     lv_meter_scale_t *scale = lv_meter_add_scale(my_meter);
-    lv_meter_set_scale_ticks(my_meter, scale, 5, 6, 35, lv_color_hex(0x292831));
+    lv_meter_set_scale_ticks(my_meter, scale, 5, 6, 20, lv_color_hex(0x292831));
     lv_meter_set_scale_range(my_meter, scale, 0, 100, 30, 180);
 
     my_indicator = lv_meter_add_arc(my_meter, scale, 20, primary, 0);
@@ -83,7 +84,7 @@ void extendGameView() {
     lv_obj_set_size(your_meter, 220, 220);
 
     lv_meter_scale_t *your_scale = lv_meter_add_scale(your_meter);
-    lv_meter_set_scale_ticks(your_meter, your_scale, 5, 6, 35, lv_color_hex(0x292831));
+    lv_meter_set_scale_ticks(your_meter, your_scale, 5, 6, 20, lv_color_hex(0x292831));
     lv_meter_set_scale_range(your_meter, your_scale, 0, 100, 30, 330);
 
     your_indicator = lv_meter_add_arc(your_meter, your_scale, 20, secondary, 0);

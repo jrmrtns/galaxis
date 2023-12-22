@@ -9,7 +9,7 @@ void ui_MainMenu_screen_init(void)
 {
     ui_MainMenu = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_MainMenu, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_img_src(ui_MainMenu, &ui_img_682575846, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_MainMenu, &ui_img_489371723, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_MainMenuItem = lv_label_create(ui_MainMenu);
     lv_obj_set_width(ui_MainMenuItem, lv_pct(100));
@@ -18,7 +18,7 @@ void ui_MainMenu_screen_init(void)
     lv_obj_set_y(ui_MainMenuItem, -1);
     lv_obj_set_align(ui_MainMenuItem, LV_ALIGN_CENTER);
     lv_label_set_text(ui_MainMenuItem, "Einzel");
-    lv_obj_set_style_text_color(ui_MainMenuItem, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_MainMenuItem, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_MainMenuItem, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_MainMenuItem, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_MainMenuItem, &ui_font_Destruct36, LV_PART_MAIN | LV_STATE_DEFAULT);
