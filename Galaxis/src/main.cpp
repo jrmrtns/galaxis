@@ -17,7 +17,7 @@ lv_meter_indicator_t *my_indicator;
 lv_obj_t *your_meter;
 lv_meter_indicator_t *your_indicator;
 
-lv_color_t primary = lv_palette_main(LV_PALETTE_CYAN);
+lv_color_t primary = lv_palette_main(LV_PALETTE_RED);
 lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
 
 static const uint16_t screenWidth = 240;
@@ -56,12 +56,13 @@ void sleep(bool value) {
 }
 
 void extendGameView() {
-    lv_obj_set_style_text_color(ui_Coordinates, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui_Coordinates, primary,  LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Game, secondary, LV_STATE_CHECKED);
 
-    my_meter = lv_meter_create(ui_GamePanel);
+    my_meter = lv_meter_create(ui_Game);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_MAIN);
 
@@ -74,7 +75,7 @@ void extendGameView() {
 
     my_indicator = lv_meter_add_arc(my_meter, scale, 20, primary, 0);
 
-    your_meter = lv_meter_create(ui_GamePanel);
+    your_meter = lv_meter_create(ui_Game);
     lv_obj_remove_style(your_meter, nullptr, LV_PART_INDICATOR);
     lv_obj_remove_style(your_meter, nullptr, LV_PART_MAIN);
 

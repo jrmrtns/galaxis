@@ -72,22 +72,16 @@ void GalaxisGameView::show() {
 }
 
 void GalaxisGameView::updateCoordinates() {
-    String txt = "   ";
+    String txt = "  ";
     txt[0] = char(0x41 + _galaxisModel->getX());
-    txt[2] = char(0x31 + _galaxisModel->getY());
+    txt[1] = char(0x31 + _galaxisModel->getY());
 
     lv_label_set_text(ui_Coordinates, txt.c_str());
 }
 
 void GalaxisGameView::updateShipCount() {
-    String txt = "0/0";
-    txt[0] = char(0x30 + _galaxisModel->getShipCount());
-    txt[2] = char(0x30 + SHIP_COUNT);
-
     lv_meter_set_indicator_start_value(my_meter, my_indicator, 0);
     lv_meter_set_indicator_end_value(my_meter, my_indicator, _galaxisModel->getShipCount() * 25);
-
-    lv_label_set_text(ui_ShipCount, txt.c_str());
 }
 
 void GalaxisGameView::updateActive() {
