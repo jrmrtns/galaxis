@@ -64,7 +64,7 @@ void ScreenManager::showSingleGameView() {
     gameModel->setConnected(true);
     gameModel->setStarted(true);
     randomSeed(micros());
-    randomSeed(1);
+    //randomSeed(1);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
 
