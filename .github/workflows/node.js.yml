@@ -34,6 +34,7 @@ jobs:
         cache-dependency-path: /home/runner/work/galaxis/galaxis/app/package-lock.json
 
     - name: npm install
+      working-directory: /home/runner/work/galaxis/galaxis/app/
       run: npm install
 
     - name: npm build
