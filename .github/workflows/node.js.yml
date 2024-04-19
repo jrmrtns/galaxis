@@ -17,6 +17,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - uses: actions/download-artifact@v4
+      name: Download Firmware
+      with:
+        name: firmware-esp32c3-de
+        path: ./app/static/firmware/
+
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
