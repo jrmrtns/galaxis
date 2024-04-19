@@ -43,7 +43,7 @@ jobs:
       working-directory: ./app/
       run: npm run build --if-present
   
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-pages-artifact@main
       with:
         name: page
         path: ./app/build
