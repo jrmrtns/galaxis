@@ -53,7 +53,7 @@ jobs:
         with:
           name: firmware-esp32s3-de
           path: ./Galaxis/.pio/build/seeed_xiao_esp32s3/firmware-esp32s3-de.bin
-          
+
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-esp32c3-de
@@ -73,16 +73,11 @@ jobs:
     
       - uses: actions/upload-artifact@v4
         with:
-          name: firmware-esp32s3-de
+          name: firmware-esp32s3-en
           path: ./Galaxis/.pio/build/seeed_xiao_esp32s3/firmware-esp32s3-en.bin
     
       - uses: actions/upload-artifact@v4
         with:
-          name: firmware-esp32s3-de
-          path: ./Galaxis/.pio/build/seeed_xiao_esp32s3/firmware-esp32s3-en.bin
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: firmware-esp32c3-de
+          name: firmware-esp32c3-en
           path: ./Galaxis/.pio/build/seeed_xiao_esp32c3/firmware-esp32c3-en.bin
   

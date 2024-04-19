@@ -5,10 +5,21 @@
 #ifndef GALAXIS_SETTINGS_H
 #define GALAXIS_SETTINGS_H
 
+#ifdef WS
+#define PIN_ENC_IN1 16
+#define PIN_ENC_IN2 15
+#define PIN_ENC_GROUND 17
+#define PIN_ENC_BUTTON 18
+#elif ARDUINO_M5Stack_StampS3
+#define PIN_ENC_IN1 41
+#define PIN_ENC_IN2 40
+#define PIN_ENC_BUTTON 42
+#else
 #define PIN_ENC_IN1 D1
 #define PIN_ENC_IN2 D0
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
+#endif
 
 #define MAX_X 9
 #define MAX_Y 7
@@ -44,5 +55,7 @@
 #define MAIN_MENU_JOIN_HINT "Join a game";
 #define MAIN_MENU_OFF "Off";
 #endif
+
+const float conversion_factor = 3.3f / (1 << 12) * 3;
 
 #endif //GALAXIS_SETTINGS_H

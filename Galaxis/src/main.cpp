@@ -6,6 +6,8 @@
 #include "screen_manager.h"
 #include "settings.h"
 
+#define BAT_ADC_PIN A0
+
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 
@@ -48,15 +50,15 @@ void checkPosition() {
 void sleep(bool value) {
     if (value) {
         tft.writecommand(0x10);   // Send command to put the display to sleep.
-        delay(150);           // Delay for shutdown time before another command can be sent.
+        delay(150);               // Delay for shutdown time before another command can be sent.
     } else {
         tft.init();               // This sends the wake up command and initialises the display
-        delay(50);            // Extra delay to stop a "white flash" while the TFT is initialising.
+        delay(50);                // Extra delay to stop a "white flash" while the TFT is initialising.
     }
 }
 
 void extendGameView() {
-    lv_obj_set_style_text_color(ui_Coordinates, primary,  LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_Coordinates, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
@@ -114,10 +116,15 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    randomSeed(analogRead(A0));
+    //randomSeed(analogRead(A0));
 
+    //pinMode(BAT_ADC_PIN, INPUT);
+    analogReadResolution(12);
+
+#ifdef PIN_ENC_GROUND
     pinMode(PIN_ENC_GROUND, OUTPUT);
     digitalWrite(PIN_ENC_GROUND, LOW);
+#endif
 
     lv_init();
 
@@ -165,6 +172,10 @@ void checkButtonState() {
 
     if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)) {
         esp_restart();
+        //ESP.deepSleep(10 * 1000 * 1000);
+        //sleep(true);
+        //esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0);
+        //esp_deep_sleep_start();
     }
 }
 
@@ -173,4 +184,6 @@ void loop() {
     lv_timer_handler();
     BLE.poll();
     screenManager->loop();
+    //auto v = (float)analogReadMilliVolts(A0) * conversion_factor;
+    //lv_label_set_text(ui_MainMenuHint, String(v, 1).c_str());
 }
