@@ -20,9 +20,8 @@ jobs:
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
 
-      - name: Build PlatformIO examples
+      - name: Build Galaxis
         working-directory: ./Galaxis
-        run: pio ci --board=seeed_xiao_esp32s3 --board=seeed_xiao_esp32c3 --keep-build-dir
+        run: pio run seeed_xiao_esp32s3
         env:
-          PLATFORMIO_CI_SRC: ./Galaxis
           PLATFORMIO_BUILD_FLAGS: -DDE
