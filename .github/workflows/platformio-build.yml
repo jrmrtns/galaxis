@@ -22,6 +22,6 @@ jobs:
 
       - name: Build Galaxis
         working-directory: ./Galaxis
-        run: pio run seeed_xiao_esp32s3
+        run: pio run -e seeed_xiao_esp32s3
         env:
           PLATFORMIO_BUILD_FLAGS: -DDE
