@@ -41,7 +41,12 @@ jobs:
       working-directory: ./app/
       run: npm run build --if-present
   
-    - uses: actions/download-artifact@master
+    - uses: actions/upload-artifact@v4
       with:
         name: page
         path: ./app/build
+
+    - uses: actions/deploy-pages 
+      with: 
+        artifact_name: page
+        
