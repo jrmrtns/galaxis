@@ -48,7 +48,7 @@ jobs:
         name: page
         path: ./app/build
 
-    - uses: actions/deploy-pages@v4
+    - uses: actions/deploy-pages@v3
       with: 
         artifact_name: page
 
