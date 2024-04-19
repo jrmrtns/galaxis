@@ -17,9 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/download-artifact@v4
+    - uses: dawidd6/action-download-artifact@v2
       name: Download Firmware
       with:
+        workflow: platformio-build.yml
         name: firmware-esp32c3-de
         path: ./app/static/firmware/
 
