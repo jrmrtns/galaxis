@@ -1,0 +1,27 @@
+name: build-platformio
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{ runner.os }}-pio
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install PlatformIO Core
+        run: pip install --upgrade platformio
+
+      - name: Build PlatformIO examples
+        run: pio ci --board=seeed_xiao_esp32s3 --board=seeed_xiao_esp32c3 --keep-build-dir
+        env:
+          PLATFORMIO_CI_SRC: Galaxis/src/main.cpp
+          PLATFORMIO_BUILD_FLAGS: -DDE
