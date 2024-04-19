@@ -24,6 +24,9 @@ jobs:
         name: firmware-esp32c3-de
         path: ./app/static/firmware/
 
+    - run: pwd
+    - run: ls
+
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
