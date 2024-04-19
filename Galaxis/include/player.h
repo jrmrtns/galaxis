@@ -16,15 +16,15 @@ public:
 
     int getId() const;
 
-    void dump();
+    void dump() const;
 
     std::vector<Ship *> _discoveredShips;
 
-    const std::vector<Ship *> &getHiddenShips() const;
+    std::vector<Ship *> getHiddenShips() const;
 
     uint8_t makeMove(uint8_t x, uint8_t y);
 
-    uint8_t getDiscovered();
+    uint8_t getDiscovered() const;
 
 private:
     int _id;

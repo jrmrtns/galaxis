@@ -6,6 +6,8 @@
 #include "screen_manager.h"
 #include "settings.h"
 
+#define BAT_ADC_PIN A0
+
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 
@@ -17,7 +19,7 @@ lv_meter_indicator_t *my_indicator;
 lv_obj_t *your_meter;
 lv_meter_indicator_t *your_indicator;
 
-lv_color_t primary = lv_palette_main(LV_PALETTE_CYAN);
+lv_color_t primary = lv_palette_main(LV_PALETTE_RED);
 lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
 
 static const uint16_t screenWidth = 240;
@@ -48,20 +50,21 @@ void checkPosition() {
 void sleep(bool value) {
     if (value) {
         tft.writecommand(0x10);   // Send command to put the display to sleep.
-        delay(150);           // Delay for shutdown time before another command can be sent.
+        delay(150);               // Delay for shutdown time before another command can be sent.
     } else {
         tft.init();               // This sends the wake up command and initialises the display
-        delay(50);            // Extra delay to stop a "white flash" while the TFT is initialising.
+        delay(50);                // Extra delay to stop a "white flash" while the TFT is initialising.
     }
 }
 
 void extendGameView() {
-    lv_obj_set_style_text_color(ui_Coordinates, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, secondary, LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui_Coordinates, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Game, secondary, LV_STATE_CHECKED);
 
-    my_meter = lv_meter_create(ui_GamePanel);
+    my_meter = lv_meter_create(ui_Game);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
     lv_obj_remove_style(my_meter, nullptr, LV_PART_MAIN);
 
@@ -74,7 +77,7 @@ void extendGameView() {
 
     my_indicator = lv_meter_add_arc(my_meter, scale, 20, primary, 0);
 
-    your_meter = lv_meter_create(ui_GamePanel);
+    your_meter = lv_meter_create(ui_Game);
     lv_obj_remove_style(your_meter, nullptr, LV_PART_INDICATOR);
     lv_obj_remove_style(your_meter, nullptr, LV_PART_MAIN);
 
@@ -113,10 +116,15 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    randomSeed(analogRead(A0));
+    //randomSeed(analogRead(A0));
 
+    //pinMode(BAT_ADC_PIN, INPUT);
+    analogReadResolution(12);
+
+#ifdef PIN_ENC_GROUND
     pinMode(PIN_ENC_GROUND, OUTPUT);
     digitalWrite(PIN_ENC_GROUND, LOW);
+#endif
 
     lv_init();
 
@@ -164,6 +172,10 @@ void checkButtonState() {
 
     if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)) {
         esp_restart();
+        //ESP.deepSleep(10 * 1000 * 1000);
+        //sleep(true);
+        //esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0);
+        //esp_deep_sleep_start();
     }
 }
 
@@ -172,4 +184,6 @@ void loop() {
     lv_timer_handler();
     BLE.poll();
     screenManager->loop();
+    //auto v = (float)analogReadMilliVolts(A0) * conversion_factor;
+    //lv_label_set_text(ui_MainMenuHint, String(v, 1).c_str());
 }

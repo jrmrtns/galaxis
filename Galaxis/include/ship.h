@@ -20,11 +20,7 @@ public:
 
     uint16_t getX() const;
 
-    void setX(uint16_t x);
-
     uint16_t getY() const;
-
-    void setY(uint16_t y);
 
     bool operator!=(const Ship &rhs) const;
 };

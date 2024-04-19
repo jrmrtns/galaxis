@@ -3,7 +3,6 @@
 //
 
 #include "ship.h"
-#include "board.h"
 #include "settings.h"
 #include <cstdlib>
 
@@ -27,14 +26,7 @@ uint16_t Ship::getX() const {
     return posX;
 }
 
-void Ship::setX(uint16_t x) {
-    Ship::posX = x;
-}
-
 uint16_t Ship::getY() const {
     return posY;
 }
 
-void Ship::setY(uint16_t y) {
-    Ship::posY = y;
-}

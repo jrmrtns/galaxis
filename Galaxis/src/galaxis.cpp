@@ -5,6 +5,10 @@
 #include <memory>
 #include "galaxis.h"
 
+const uint8_t PLAYER_INVALID = 0xf0;
+const uint8_t GAME_OVER_RESULT = 0xfd;
+const uint8_t MAX_TIME_LIMIT = 5;
+
 Galaxis::Galaxis(int count, gameType gameType, bool time_limited) {
     _playerCount = count;
     _gameType = gameType;
@@ -14,8 +18,7 @@ Galaxis::Galaxis(int count, gameType gameType, bool time_limited) {
     auto board = std::make_shared<Board>();
 
     for (int i = 0; i < count; ++i) {
-        auto *player = new Player(i, board);
-        _players.push_back(player);
+        _players.push_back(std::make_unique<Player>(i, board));
         if (gameType == gameType::multi_board)
             board = std::make_shared<Board>();
     }
@@ -23,12 +26,11 @@ Galaxis::Galaxis(int count, gameType gameType, bool time_limited) {
 
 uint8_t Galaxis::guess(uint8_t playerId, uint8_t x, uint8_t y) {
     if (_currentPlayer != playerId)
-        return 0xf0;
+        return PLAYER_INVALID;
 
-    Player *current = _players.at(_currentPlayer);
-    uint8_t result = current->makeMove(x, y);
+    uint8_t result = _players[_currentPlayer]->makeMove(x, y);
 
-    if (result == 0xfd) {
+    if (result == GAME_OVER_RESULT) {
         _gameState = gameState::gameOver;
         result = 0xff;
     }
@@ -40,14 +42,10 @@ uint8_t Galaxis::guess(uint8_t playerId, uint8_t x, uint8_t y) {
 }
 
 void Galaxis::dumpCurrent() {
-    Player *current = _players.at(_currentPlayer);
-    current->dump();
+    _players[_currentPlayer]->dump();
 }
 
 Galaxis::~Galaxis() {
-    for (Player *player: _players) {
-        delete player;
-    }
     _players.clear();
 }
 
@@ -92,17 +90,17 @@ void Galaxis::tick(uint64_t elapsed) {
     }
 }
 
-const std::vector<Ship *> &Galaxis::get_ships_by_player(uint8_t player) {
-    return _players.at(player)->getHiddenShips();
+std::vector<Ship*> Galaxis::get_ships_by_player(uint8_t player) const {
+    return _players[player]->getHiddenShips();
 }
 
 void Galaxis::setTimeLimit(uint64_t timeLimit) {
-    _time_limit = timeLimit + (MAX_TIME + 5) * 1000 * 1000;
+    _time_limit = timeLimit + (MAX_TIME + MAX_TIME_LIMIT) * 1000 * 1000;
 }
 
 Player *Galaxis::player(uint8_t player) const {
     if (player >= _playerCount)
         return nullptr;
 
-    return _players.at(player);
+    return _players[player].get();
 }

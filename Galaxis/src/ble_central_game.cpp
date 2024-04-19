@@ -6,13 +6,15 @@
 #include "settings.h"
 #include <ArduinoBLE.h>
 
+#include <memory>
+
 BLECentralGame *BLECentralGame::_instance = nullptr;
 BLECharacteristic BLECentralGame::_galaxisCharacteristic;
 
 BLECentralGame::BLECentralGame() {
     _instance = this;
 
-    _galaxis = std::unique_ptr<Galaxis>(new Galaxis(2, single_board, false));
+    _galaxis = std::make_unique<Galaxis>(2, single_board, false);
 
     BLE.setEventHandler(BLEDiscovered, discoverHandler);
     BLE.setEventHandler(BLEDisconnected, peripheralDisconnectHandler);
