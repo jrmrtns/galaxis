@@ -28,22 +28,17 @@ jobs:
 
       - name: Rename Firmware S3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
-        run: mv firmware.bin firmware-esp32s3-de.bin
+        run: mv firmware.bin ~/firmware-esp32s3-de.bin
 
       - name: Rename Firmware C3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
-        run: mv firmware.bin firmware-esp32c3-de.bin
+        run: mv firmware.bin ~/firmware-esp32c3-de.bin
     
       - uses: actions/upload-artifact@v4
         with:
-          name: firmware
-          path: ./Galaxis/.pio/build/seeed_xiao_esp32c3/*.bin
-    
-      - uses: actions/upload-artifact@v4
-        with:
-          name: firmware
-          path: ./Galaxis/.pio/build/seeed_xiao_esp32s3/firmware-esp32s3-de.bin
-
+          name: firmware-esp32c3-de
+          path: ~/*.bin
+  
       - name: Build Galaxis EN
         working-directory: ./Galaxis
         run: pio run -e seeed_xiao_esp32s3 -e seeed_xiao_esp32c3
