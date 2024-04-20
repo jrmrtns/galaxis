@@ -1,6 +1,6 @@
 {
     "name": "Galaxis",
-    "version": "2024.04.17",
+    "version": "2024.04.20",
     "builds": [
       {
         "chipFamily": "ESP32-C3",
