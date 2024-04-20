@@ -16,7 +16,7 @@ jobs:
       id-token: write
       pages: write
     
-steps:
+    steps:
     - uses: actions/checkout@v4
 
     - uses: dawidd6/action-download-artifact@v2
@@ -51,3 +51,4 @@ steps:
     - uses: actions/deploy-pages@main
       with: 
         artifact_name: page
+
