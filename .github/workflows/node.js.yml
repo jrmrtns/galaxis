@@ -24,7 +24,14 @@ jobs:
       with:
         workflow: platformio-build.yml
         name: firmware-esp32c3-de
-        path: ./app/static/firmware/
+        path: ./app/static/manifest/firmware-esp32c3
+
+    - uses: dawidd6/action-download-artifact@v2
+      name: Download Firmware
+      with:
+        workflow: platformio-build.yml
+        name: firmware-esp32s3-de
+        path: ./app/static/manifest/firmware-esp32s3
 
     - run: cd /home/runner/work/galaxis/galaxis/app
 
