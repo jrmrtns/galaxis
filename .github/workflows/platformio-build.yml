@@ -32,21 +32,21 @@ jobs:
         env:
           PLATFORMIO_BUILD_FLAGS: -DDE
 
+      - name: Rename Firmware S3
+        working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
+        run: mv firmware.bin firmware-de.bin
+      
+      - name: Rename Firmware C3
+        working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
+        run: mv firmware.bin firmware-de.bin
+
       - name: Copy Firmware S3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
         run: mv *.bin ~/firmware-esp32s3/
 
-      - name: Rename Firmware S3
-        working-directory: ~/firmware-esp32s3
-        run: mv firmware.bin firmware-de.bin
-
       - name: Copy Firmware C3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
         run: mv *.bin ~/firmware-esp32c3/
-
-      - name: Rename Firmware C3
-        working-directory: ~/firmware-esp32c3
-        run: mv firmware.bin firmware-de.bin
      
     # Build EN Version
 
