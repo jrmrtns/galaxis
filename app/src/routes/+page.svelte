@@ -11,7 +11,7 @@
 	}
 </script>
 
-<h1>Welcome to SvelteKit</h1>
+<h1>Galaxis</h1>
 <p>Install Galaxis</p>
 
 <div class="form-control w-1/4">
