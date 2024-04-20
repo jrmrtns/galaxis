@@ -1,5 +1,4 @@
-#define USER_SETUP_ID 207
-#define USER_SETUP_INFO "ESP32-S3-Touch-LCD-1.28"
+#define USER_SETUP_INFO "User_Setup"
 
 #ifdef ILI9341_DRIVER
 #undef ILI9341_DRIVER
@@ -22,7 +21,7 @@
 #define TFT_RST  GPIO_NUM_8
 #define TFT_BL   GPIO_NUM_9
 #define TFT_BACKLIGHT_ON HIGH
-#else
+#elif DWS
 #define TFT_MISO 12
 #define TFT_MOSI 11
 #define TFT_SCLK 10
@@ -31,6 +30,12 @@
 #define TFT_RST  14
 #define TFT_BL	 2
 #define TFT_BACKLIGHT_ON HIGH
+#else
+#define TFT_MOSI D10
+#define TFT_SCLK D8
+#define TFT_CS   D5
+#define TFT_DC   D4
+#define TFT_RST  -1
 #endif
 
 //#define LOAD_GLCD   // Font 1. Original Adafruit 8 pixel font needs ~1820 bytes in FLASH
@@ -43,4 +48,6 @@
 //
 //#define SMOOTH_FONT
 
+//#define SPI_READ_FREQUENCY  20000000
+//#define SPI_TOUCH_FREQUENCY  2500000
 #define SPI_FREQUENCY  80000000
