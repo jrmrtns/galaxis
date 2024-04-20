@@ -1,8 +1,9 @@
 name: build-platformio
 
-on:   
-  pull_request:
-    branches: [ "main" ]
+on:  
+  [push]
+#  pull_request:
+#    branches: [ "main" ]
 
 jobs:
   build:
@@ -28,29 +29,35 @@ jobs:
         env:
           PLATFORMIO_BUILD_FLAGS: -DDE
 
-      - name: Rename Firmware S3
+      - name: Copy Firmware S3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
-        run: mv firmware.bin ~/firmware-esp32s3-de.bin
+        run: mv *.bin ~/firmware-esp32s3/
+
+      - name: Rename Firmware S3
+        working-directory: ~/firmware-esp32s3
+        run: mv firmware.bin firmware-de.bin
+
+      - name: Copy Firmware C3
+        working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
+        run: mv *.bin ~/firmware-esp32c3/
 
       - name: Rename Firmware C3
-        working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
-        run: mv firmware.bin ~/firmware-esp32c3-de.bin
+        working-directory: ~/firmware-esp32c3
+        run: mv firmware.bin firmware-de.bin
      
+    # Build EN Version
+
       - name: Build Galaxis EN
         working-directory: ./Galaxis
         run: pio run -e seeed_xiao_esp32s3 -e seeed_xiao_esp32c3
 
-      - name: Rename Firmware S3
-        working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
-        run: mv firmware.bin firmware-esp32s3-en.bin
-     
       - name: Copy Firmware S3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
-        run: mv *.bin ~/        
+        run: mv firmware.bin ~/firmware-esp32s3/firmware-en.bin
 
-      - name: Rename Firmware C3
+      - name: Copy Firmware C3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32c3/
-        run: mv firmware.bin ~/firmware-esp32c3-en.bin
+        run: mv firmware.bin ~/firmware-esp32c3/firmware-en.bin
     
       - uses: actions/upload-artifact@v4
         with:
