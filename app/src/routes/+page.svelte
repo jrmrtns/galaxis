@@ -62,7 +62,7 @@
 		</esp-web-install-button>
 	</div>
 
-	<hr />
+  <hr />
 	<p>
 		Installer powered by <a href="https://esphome.github.io/esp-web-tools/">ESP Web Tools</a>.
 	</p>
