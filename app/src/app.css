@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        font-size: 1.2rem;
+        @apply text-gray-700 bg-white dark:bg-gray-800 dark:text-gray-400;
+    }
+
+    h1 {
+        font-weight: 700;
+        @apply text-5xl font-bold;
+    }
+
+    h2 {
+        font-weight: 700;
+        @apply text-3xl font-bold;
+    }
+
+    h3 {
+        font-weight: 700;
+        @apply text-xl font-bold;
+    }
+
+    input[type='text'] {
+        @apply px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded-lg border shadow-md outline-none focus:outline-none focus:ring-1 w-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700;
+    }
+
+    .text {
+        column-rule-style: solid;
+        column-rule-width: 1px;
+        column-gap: 40px;
+    }
+}
