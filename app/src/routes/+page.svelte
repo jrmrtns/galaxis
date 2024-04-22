@@ -47,7 +47,7 @@
 			</ul>
 			<p>Viel Spass</p>
 			<h3 class="mb-5 mt-5">Weitere Informationen</h3>
-			<p>Der Quellcode und Wiring findet auf <a href="https://github.com/jrmrtns/galaxis">GitHub</a></p>
+			<p>Quellcode und Wiring findet auf <a href="https://github.com/jrmrtns/galaxis">GitHub</a></p>
 			<p>3D Modelle auf <a href="https://www.printables.com/de/model/664089-galaxis">Printables</a> oder auf <a
 				href="https://www.thingiverse.com/thing:6317108">Thingiverse</a></p>
 		</div>
