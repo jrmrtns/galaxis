@@ -9,10 +9,10 @@ void ui_Game_screen_init(void)
 {
     ui_Game = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Game, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0xBAD6E1), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_src(ui_Game, &ui_img_682575846, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x4183FC), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0xFF4F00), LV_PART_MAIN | LV_STATE_CHECKED);
     lv_obj_set_style_bg_opa(ui_Game, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_SearchResult = lv_label_create(ui_Game);

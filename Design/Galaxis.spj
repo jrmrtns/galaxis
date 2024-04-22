@@ -1384,6 +1384,17 @@
                 "strval": "DEFAULT",
                 "childs": [
                   {
+                    "nid": -1155533624,
+                    "strtype": "_style/Bg_Color",
+                    "intarray": [
+                      186,
+                      214,
+                      225,
+                      255
+                    ],
+                    "InheritedType": 7
+                  },
+                  {
                     "nid": -158805984,
                     "strtype": "_style/Bg_Image",
                     "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
@@ -2899,9 +2910,9 @@
                     "nid": 1152887177,
                     "strtype": "_style/Bg_Color",
                     "intarray": [
-                      30,
-                      30,
-                      30,
+                      186,
+                      214,
+                      225,
                       255
                     ],
                     "InheritedType": 7
@@ -2924,9 +2935,9 @@
                     "nid": -1728980216,
                     "strtype": "_style/Bg_Color",
                     "intarray": [
-                      65,
-                      131,
-                      252,
+                      255,
+                      79,
+                      0,
                       255
                     ],
                     "InheritedType": 7
@@ -3798,6 +3809,17 @@
                 "strval": "DEFAULT",
                 "childs": [
                   {
+                    "nid": -363178640,
+                    "strtype": "_style/Bg_Color",
+                    "intarray": [
+                      186,
+                      214,
+                      225,
+                      255
+                    ],
+                    "InheritedType": 7
+                  },
+                  {
                     "nid": -531991205,
                     "strtype": "_style/Bg_Image",
                     "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
@@ -3866,7 +3888,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib\\ui",
     "projectExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib",
-    "backup_cnt": 172,
+    "backup_cnt": 174,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",
