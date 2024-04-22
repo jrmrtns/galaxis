@@ -17,8 +17,11 @@
 		<div>
 			<p>With the help of this website you can install <a href="https://github.com/jrmrtns/galaxis">Galaxis</a>, a game by Ravensburger from 1980, on an ESP32-S3 or ESP32-C3 device.</p>
 			<p>The WebSerial protocol is used for this, which is currently only supported by Google Chrome or Edge.</p>
+			<p>Please note: this firmware is suitable for these boards <a href="https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html">Seeed-XIAO ESP32S3</a>
+				or <a href="https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html">Seeed-XIAO ESP32C3</a>.
+			</p>
 			<ul class="list-inside list-disc">
-				<li>Connect an ESP32 board to your computer via a USB cable</li>
+				<li>Connect a board to your computer via a USB cable</li>
 				<li>Select the language of the interface below (this is also the language of the game)</li>
 				<li>Click on the "Install" button below and follow the instructions</li>
 			</ul>
@@ -34,8 +37,11 @@
 				Ravensburger aus dem Jahr 1980, auf ein ESP32-S3 oder ESP32-C3
 				Device installieren.</p>
 			<p>Hierfür wird das WebSerial Protokoll verwendet, das aktuell nur Google Chrome oder Edge unterstützen.</p>
+			<p>Bitte beachtet: diese Firmware passt zu diesen Boards <a href="https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html">Seeed-XIAO ESP32S3</a>
+				oder <a href="https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html">Seeed-XIAO ESP32C3</a>.
+			</p>
 			<ul class="list-inside list-disc">
-				<li>Verbindet ein ESP32-Board über ein USB Kabel mit eurem Computer</li>
+				<li>Verbindet ein Board über ein USB Kabel mit eurem Computer</li>
 				<li>Wählt unten die Sprache der Oberfläche aus (das ist gleichzeitig die Sprache des Spiels)</li>
 				<li>Klickt unten auf den "Installieren" Button unten und folgt den Anweisungen</li>
 			</ul>
@@ -71,10 +77,6 @@
 <style lang="postcss">
     :global(html) {
         @apply bg-secondary;
-    }
-
-    :global(a) {
-        @apply text-secondary;
     }
 
     p {

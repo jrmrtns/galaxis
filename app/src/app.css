@@ -10,17 +10,21 @@
 
     h1 {
         font-weight: 700;
-        @apply text-5xl font-bold;
+        @apply text-3xl font-bold;
     }
 
     h2 {
         font-weight: 700;
-        @apply text-3xl font-bold;
+        @apply text-2xl font-bold;
     }
 
     h3 {
         font-weight: 700;
         @apply text-xl font-bold;
+    }
+
+    a {
+        @apply text-secondary;
     }
 
     input[type='text'] {
