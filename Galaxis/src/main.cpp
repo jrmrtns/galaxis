@@ -91,11 +91,14 @@ void extendGameView() {
     your_indicator = lv_meter_add_arc(your_meter, your_scale, 20, secondary, 0);
 }
 
-
 void initialize_encoder() {
     pinMode(PIN_ENC_BUTTON, INPUT_PULLUP);
 
+#if ARDUINO_M5Stack_StampS3
+    encoder = new RotaryEncoder(PIN_ENC_IN1, PIN_ENC_IN2, RotaryEncoder::LatchMode::FOUR3);
+#else
     encoder = new RotaryEncoder(PIN_ENC_IN1, PIN_ENC_IN2, RotaryEncoder::LatchMode::TWO03);
+#endif
     encoder->setPosition((1000 * MAX_X * MAX_Y));
 
     attachInterrupt(digitalPinToInterrupt(PIN_ENC_IN1), checkPosition, CHANGE);
@@ -116,10 +119,6 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    //randomSeed(analogRead(A0));
-
-    //pinMode(BAT_ADC_PIN, INPUT);
-    analogReadResolution(12);
 
 #ifdef PIN_ENC_GROUND
     pinMode(PIN_ENC_GROUND, OUTPUT);
@@ -172,10 +171,6 @@ void checkButtonState() {
 
     if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)) {
         esp_restart();
-        //ESP.deepSleep(10 * 1000 * 1000);
-        //sleep(true);
-        //esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0);
-        //esp_deep_sleep_start();
     }
 }
 
@@ -184,6 +179,4 @@ void loop() {
     lv_timer_handler();
     BLE.poll();
     screenManager->loop();
-    //auto v = (float)analogReadMilliVolts(A0) * conversion_factor;
-    //lv_label_set_text(ui_MainMenuHint, String(v, 1).c_str());
 }
