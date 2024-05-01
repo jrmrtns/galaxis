@@ -68,7 +68,11 @@ private:
     String _hint = "";
     bool _connected = false;
     bool _gameOver = false;
+    bool _winner = false;
     bool _started = false;
+public:
+    bool isWinner() const;
+    void setWinner(bool won);
 };
 
 

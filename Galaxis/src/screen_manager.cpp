@@ -13,6 +13,7 @@
 #include "screen.h"
 #include "settings.h"
 #include "game_over_view.h"
+#include "ui.h"
 
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
 
@@ -23,23 +24,23 @@ void ScreenManager::loop() {
         _lastPosition = tick;
     }
 
-    int result = 0;
+    Screen result = Screen::NO_CHANGE;
     if (_currentView != nullptr)
         result = _currentView->loop();
 
-    if (result != 0) {
+    if (result != Screen::NO_CHANGE) {
         _currentView = nullptr;
         _encoder->setPosition((1000 * MAX_X * MAX_Y));
         BLE.end();
 
         BLE.begin();
-        show((Screen) result);
+        show(result);
     }
 }
 
 void ScreenManager::show(Screen screen) {
     switch (screen) {
-        case NONE:
+        case NO_CHANGE:
             break;
         case MENU:
             showMainMenu();
@@ -55,6 +56,9 @@ void ScreenManager::show(Screen screen) {
             break;
         case GAME_OVER_SCREEN:
             showGameOverView();
+            break;
+        case WINNER_SCREEN:
+            showWinnerView();
             break;
     }
 }
@@ -111,6 +115,15 @@ void ScreenManager::showPeriheralGameView() {
 }
 
 void ScreenManager::showGameOverView() {
+    lv_label_set_text(ui_GameOverItem, String(GAME_OVER_MESSAGE).c_str());
+    lv_label_set_text(ui_GameOverHint, String(GAME_OVER_HINT).c_str());
+    _currentView = std::make_shared<GameOverView>(_encoder);
+    _currentView->show();
+}
+
+void ScreenManager::showWinnerView() {
+    lv_label_set_text(ui_GameOverItem, String(GAME_OVER_WINNER_MESSAGE).c_str());
+    lv_label_set_text(ui_GameOverHint, String(GAME_OVER_WINNER_HINT).c_str());
     _currentView = std::make_shared<GameOverView>(_encoder);
     _currentView->show();
 }

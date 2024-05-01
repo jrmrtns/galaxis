@@ -22,7 +22,7 @@ Screen GameOverView::loop() {
         _lastButtonPress = millis();
     }
 
-    return Screen::NONE;
+    return Screen::NO_CHANGE;
 }
 
 void GameOverView::show() {

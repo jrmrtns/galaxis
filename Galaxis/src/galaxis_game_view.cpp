@@ -9,11 +9,11 @@
 #include "settings.h"
 #include "view-update-message.h"
 
-extern lv_obj_t * my_meter;
-extern lv_meter_indicator_t * my_indicator;
+extern lv_obj_t *my_meter;
+extern lv_meter_indicator_t *my_indicator;
 
-extern lv_obj_t * your_meter;
-extern lv_meter_indicator_t * your_indicator;
+extern lv_obj_t *your_meter;
+extern lv_meter_indicator_t *your_indicator;
 
 GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<GalaxisGameController> galaxisController,
                                  std::shared_ptr<GalaxisGameModel> galaxisModel) : _encoder(encoder),
@@ -125,10 +125,12 @@ Screen GalaxisGameView::loop() {
         _lastButtonPress = millis();
     }
 
-    if (_galaxisModel->isGameOver())
+    if (_galaxisModel->isGameOver()) {
+        if (_galaxisModel->isWinner())
+            return Screen::WINNER_SCREEN;
         return Screen::GAME_OVER_SCREEN;
-
-    return Screen::NONE;
+    }
+    return Screen::NO_CHANGE;
 }
 
 void GalaxisGameView::updateHint() {
@@ -141,13 +143,18 @@ void GalaxisGameView::updateConnected() {
 }
 
 void GalaxisGameView::updateGameOver() {
-    if (_galaxisModel->isGameOver())
-        lv_label_set_text(ui_StatusLabel, String(GAME_OVER_MESSAGE).c_str());
-    else
+    if (_galaxisModel->isGameOver()) {
+        if (_galaxisModel->isWinner()) {
+            lv_label_set_text(ui_StatusLabel, String(GAME_OVER_WINNER_MESSAGE).c_str());
+        } else {
+            lv_label_set_text(ui_StatusLabel, String(GAME_OVER_MESSAGE).c_str());
+        }
+    } else
         lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }
 
 void GalaxisGameView::updateParticipantShipCount() {
-    lv_meter_set_indicator_start_value(your_meter, your_indicator, 100 - (_galaxisModel->getParticipantShipCount() * 25));
+    lv_meter_set_indicator_start_value(your_meter, your_indicator,
+                                       100 - (_galaxisModel->getParticipantShipCount() * 25));
     lv_meter_set_indicator_end_value(your_meter, your_indicator, 100);
 }

@@ -20,6 +20,7 @@
 #define PIN_ENC_IN2 D0
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
+#define PIN_TONE_OUTPUT D4;
 #endif
 
 #define MAX_X 9
@@ -30,11 +31,14 @@
 #define GALAXIS_CHARACTERISTIC_UUID "5A9AB001-CF0B-4281-BB4F-60C67E9ACC28"
 
 #ifdef DE
-#define START_MESSAGE "Los gehts"
+#define START_MESSAGE "Du bist dran"
 #define WAITING_FOR_PLAYER "Warte auf Spieler "
 #define CONNECTING "Verbinde ..."
 #define PLAYER "Spieler "
 #define GAME_OVER_MESSAGE "Game over"
+#define GAME_OVER_HINT "Nochmal spielen?"
+#define GAME_OVER_WINNER_MESSAGE "Gewinner"
+#define GAME_OVER_WINNER_HINT "Nochmal spielen?"
 #define MAIN_MENU_SINGLE "Einzel";
 #define MAIN_MENU_SINGLE_HINT "Einzelspiel";
 #define MAIN_MENU_NEW_GAME "Neu";
@@ -48,6 +52,9 @@
 #define CONNECTING "Connecting ..."
 #define PLAYER "Player "
 #define GAME_OVER_MESSAGE "Game over"
+#define GAME_OVER_HINT "Press button for new game"
+#define GAME_OVER_WINNER_MESSAGE "** You Won **"
+#define GAME_OVER_WINNER_HINT "Press button for new game"
 #define MAIN_MENU_SINGLE "Single";
 #define MAIN_MENU_SINGLE_HINT "Singleplayer game";
 #define MAIN_MENU_NEW_GAME "New";

@@ -33,6 +33,8 @@ private :
     void showPeriheralGameView();
 
     void showGameOverView();
+
+    void showWinnerView();
 };
 
 

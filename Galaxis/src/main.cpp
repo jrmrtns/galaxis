@@ -6,6 +6,8 @@
 #include "screen_manager.h"
 #include "settings.h"
 
+const int TONE_PWM_CHANNEL = 0;
+
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 
@@ -48,10 +50,10 @@ void checkPosition() {
 void sleep(bool value) {
     if (value) {
         tft.writecommand(0x10);   // Send command to put the display to sleep.
-        delay(150);           // Delay for shutdown time before another command can be sent.
+        delay(150);               // Delay for shutdown time before another command can be sent.
     } else {
         tft.init();               // This sends the wake up command and initialises the display
-        delay(50);            // Extra delay to stop a "white flash" while the TFT is initialising.
+        delay(50);                // Extra delay to stop a "white flash" while the TFT is initialising.
     }
 }
 
@@ -115,8 +117,10 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 void setup() {
     Serial.begin(115200);
 
-    pinMode(PIN_ENC_BUTTON, OUTPUT);
+#ifdef PIN_ENC_GROUND
+    pinMode(PIN_ENC_GROUND, OUTPUT);
     digitalWrite(PIN_ENC_GROUND, LOW);
+#endif
 
     lv_init();
 
@@ -152,6 +156,12 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
+    for (int i=1; i<20; i++) {
+        ledcWriteTone(TONE_PWM_CHANNEL, i * 100);
+        ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 4);
+        delay(10);
+    }
+    ledcWrite(TONE_PWM_CHANNEL, 0);
     screenManager->show(MENU);
 }
 
