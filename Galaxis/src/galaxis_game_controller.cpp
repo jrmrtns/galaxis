@@ -48,7 +48,7 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
     }
 
     if (message.command == GAME_OVER) {
-        handleGameOver();
+        handleGameOver(message.param1);
     }
 
     if (message.command == NEW_GAME) {
@@ -78,9 +78,10 @@ void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
 //    _galaxisModel->setHint("");
 }
 
-void GalaxisGameController::handleGameOver() {
+void GalaxisGameController::handleGameOver(uint8_t i) {
     _galaxisGame->shutdown();
     _galaxisModel->setGameOver(true);
+    _galaxisModel->setWinner(i == _galaxisModel->getMe());
 }
 
 void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage message) {

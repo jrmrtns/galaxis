@@ -12,7 +12,7 @@
 class MainMenuModel : public Subject {
 private:
     uint8_t _menu = 0;
-    Screen _selectedMenuItem = Screen::NONE;
+    Screen _selectedMenuItem = Screen::NO_CHANGE;
 public:
     Screen getSelectedMenuItem() const;
 

@@ -6,7 +6,7 @@
 #include "screen_manager.h"
 #include "settings.h"
 
-#define BAT_ADC_PIN A0
+const int TONE_PWM_CHANNEL = 0;
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
@@ -94,11 +94,7 @@ void extendGameView() {
 void initialize_encoder() {
     pinMode(PIN_ENC_BUTTON, INPUT_PULLUP);
 
-#if ARDUINO_M5Stack_StampS3
-    encoder = new RotaryEncoder(PIN_ENC_IN1, PIN_ENC_IN2, RotaryEncoder::LatchMode::FOUR3);
-#else
     encoder = new RotaryEncoder(PIN_ENC_IN1, PIN_ENC_IN2, RotaryEncoder::LatchMode::TWO03);
-#endif
     encoder->setPosition((1000 * MAX_X * MAX_Y));
 
     attachInterrupt(digitalPinToInterrupt(PIN_ENC_IN1), checkPosition, CHANGE);
@@ -159,6 +155,12 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
+    for (int i=1; i<20; i++) {
+        ledcWriteTone(TONE_PWM_CHANNEL, i * 100);
+        ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 4);
+        delay(10);
+    }
+    ledcWrite(TONE_PWM_CHANNEL, 0);
     screenManager->show(MENU);
 }
 
