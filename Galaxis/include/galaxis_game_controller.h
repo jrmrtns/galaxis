@@ -34,7 +34,7 @@ private:
 
     void handleNextMessage(const GalaxisMessage &message);
 
-    void handleGameOver();
+    void handleGameOver(uint8_t i);
 
     void handleSearchMessageForParticipants(GalaxisMessage message);
 

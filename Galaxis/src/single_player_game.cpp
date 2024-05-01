@@ -8,6 +8,8 @@
 
 SinglePlayerGame::SinglePlayerGame() {
     _galaxis = std::make_unique<Galaxis>(1, single_board, false);
+
+    _galaxis->dumpCurrent();
 }
 
 void SinglePlayerGame::shutdown() {

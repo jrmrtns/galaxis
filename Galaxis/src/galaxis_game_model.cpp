@@ -132,3 +132,11 @@ void GalaxisGameModel::setStarted(bool started) {
     _started = started;
     notifyView(ViewUpdateMessage::Started);
 }
+
+bool GalaxisGameModel::isWinner() const {
+    return _winner;
+}
+
+void GalaxisGameModel::setWinner(bool winner) {
+    _winner = winner;
+}

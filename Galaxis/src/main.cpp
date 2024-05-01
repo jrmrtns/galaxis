@@ -6,7 +6,7 @@
 #include "screen_manager.h"
 #include "settings.h"
 
-#define BAT_ADC_PIN A0
+const int TONE_PWM_CHANNEL = 0;
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
@@ -91,7 +91,6 @@ void extendGameView() {
     your_indicator = lv_meter_add_arc(your_meter, your_scale, 20, secondary, 0);
 }
 
-
 void initialize_encoder() {
     pinMode(PIN_ENC_BUTTON, INPUT_PULLUP);
 
@@ -116,10 +115,6 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    //randomSeed(analogRead(A0));
-
-    //pinMode(BAT_ADC_PIN, INPUT);
-    analogReadResolution(12);
 
 #ifdef PIN_ENC_GROUND
     pinMode(PIN_ENC_GROUND, OUTPUT);
@@ -160,6 +155,12 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
+    for (int i=1; i<20; i++) {
+        ledcWriteTone(TONE_PWM_CHANNEL, i * 100);
+        ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 4);
+        delay(10);
+    }
+    ledcWrite(TONE_PWM_CHANNEL, 0);
     screenManager->show(MENU);
 }
 
@@ -172,10 +173,6 @@ void checkButtonState() {
 
     if (button == LOW && lastButtonState == LOW && ((millis() - lastButtonPress) > 3 * 1000)) {
         esp_restart();
-        //ESP.deepSleep(10 * 1000 * 1000);
-        //sleep(true);
-        //esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0);
-        //esp_deep_sleep_start();
     }
 }
 
@@ -184,6 +181,4 @@ void loop() {
     lv_timer_handler();
     BLE.poll();
     screenManager->loop();
-    //auto v = (float)analogReadMilliVolts(A0) * conversion_factor;
-    //lv_label_set_text(ui_MainMenuHint, String(v, 1).c_str());
 }
