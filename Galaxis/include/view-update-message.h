@@ -10,7 +10,17 @@
 #include <cstdio>
 
 enum ViewUpdateMessage {
-    Coordinates, SearchResult, ShipCount, ParticipantShipCount, Active, Hint, Connected, GameOver, MenuItemChanged, Started
+    Coordinates,
+    SearchResult,
+    ShipCount,
+    ParticipantShipCount,
+    Active,
+    Hint,
+    Connected,
+    GameOver,
+    MenuItemChanged,
+    Started,
+    Searching
 };
 
 #endif //GALAXIS_VIEW_UPDATE_MESSAGE_H

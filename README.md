@@ -42,6 +42,10 @@ Translated with www.DeepL.com/Translator (free version)
 
 [The original rules from 1980 (in german language)](https://www.ravensburger.de/spielanleitungen/ecm/Spielanleitungen/Galaxis_Electronic.pdf)
 
+## Deployment
+If you prefer to use a precompiled version, just connect a suitable device to the USB port on your computer and visit [https://jrmrtns.github.io/galaxis/](https://jrmrtns.github.io/galaxis/)
+in Chrome or Edge browser and follow instructions on the page.
+
 ## Build
 
 The build-process requires an installation
@@ -136,9 +140,9 @@ Build and upload the software to the chip, snap the Display.stl into the case an
 
 ## Paperware
 
-If you do not have access to a 3d printer, or while your printer is working (and mine was working for quite a long
+If you do not have access to a 3d printer, like to test the game before printing or while your printer is working (and mine was working for quite a long
 time), there is a
-[pdf to print out a board](./assets/sheet.pdf). With this sheet, Galaxis can be played using paper and pencil.
+[pdf to print out a board](./assets/sheet.pdf). This sheet replaces the 3d printed parts.
 
 ## Credits
 

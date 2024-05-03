@@ -36,6 +36,7 @@ private:
     int _lastButtonState = HIGH;
     uint32_t _lastButtonPress = 0;
     uint32_t _debounceTimeSpan = 25;
+    uint32_t _endAnimationTime = 0;
 
     void updateShipCount();
 
@@ -48,6 +49,10 @@ private:
     void updateGameOver();
 
     void updateParticipantShipCount();
+
+    void startSearching();
+
+    void endSearching();
 };
 
 

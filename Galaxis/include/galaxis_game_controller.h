@@ -20,6 +20,8 @@ public:
 
     void btnClick(int position);
 
+    void makeGuess(int position);
+
     void initialize();
 
 protected:

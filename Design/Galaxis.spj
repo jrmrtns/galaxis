@@ -2082,6 +2082,17 @@
                         "strtype": "_style/Text_Font",
                         "strval": "Destruct36",
                         "InheritedType": 3
+                      },
+                      {
+                        "nid": -80709563,
+                        "strtype": "_style/Bg_Color",
+                        "intarray": [
+                          0,
+                          0,
+                          0,
+                          255
+                        ],
+                        "InheritedType": 7
                       }
                     ],
                     "InheritedType": 1
@@ -2926,7 +2937,7 @@
                   {
                     "nid": 1453497386,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
+                    "strval": "assets/_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
                     "InheritedType": 5
                   }
                 ],
@@ -3830,7 +3841,7 @@
                   {
                     "nid": -531991205,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
+                    "strval": "assets/_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
                     "InheritedType": 5
                   }
                 ],
@@ -3871,7 +3882,206 @@
     ],
     "saved_objtypeKey": "STARTEVENTS"
   },
-  "animations": [],
+  "animations": [
+    {
+      "propertyAnimations": [
+        {
+          "Path": 0,
+          "KeyFrames": [
+            {
+              "Value": 0,
+              "Time": 0.0,
+              "InheritedType": 1
+            },
+            {
+              "Value": 255,
+              "Time": 1000.0,
+              "InheritedType": 1
+            }
+          ],
+          "TimeReference": 0,
+          "ValueReference": 0,
+          "EarlyApply": false,
+          "ImageSet": "",
+          "PlaybackTime": 0,
+          "PlaybackDelay": 0,
+          "LoopCount": 5,
+          "LoopDelay": 0,
+          "LoopInfinite": false,
+          "guid": "GUID81761876-404304S3653124",
+          "deepid": -1056455919,
+          "locked": false,
+          "properties": [
+            {
+              "nid": 863060583,
+              "strtype": "PROPERTYANIMATION/Name",
+              "strval": "Opacity",
+              "InheritedType": 10
+            },
+            {
+              "nid": -2130538481,
+              "strtype": "PROPERTYANIMATION/VariableName",
+              "strval": "PropertyAnimation_0",
+              "InheritedType": 10
+            },
+            {
+              "nid": -1744148696,
+              "strtype": "PROPERTYANIMATION/PropertyFunction",
+              "strval": "anim_callback_set_opacity",
+              "InheritedType": 10
+            },
+            {
+              "nid": -1897637571,
+              "strtype": "PROPERTYANIMATION/StartValue",
+              "InheritedType": 6
+            },
+            {
+              "nid": 423530945,
+              "strtype": "PROPERTYANIMATION/EndValue",
+              "integer": 255,
+              "InheritedType": 6
+            },
+            {
+              "nid": 211450058,
+              "strtype": "PROPERTYANIMATION/AbsoluteReference",
+              "strval": "True",
+              "InheritedType": 2
+            },
+            {
+              "nid": -681181970,
+              "strtype": "PROPERTYANIMATION/Delay",
+              "InheritedType": 6
+            },
+            {
+              "nid": -156996926,
+              "strtype": "PROPERTYANIMATION/Duration",
+              "integer": 1000,
+              "InheritedType": 6
+            },
+            {
+              "nid": -1048152142,
+              "strtype": "PROPERTYANIMATION/Path",
+              "strval": "linear",
+              "InheritedType": 3
+            },
+            {
+              "nid": -75675000,
+              "strtype": "PROPERTYANIMATION/FullAnimationDuration",
+              "integer": 1000,
+              "InheritedType": 6
+            },
+            {
+              "nid": -739194093,
+              "strtype": "PROPERTYANIMATION/LoopCount",
+              "integer": 5,
+              "InheritedType": 6
+            },
+            {
+              "nid": 295173812,
+              "strtype": "PROPERTYANIMATION/Forward",
+              "strval": "True",
+              "InheritedType": 2
+            },
+            {
+              "nid": 282562219,
+              "strtype": "PROPERTYANIMATION/Backward",
+              "strval": "False",
+              "InheritedType": 2
+            },
+            {
+              "nid": -1045393179,
+              "strtype": "PROPERTYANIMATION/EarlyApply",
+              "strval": "False",
+              "InheritedType": 2
+            },
+            {
+              "nid": -748360160,
+              "strtype": "PROPERTYANIMATION/PropertyGetter",
+              "strval": "anim_callback_get_opacity",
+              "InheritedType": 10
+            },
+            {
+              "nid": 203723934,
+              "strtype": "PROPERTYANIMATION/LoopDelay",
+              "InheritedType": 6
+            },
+            {
+              "nid": 699844656,
+              "strtype": "PROPERTYANIMATION/PlaybackDelay",
+              "InheritedType": 6
+            },
+            {
+              "nid": -1848394301,
+              "strtype": "PROPERTYANIMATION/PlaybackTime",
+              "InheritedType": 6
+            },
+            {
+              "nid": 556819617,
+              "strtype": "PROPERTYANIMATION/LoopInfinite",
+              "strval": "False",
+              "InheritedType": 2
+            },
+            {
+              "nid": 1298609012,
+              "strtype": "PROPERTYANIMATION/ImageSet",
+              "strval": "",
+              "InheritedType": 14
+            }
+          ],
+          "saved_objtypeKey": "PROPERTYANIMATION",
+          "InheritedType": 1
+        }
+      ],
+      "guid": "GUID3268246-404295S4143124",
+      "deepid": 1575240012,
+      "locked": false,
+      "properties": [
+        {
+          "nid": 2049048419,
+          "strtype": "ELOANIMATION/Name",
+          "strval": "search_anim",
+          "InheritedType": 10
+        },
+        {
+          "nid": -351869902,
+          "strtype": "ELOANIMATION/FunctionName",
+          "strval": "search_anim_Animation",
+          "InheritedType": 10
+        },
+        {
+          "nid": 2039444261,
+          "strtype": "ELOANIMATION/AnimationTargetObjectType",
+          "strval": "BASIC",
+          "InheritedType": 10
+        },
+        {
+          "nid": -1021769637,
+          "strtype": "ELOANIMATION/PlayType",
+          "strval": "Forward",
+          "InheritedType": 3
+        },
+        {
+          "nid": 1187026532,
+          "strtype": "ELOANIMATION/Loop",
+          "strval": "False",
+          "InheritedType": 2
+        },
+        {
+          "nid": -822209937,
+          "strtype": "ELOANIMATION/TestTarget",
+          "strval": "GUID46552183-345745S7482281",
+          "InheritedType": 10
+        },
+        {
+          "nid": -1900439802,
+          "strtype": "ELOANIMATION/TargetTypeFilter",
+          "strval": "",
+          "InheritedType": 10
+        }
+      ],
+      "saved_objtypeKey": "ELOANIMATION"
+    }
+  ],
   "selected_theme": "Default",
   "info": {
     "name": "Galaxis",
@@ -3898,7 +4108,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib\\ui",
     "projectExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib",
-    "backup_cnt": 174,
+    "backup_cnt": 193,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",
