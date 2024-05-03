@@ -173,7 +173,7 @@ void GalaxisGameView::startSearching() {
     _endAnimationTime = millis() + 5000;
     lv_obj_set_style_opa(ui_Coordinates, 0, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_label_set_text(ui_Coordinates, "Scanning");
+    lv_label_set_text(ui_Coordinates, String(GAME_SCANNING_MESSAGE).c_str());
     lv_label_set_text(ui_SearchResult, "");
     lv_label_set_text(ui_StatusLabel, "");
     search_anim_Animation(ui_Coordinates, 0);
