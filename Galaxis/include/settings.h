@@ -14,6 +14,7 @@
 #define PIN_ENC_IN1 41
 #define PIN_ENC_IN2 40
 #define PIN_ENC_BUTTON 42
+#define PIN_TONE_OUTPUT 3
 #else
 #define PIN_ENC_IN1 D1
 #define PIN_ENC_IN2 D0

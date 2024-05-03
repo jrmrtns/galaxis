@@ -46,6 +46,8 @@ void ui_Game_screen_init(void)
     lv_obj_set_style_text_line_space(ui_Coordinates, 12, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_Coordinates, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Coordinates, &ui_font_Destruct36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Coordinates, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_StatusLabel = lv_label_create(ui_Game);
     lv_obj_set_width(ui_StatusLabel, LV_SIZE_CONTENT);   /// 1

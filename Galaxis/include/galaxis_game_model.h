@@ -57,6 +57,13 @@ public:
 
     void setStarted(bool started);
 
+    bool isSearching() const;
+
+    void setSearching(bool searching);
+
+    bool isWinner() const;
+
+    void setWinner(bool won);
 private:
     uint8_t _me = 0;
     uint8_t _current = 0;
@@ -70,9 +77,7 @@ private:
     bool _gameOver = false;
     bool _winner = false;
     bool _started = false;
-public:
-    bool isWinner() const;
-    void setWinner(bool won);
+    bool _searching = false;
 };
 
 

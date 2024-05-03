@@ -56,8 +56,8 @@ uint8_t GalaxisGameModel::getLastSearchResult() const {
 }
 
 void GalaxisGameModel::setLastSearchResult(uint8_t lastSearchResult) {
-    if (_lastSearchResult == lastSearchResult)
-        return;
+    //if (_lastSearchResult == lastSearchResult)
+    //    return;
     _lastSearchResult = lastSearchResult;
     notifyView(ViewUpdateMessage::SearchResult);
 }
@@ -140,3 +140,14 @@ bool GalaxisGameModel::isWinner() const {
 void GalaxisGameModel::setWinner(bool winner) {
     _winner = winner;
 }
+
+bool GalaxisGameModel::isSearching() const {
+    return _searching;
+}
+
+void GalaxisGameModel::setSearching(bool searching) {
+    if (searching == _searching)
+        return;
+
+    _searching = searching;
+    notifyView(ViewUpdateMessage::Searching);}

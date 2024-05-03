@@ -25,6 +25,7 @@ extern "C" {
 #include "ui_helpers.h"
 #include "ui_events.h"
 
+void search_anim_Animation(lv_obj_t * TargetObject, int delay);
 // SCREEN: ui_SplashScreen
 void ui_SplashScreen_screen_init(void);
 extern lv_obj_t * ui_SplashScreen;
