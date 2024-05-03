@@ -24,8 +24,7 @@ void GalaxisGameController::btnClick(int position) {
     if (_galaxisModel->isGameOver())
         return;
 
-    uint32_t p = position % (MAX_X * MAX_Y);
-    _galaxisGame->makeGuess(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
+    _galaxisModel->setSearching(true);
 }
 
 void GalaxisGameController::messageReceived(GalaxisMessage message) {
@@ -75,7 +74,6 @@ void GalaxisGameController::initialize() {
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
     uint8_t nextUser = message.param1;
     _galaxisModel->setCurrent(nextUser);
-//    _galaxisModel->setHint("");
 }
 
 void GalaxisGameController::handleGameOver(uint8_t i) {
@@ -117,4 +115,9 @@ void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
 
 void GalaxisGameController::reset() {
     _galaxisModel->reset();
+}
+
+void GalaxisGameController::makeGuess(int position) {
+    uint32_t p = position % (MAX_X * MAX_Y);
+    _galaxisGame->makeGuess(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
 }

@@ -58,6 +58,9 @@ void GalaxisGameView::update(int param) {
             break;
         case Started:
             break;
+        case Searching:
+            startSearching();
+            break;
     }
 }
 
@@ -130,6 +133,10 @@ Screen GalaxisGameView::loop() {
             return Screen::WINNER_SCREEN;
         return Screen::GAME_OVER_SCREEN;
     }
+
+    if (_endAnimationTime != 0 && millis() > _endAnimationTime){
+        endSearching();
+    }
     return Screen::NO_CHANGE;
 }
 
@@ -157,4 +164,25 @@ void GalaxisGameView::updateParticipantShipCount() {
     lv_meter_set_indicator_start_value(your_meter, your_indicator,
                                        100 - (_galaxisModel->getParticipantShipCount() * 25));
     lv_meter_set_indicator_end_value(your_meter, your_indicator, 100);
+}
+
+void GalaxisGameView::startSearching() {
+    if (!_galaxisModel->isSearching())
+        return;
+
+    _endAnimationTime = millis() + 5000;
+    lv_obj_set_style_opa(ui_Coordinates, 0, LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_Coordinates, "Scanning");
+    lv_label_set_text(ui_SearchResult, "");
+    lv_label_set_text(ui_StatusLabel, "");
+    search_anim_Animation(ui_Coordinates, 0);
+}
+
+void GalaxisGameView::endSearching() {
+    _galaxisModel->setSearching(false);
+    _endAnimationTime = 0;
+    updateCoordinates();
+
+    _galaxisController->makeGuess(_encoder->getPosition());
 }
