@@ -39,13 +39,14 @@
 #define GAME_OVER_HINT "Nochmal spielen?"
 #define GAME_OVER_WINNER_MESSAGE "Gewinner"
 #define GAME_OVER_WINNER_HINT "Nochmal spielen?"
-#define MAIN_MENU_SINGLE "Einzel";
-#define MAIN_MENU_SINGLE_HINT "Einzelspiel";
-#define MAIN_MENU_NEW_GAME "Neu";
-#define MAIN_MENU_NEW_GAME_HINT "Neues Spiel starten";
-#define MAIN_MENU_JOIN "Join";
-#define MAIN_MENU_JOIN_HINT "Einem Spiel beitreten";
-#define MAIN_MENU_OFF "Off";
+#define MAIN_MENU_SINGLE "Einzel"
+#define MAIN_MENU_SINGLE_HINT "Einzelspiel"
+#define MAIN_MENU_NEW_GAME "Neu"
+#define MAIN_MENU_NEW_GAME_HINT "Neues Spiel starten"
+#define MAIN_MENU_JOIN "Join"
+#define MAIN_MENU_JOIN_HINT "Einem Spiel beitreten"
+#define MAIN_MENU_OFF "Off"
+#define GAME_SCANNING_MESSAGE "Suche"
 #else
 #define START_MESSAGE "Start..."
 #define WAITING_FOR_PLAYER "Waiting for player "
@@ -55,13 +56,14 @@
 #define GAME_OVER_HINT "Press button for new game"
 #define GAME_OVER_WINNER_MESSAGE "** You Won **"
 #define GAME_OVER_WINNER_HINT "Press button for new game"
-#define MAIN_MENU_SINGLE "Single";
-#define MAIN_MENU_SINGLE_HINT "Singleplayer game";
-#define MAIN_MENU_NEW_GAME "New";
-#define MAIN_MENU_NEW_GAME_HINT "Start new game";
-#define MAIN_MENU_JOIN "Join";
-#define MAIN_MENU_JOIN_HINT "Join a game";
-#define MAIN_MENU_OFF "Off";
+#define MAIN_MENU_SINGLE "Single"
+#define MAIN_MENU_SINGLE_HINT "Singleplayer game"
+#define MAIN_MENU_NEW_GAME "New"
+#define MAIN_MENU_NEW_GAME_HINT "Start new game"
+#define MAIN_MENU_JOIN "Join"
+#define MAIN_MENU_JOIN_HINT "Join a game"
+#define MAIN_MENU_OFF "Off"
+#define GAME_SCANNING_MESSAGE "Scanning"
 #endif
 
 const float conversion_factor = 3.3f / (1 << 12) * 3;
