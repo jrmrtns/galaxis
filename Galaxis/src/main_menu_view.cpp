@@ -77,7 +77,7 @@ void MainMenuView::updateMenuItem() {
         txt = MAIN_MENU_SINGLE;
     }
     if (_model->getMenu() == 3)
-        txt = MAIN_MENU_OFF
+        txt = MAIN_MENU_OFF;
 
     lv_label_set_text(ui_MainMenuItem, txt.c_str());
     lv_label_set_text(ui_MainMenuHint, hint.c_str());
