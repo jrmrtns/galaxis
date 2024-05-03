@@ -20,7 +20,7 @@
 #define PIN_ENC_IN2 D0
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
-#define PIN_TONE_OUTPUT D4;
+#define PIN_TONE_OUTPUT D4
 #endif
 
 #define MAX_X 9
