@@ -14,13 +14,13 @@
 #define PIN_ENC_IN1 41
 #define PIN_ENC_IN2 40
 #define PIN_ENC_BUTTON 42
-#define PIN_ENC_GROUND -1
+#define PIN_TONE_OUTPUT 3
 #else
 #define PIN_ENC_IN1 D1
 #define PIN_ENC_IN2 D0
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
-#define PIN_TONE_OUTPUT D4;
+#define PIN_TONE_OUTPUT D4
 #endif
 
 #define MAX_X 9

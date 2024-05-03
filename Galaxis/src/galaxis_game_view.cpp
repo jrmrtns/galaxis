@@ -170,12 +170,14 @@ void GalaxisGameView::startSearching() {
     if (!_galaxisModel->isSearching())
         return;
 
-    _endAnimationTime = millis() + 5000;
+    _endAnimationTime = millis() + 5500;
     lv_obj_set_style_opa(ui_Coordinates, 0, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_label_set_text(ui_Coordinates, "Scanning");
     lv_label_set_text(ui_SearchResult, "");
     lv_label_set_text(ui_StatusLabel, "");
+    lv_label_set_text(ui_CoordinatesX, "");
+    lv_label_set_text(ui_CoordinatesY, "");
     search_anim_Animation(ui_Coordinates, 0);
 }
 
@@ -183,6 +185,7 @@ void GalaxisGameView::endSearching() {
     _galaxisModel->setSearching(false);
     _endAnimationTime = 0;
     updateCoordinates();
+    lv_obj_set_style_opa(ui_Coordinates, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     _galaxisController->makeGuess(_encoder->getPosition());
 }
