@@ -16,12 +16,18 @@ GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galax
 }
 
 void GalaxisGameController::move(int position) {
+    if (_galaxisModel->isSearching())
+        return;
+
     uint32_t p = position % (MAX_X * MAX_Y);
     _galaxisModel->setCoordinates(p / MAX_Y, p % MAX_Y);
 }
 
-void GalaxisGameController::btnClick(int position) {
+void GalaxisGameController::btnClick() {
     if (_galaxisModel->isGameOver())
+        return;
+
+    if (_galaxisModel->getCurrent() != _galaxisModel->getMe())
         return;
 
     _galaxisModel->setSearching(true);

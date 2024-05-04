@@ -6,8 +6,6 @@
 #include "screen_manager.h"
 #include "settings.h"
 
-const int TONE_PWM_CHANNEL = 0;
-
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 

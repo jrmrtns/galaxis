@@ -52,6 +52,7 @@ void MainMenuView::update(int param) {
         case Connected:
         case GameOver:
         case Started:
+        case Searching:
         case ParticipantShipCount:
             break;
         case MenuItemChanged:
