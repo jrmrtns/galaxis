@@ -122,7 +122,7 @@ Screen GalaxisGameView::loop() {
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
         if (button == HIGH) {
-            _galaxisController->btnClick(position);
+            _galaxisController->btnClick();
         }
         _lastButtonState = button;
         _lastButtonPress = millis();
@@ -170,7 +170,7 @@ void GalaxisGameView::startSearching() {
     if (!_galaxisModel->isSearching())
         return;
 
-    _endAnimationTime = millis() + 5500;
+    _endAnimationTime = millis() + 3200;
     lv_obj_set_style_opa(ui_Coordinates, 0, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_label_set_text(ui_Coordinates, String(GAME_SCANNING_MESSAGE).c_str());
