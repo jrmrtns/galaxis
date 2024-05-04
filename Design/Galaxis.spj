@@ -3841,7 +3841,7 @@
                   {
                     "nid": -531991205,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets/_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
+                    "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
                     "InheritedType": 5
                   }
                 ],
@@ -3905,7 +3905,7 @@
           "ImageSet": "",
           "PlaybackTime": 0,
           "PlaybackDelay": 0,
-          "LoopCount": 5,
+          "LoopCount": 3,
           "LoopDelay": 0,
           "LoopInfinite": false,
           "guid": "GUID81761876-404304S3653124",
@@ -3973,7 +3973,7 @@
             {
               "nid": -739194093,
               "strtype": "PROPERTYANIMATION/LoopCount",
-              "integer": 5,
+              "integer": 3,
               "InheritedType": 6
             },
             {
@@ -4108,7 +4108,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib\\ui",
     "projectExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib",
-    "backup_cnt": 193,
+    "backup_cnt": 195,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",

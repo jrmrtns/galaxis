@@ -6,8 +6,6 @@
 #include "screen_manager.h"
 #include "settings.h"
 
-const int TONE_PWM_CHANNEL = 0;
-
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 
@@ -155,7 +153,7 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
-    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
+    //ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
     //for (int i=1; i<20; i++) {
     //    ledcWriteTone(TONE_PWM_CHANNEL, i * 100);
     //    //ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 4);
