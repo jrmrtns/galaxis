@@ -18,7 +18,7 @@ public:
 
     void move(int position);
 
-    void btnClick(int position);
+    void btnClick();
 
     void makeGuess(int position);
 
