@@ -15,12 +15,14 @@
 #define PIN_ENC_IN2 40
 #define PIN_ENC_BUTTON 42
 #define PIN_TONE_OUTPUT 3
+#define TONE_PWM_CHANNEL 0
 #else
 #define PIN_ENC_IN1 D1
 #define PIN_ENC_IN2 D0
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
-#define PIN_TONE_OUTPUT D4
+//#define PIN_TONE_OUTPUT D4
+#define TONE_PWM_CHANNEL 0
 #endif
 
 #define MAX_X 9

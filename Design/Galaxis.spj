@@ -1401,7 +1401,7 @@
                   {
                     "nid": -158805984,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets/_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
+                    "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
                     "InheritedType": 5
                   }
                 ],
@@ -3841,7 +3841,7 @@
                   {
                     "nid": -531991205,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets/_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
+                    "strval": "assets\\_55fb20de-87ae-4109-bf2d-083075e9aa51.png",
                     "InheritedType": 5
                   }
                 ],
