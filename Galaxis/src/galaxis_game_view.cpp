@@ -8,12 +8,16 @@
 #include "ui.h"
 #include "settings.h"
 #include "view-update-message.h"
+#include "noise_maker.h"
+#include "sounds.h"
 
 extern lv_obj_t *my_meter;
 extern lv_meter_indicator_t *my_indicator;
 
 extern lv_obj_t *your_meter;
 extern lv_meter_indicator_t *your_indicator;
+
+extern NoiseMaker *noiseMaker;
 
 GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<GalaxisGameController> galaxisController,
                                  std::shared_ptr<GalaxisGameModel> galaxisModel) : _encoder(encoder),
@@ -100,16 +104,29 @@ void GalaxisGameView::updateSearchResult() {
         return;
 
     String txt = " ";
-    if (searchResult == 0xff)
+    if (searchResult == 0xff) {
         txt = "*";
-    else if (searchResult == 0xfe)
+        if (_galaxisModel->getShipCount() < SHIP_COUNT)
+            noiseMaker->appendTones(found, 15);
+    } else if (searchResult == 0xfe)
         txt = "-";
     else if (searchResult == 0xfa)
         txt = " ";
-    else
+    else {
         txt[0] = char(0x30 + searchResult);
+    }
 
     lv_label_set_text(ui_SearchResult, txt.c_str());
+    if (searchResult == 0)
+        noiseMaker->appendTones(beep_0, 1);
+    if (searchResult == 1)
+        noiseMaker->appendTones(beep_1, 2);
+    if (searchResult == 2)
+        noiseMaker->appendTones(beep_2, 4);
+    if (searchResult == 3)
+        noiseMaker->appendTones(beep_3, 6);
+    if (searchResult == 4)
+        noiseMaker->appendTones(beep_4, 8);
 }
 
 Screen GalaxisGameView::loop() {
@@ -134,7 +151,7 @@ Screen GalaxisGameView::loop() {
         return Screen::GAME_OVER_SCREEN;
     }
 
-    if (_endAnimationTime != 0 && millis() > _endAnimationTime){
+    if (_endAnimationTime != 0 && millis() > _endAnimationTime) {
         endSearching();
     }
     return Screen::NO_CHANGE;
@@ -170,13 +187,14 @@ void GalaxisGameView::startSearching() {
     if (!_galaxisModel->isSearching())
         return;
 
-    _endAnimationTime = millis() + 3200;
+    _endAnimationTime = millis() + 5200;
     lv_obj_set_style_opa(ui_Coordinates, 0, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_label_set_text(ui_Coordinates, String(GAME_SCANNING_MESSAGE).c_str());
     lv_label_set_text(ui_SearchResult, "");
     lv_label_set_text(ui_StatusLabel, "");
     search_anim_Animation(ui_Coordinates, 0);
+    noiseMaker->appendTones(search, 13);
 }
 
 void GalaxisGameView::endSearching() {

@@ -62,10 +62,10 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
 }
 
 void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
-    _galaxisModel->setLastSearchResult(message.param1);
     if (message.param1 == 0xff) {
         _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
     }
+    _galaxisModel->setLastSearchResult(message.param1);
     _galaxisModel->setHint("");
 }
 
