@@ -65,7 +65,7 @@ void search_anim_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
     lv_anim_set_playback_time(&PropertyAnimation_0, 0);
     lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_0, 3);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 5);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
     lv_anim_start(&PropertyAnimation_0);
