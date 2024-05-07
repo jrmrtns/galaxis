@@ -5,6 +5,9 @@
 #include "game_over_view.h"
 #include "ui.h"
 #include "settings.h"
+#include "noise_maker.h"
+
+extern NoiseMaker *noiseMaker;
 
 Screen GameOverView::loop() {
     int position = _encoder->getPosition();
@@ -27,6 +30,7 @@ Screen GameOverView::loop() {
 
 void GameOverView::show() {
     lv_scr_load_anim(ui_GameOver, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
+    noiseMaker->playWinner();
 }
 
 GameOverView::GameOverView(RotaryEncoder *encoder) : _encoder(encoder) {}
