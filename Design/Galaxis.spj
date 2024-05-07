@@ -1390,7 +1390,7 @@
                   {
                     "nid": -158805984,
                     "strtype": "_style/Bg_Image",
-                    "strval": "assets/bg2.png",
+                    "strval": "assets\\bg2.png",
                     "InheritedType": 5
                   }
                 ],
