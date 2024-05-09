@@ -17,6 +17,7 @@
 #define PIN_ENC_GROUND D2
 #define PIN_ENC_BUTTON D3
 #define PIN_TONE_OUTPUT D6
+#define PIN_SPEAKER_GROUND D7
 #define TONE_PWM_CHANNEL 0
 #endif
 

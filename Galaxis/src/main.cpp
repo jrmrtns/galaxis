@@ -6,7 +6,6 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
-#include "notes.h"
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
@@ -122,6 +121,16 @@ void setup() {
     digitalWrite(PIN_ENC_GROUND, LOW);
 #endif
 
+#ifndef SILENT
+    ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
+    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
+#endif
+
+#ifdef PIN_SPEAKER_GROUND
+    pinMode(PIN_SPEAKER_GROUND, OUTPUT);
+    digitalWrite(PIN_SPEAKER_GROUND, LOW);
+#endif
+
     lv_init();
 
     initialize_encoder();
@@ -157,26 +166,6 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
-
-    ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
-    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
-    //int beep_2[] = {
-    //        NOTE_B5, -8, REST, -8,
-    //        NOTE_B5, -8, REST, -8,
-    //};
-    //noiseMaker->playTones(beep_2, 4);
-
-    //ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
-    //ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
-    //noiseMaker->playTones(search, 15);
-    //noiseMaker->playTones(beep_0, 1);
-    //noiseMaker->playMelody(beep_1, 2);
-    //noiseMaker->playMelody(beep_2, 4);
-    //noiseMaker->playMelody(beep_3, 6);
-    //noiseMaker->playMelody(beep_4, 8);
-
-    //noiseMaker->playMelody(found, 15);
-    //noiseMaker->playWinner();
 
     screenManager->show(MENU);
 }
