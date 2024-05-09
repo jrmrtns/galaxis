@@ -28,6 +28,8 @@ private:
     bool isPlaying() const;
 
     void playNextTone();
+
+    void stopTone();
 };
 
 
