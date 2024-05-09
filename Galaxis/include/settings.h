@@ -19,6 +19,7 @@
 #define PIN_TONE_OUTPUT D6
 #define PIN_SPEAKER_GROUND D7
 #define TONE_PWM_CHANNEL 0
+#define PIN_SPEAKER_GROUND D7
 #endif
 
 #define MAX_X 9

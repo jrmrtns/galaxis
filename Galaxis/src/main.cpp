@@ -1,3 +1,5 @@
+#undef TFT_MISO
+
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 #include <ui.h>
