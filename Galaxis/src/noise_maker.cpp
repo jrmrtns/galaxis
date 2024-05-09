@@ -56,10 +56,14 @@ void NoiseMaker::loop() {
         return;
     }
 
+    stopTone();
+#endif
+}
+
+void NoiseMaker::stopTone() {
     _playUntil = 0;
     _currentTone = nullptr;
     noTone(PIN_TONE_OUTPUT);
-#endif
 }
 
 void NoiseMaker::playNextTone() {
