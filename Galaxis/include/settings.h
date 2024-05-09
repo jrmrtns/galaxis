@@ -18,6 +18,7 @@
 #define PIN_ENC_BUTTON D3
 #define PIN_TONE_OUTPUT D6
 #define TONE_PWM_CHANNEL 0
+#define PIN_SPEAKER_GROUND D7
 #endif
 
 #define MAX_X 9
