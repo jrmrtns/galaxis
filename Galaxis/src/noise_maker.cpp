@@ -51,12 +51,13 @@ void NoiseMaker::loop() {
     if (isPlaying())
         return;
 
-    if (!_tones.empty()) {
-        playNextTone();
+    if (_tones.empty()) {
+        stopTone();
         return;
     }
 
-    stopTone();
+    playNextTone();
+
 #endif
 }
 
@@ -79,17 +80,13 @@ void NoiseMaker::playWinner() {
 #ifdef SILENT
     return;
 #else
-    noTone(PIN_TONE_OUTPUT);
-
     for (int j = 0; j < 5; ++j) {
-        for (int i = 0; i < 100; i++) {
-            tone(PIN_TONE_OUTPUT, 475 + i * 5, 5);
+        for (int i = 0; i < 25; i++) {
+            _tones.push(std::make_unique<Tone>(Tone{440 + i * 30, 20}));
         }
-        for (int i = 100; i > 0; i--) {
-            tone(PIN_TONE_OUTPUT, 475 + i * 5, 5);
+        for (int i = 25; i > 0; i--) {
+            _tones.push(std::make_unique<Tone>(Tone{440 + i * 30, 20}));
         }
     }
-
-    noTone(PIN_TONE_OUTPUT);
 #endif
 }
