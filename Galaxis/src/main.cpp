@@ -5,9 +5,11 @@
 #include <ArduinoBLE.h>
 #include "screen_manager.h"
 #include "settings.h"
+#include "noise_maker.h"
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
+NoiseMaker *noiseMaker = nullptr;
 
 int screen_rotation = 1;
 
@@ -119,10 +121,21 @@ void setup() {
     digitalWrite(PIN_ENC_GROUND, LOW);
 #endif
 
+#ifndef SILENT
+    ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
+    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
+#endif
+
+#ifdef PIN_SPEAKER_GROUND
+    pinMode(PIN_SPEAKER_GROUND, OUTPUT);
+    digitalWrite(PIN_SPEAKER_GROUND, LOW);
+#endif
+
     lv_init();
 
     initialize_encoder();
     screenManager = new ScreenManager(encoder);
+    noiseMaker = new NoiseMaker();
 
     if (!BLE.begin()) {
         Serial.println("starting Bluetooth® Low Energy module failed!");
@@ -153,17 +166,6 @@ void setup() {
 
     lv_timer_handler();
     delay(2500);
-    //ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
-    //for (int i=1; i<20; i++) {
-    //    ledcWriteTone(TONE_PWM_CHANNEL, i * 100);
-    //    //ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 4);
-    //    delay(10);
-    //}
-    //ledcWrite(TONE_PWM_CHANNEL, 0);
-
-    //ledcWriteNote(TONE_PWM_CHANNEL, NOTE_C, 3);
-    //delay(1000);
-    //ledcWrite(TONE_PWM_CHANNEL, 0);
 
     screenManager->show(MENU);
 }
@@ -184,5 +186,6 @@ void loop() {
     checkButtonState();
     lv_timer_handler();
     BLE.poll();
+    noiseMaker->loop();
     screenManager->loop();
 }
