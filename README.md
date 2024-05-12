@@ -71,10 +71,11 @@ In case of PlatformIO Core CLI, please follow these instructions:
 * [Seeed XIAO ESP32-C3](https://www.berrybase.de/en/seeed-xiao-esp32c3-winziges-mcu-board-mit-wlan-und-ble
   ) or [Seeed XIAO ESP32-S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html)
 
-* [Adafruit ANO Rotary Encoder](https://www.berrybase.de/en/adafruit-ano-scrollrad-drehgeber
-  )
+* [Adafruit ANO Rotary Encoder](https://www.berrybase.de/en/adafruit-ano-scrollrad-drehgeber)
 
 * [PCB for Adafruit ANO Rotary Encoder](https://www.berrybase.de/en/adafruit-breakout-pcb-fuer-ano-scrollrad-drehgeber)
+
+* [Speaker (optional)](https://www.amazon.de/dp/B00X77TY96)
 
 ## 3D Files
 
