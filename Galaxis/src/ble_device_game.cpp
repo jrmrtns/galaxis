@@ -88,7 +88,7 @@ void BLEDeviceGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacter
     Serial.print(":");
     Serial.println(galaxisMessage.param2);
 
-    if (galaxisMessage.msgType != RESPONSE)
+    if (galaxisMessage.msgType != RESPONSE && galaxisMessage.msgType != PAIRING_RESPONSE)
         return;
 
     BLEDeviceGame::getInstance()->notifyObservers(galaxisMessage);
@@ -106,8 +106,8 @@ void BLEDeviceGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
 
 void BLEDeviceGame::NotifyUiConnected(bool connected) {
     GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
-    message.command = CONNECTED;
+    message.msgType = REQUEST;
+    message.command = CONNECT;
     message.id = 0;
     message.param1 = connected;
     message.param2 = 0;

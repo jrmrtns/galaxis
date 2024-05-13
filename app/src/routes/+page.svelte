@@ -1,6 +1,6 @@
 <script lang="ts">
 	let english = true;
-	let manifest = 'manifest/manifest-de.json';
+	let manifest = 'manifest/manifest-en.json';
 
 	const toggle = () => {
 		if (english) {

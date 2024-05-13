@@ -37,6 +37,7 @@ private:
     uint32_t _lastButtonPress = 0;
     uint32_t _debounceTimeSpan = 25;
     uint32_t _endAnimationTime = 0;
+    uint32_t _nextIdleToneTime = 0;
 
     void updateShipCount();
 
@@ -53,6 +54,10 @@ private:
     void startSearching();
 
     void endSearching();
+
+    void playIdle();
+
+    void playFeedback(uint8_t searchResult) const;
 };
 
 

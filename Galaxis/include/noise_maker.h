@@ -17,7 +17,7 @@ public:
     void playWinner();
 
     void loop();
-
+    
 private:
     int _tempo = 115;
     int _wholeNote = (60000 * 4) / _tempo;

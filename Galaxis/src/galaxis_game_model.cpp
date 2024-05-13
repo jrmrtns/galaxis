@@ -31,6 +31,7 @@ uint8_t GalaxisGameModel::getMe() const {
 
 void GalaxisGameModel::setMe(uint8_t me) {
     _me = me;
+    notifyView(ViewUpdateMessage::Active);
 }
 
 uint8_t GalaxisGameModel::getCurrent() const {

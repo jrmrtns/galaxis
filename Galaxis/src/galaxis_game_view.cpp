@@ -26,6 +26,7 @@ GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<Galaxis
                                                                                    _galaxisModel(
                                                                                            std::move(galaxisModel)) {
     _galaxisModel->registerObserver(this);
+    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
 }
 
 GalaxisGameView::~GalaxisGameView() {
@@ -106,8 +107,6 @@ void GalaxisGameView::updateSearchResult() {
     String txt = " ";
     if (searchResult == 0xff) {
         txt = "*";
-        if (_galaxisModel->getShipCount() < SHIP_COUNT)
-            noiseMaker->appendTones(found, 15);
     } else if (searchResult == 0xfe)
         txt = "-";
     else if (searchResult == 0xfa)
@@ -117,6 +116,11 @@ void GalaxisGameView::updateSearchResult() {
     }
 
     lv_label_set_text(ui_SearchResult, txt.c_str());
+
+    playFeedback(searchResult);
+}
+
+void GalaxisGameView::playFeedback(uint8_t searchResult) const {
     if (searchResult == 0)
         noiseMaker->appendTones(beep_0, 1);
     if (searchResult == 1)
@@ -127,6 +131,11 @@ void GalaxisGameView::updateSearchResult() {
         noiseMaker->appendTones(beep_3, 6);
     if (searchResult == 4)
         noiseMaker->appendTones(beep_4, 8);
+    if (searchResult == 0xfe)
+        noiseMaker->appendTones(nope, 7);
+    if (searchResult == 0xff)
+        if (_galaxisModel->getShipCount() < SHIP_COUNT)
+            noiseMaker->appendTones(found, 15);
 }
 
 Screen GalaxisGameView::loop() {
@@ -135,6 +144,8 @@ Screen GalaxisGameView::loop() {
         _galaxisController->move(position);
         _lastPosition = position;
     }
+
+    playIdle();
 
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
@@ -155,6 +166,13 @@ Screen GalaxisGameView::loop() {
         endSearching();
     }
     return Screen::NO_CHANGE;
+}
+
+void GalaxisGameView::playIdle() {
+    if (millis() > _nextIdleToneTime && _galaxisModel->isActive()) {
+        noiseMaker->appendTones(idle, 3);
+        _nextIdleToneTime = millis() + IDLE_TIME * 1000;
+    }
 }
 
 void GalaxisGameView::updateHint() {
@@ -184,6 +202,8 @@ void GalaxisGameView::updateParticipantShipCount() {
 }
 
 void GalaxisGameView::startSearching() {
+    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
+
     if (!_galaxisModel->isSearching())
         return;
 
@@ -200,6 +220,7 @@ void GalaxisGameView::startSearching() {
 }
 
 void GalaxisGameView::endSearching() {
+    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
     _galaxisModel->setSearching(false);
     _endAnimationTime = 0;
     updateCoordinates();

@@ -13,7 +13,7 @@
 
 class Galaxis {
 public:
-    Galaxis(int count, gameType gameType, bool time_limited);
+    Galaxis(gameType gameType, bool time_limited);
 
     virtual ~Galaxis();
 
@@ -23,7 +23,7 @@ public:
 
     void dumpCurrent();
 
-    int getPlayerCount() const;
+    uint16_t getPlayerCount() const;
 
     int getCurrentPlayerId() const;
 
@@ -37,16 +37,18 @@ public:
 
     void tick(uint64_t elapsed);
 
+    uint16_t join();
+
     std::vector<Ship *> get_ships_by_player(uint8_t player) const;
 
 private:
-    int _playerCount;
     gameType _gameType;
     int _currentPlayer = 0;
     bool _time_limited = false;
     std::vector<std::unique_ptr<Player>> _players;
     gameState _gameState;
     uint64_t _time_limit = 0;
+    std::shared_ptr<Board> _board;
 public:
     void setTimeLimit(uint64_t timeLimit);
 
