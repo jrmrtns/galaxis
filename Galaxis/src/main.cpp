@@ -6,6 +6,7 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
+#include "notes.h"
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;

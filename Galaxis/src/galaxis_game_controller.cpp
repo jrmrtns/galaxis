@@ -34,6 +34,12 @@ void GalaxisGameController::btnClick() {
 }
 
 void GalaxisGameController::messageReceived(GalaxisMessage message) {
+    if (message.msgType == PAIRING_RESPONSE){
+        if (message.command == CONNECT) {
+            handleConnectedMessage(message);
+        }
+    }
+
     if (message.msgType != RESPONSE)
         return;
 
@@ -48,7 +54,7 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
         handleNextMessage(message);
     }
 
-    if (message.command == CONNECTED) {
+    if (message.command == CONNECT) {
         handleConnectedMessage(message);
     }
 
@@ -109,6 +115,7 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
 }
 
 void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
+    _galaxisModel->setMe(message.param2);
     _galaxisModel->setConnected(message.param1);
     if (_galaxisModel->isActive())
         _galaxisModel->setHint(START_MESSAGE);

@@ -66,4 +66,20 @@ int found[] = {
         NOTE_F2, 12,
 };
 
+int idle[] = {
+        NOTE_C3, 16,
+        REST, 32,
+        NOTE_C3, 16,
+};
+
+int nope[] = {
+        NOTE_A4, 16,
+        REST, 32,
+        NOTE_A4, 16,
+        REST, 32,
+        NOTE_A4, 16,
+        REST, 32,
+        NOTE_A4, 16,
+};
+
 #endif //GALAXIS_SOUNDS_H

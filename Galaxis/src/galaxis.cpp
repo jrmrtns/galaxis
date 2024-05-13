@@ -9,19 +9,16 @@ const uint8_t PLAYER_INVALID = 0xf0;
 const uint8_t GAME_OVER_RESULT = 0xfd;
 const uint8_t MAX_TIME_LIMIT = 5;
 
-Galaxis::Galaxis(int count, gameType gameType, bool time_limited) {
-    _playerCount = count;
+Galaxis::Galaxis(gameType gameType, bool time_limited) {
     _gameType = gameType;
     _time_limited = time_limited;
 
     _gameState = gameState::idle;
-    auto board = std::make_shared<Board>();
+    _board = std::make_shared<Board>();
 
-    for (int i = 0; i < count; ++i) {
-        _players.push_back(std::make_unique<Player>(i, board));
+    _players.push_back(std::make_unique<Player>(0, _board));
         if (gameType == gameType::multi_board)
-            board = std::make_shared<Board>();
-    }
+            _board = std::make_shared<Board>();
 }
 
 uint8_t Galaxis::guess(uint8_t playerId, uint8_t x, uint8_t y) {
@@ -49,8 +46,8 @@ Galaxis::~Galaxis() {
     _players.clear();
 }
 
-int Galaxis::getPlayerCount() const {
-    return _playerCount;
+uint16_t Galaxis::getPlayerCount() const {
+    return _players.size();
 }
 
 int Galaxis::getCurrentPlayerId() const {
@@ -65,7 +62,7 @@ void Galaxis::next(uint64_t elapsed) {
     _time_limit = elapsed + MAX_TIME * 1000 * 1000;
 
     _currentPlayer++;
-    if (_currentPlayer >= _playerCount)
+    if (_currentPlayer >= _players.size())
         _currentPlayer = 0;
     _gameState = gameState::idle;
 }
@@ -99,8 +96,17 @@ void Galaxis::setTimeLimit(uint64_t timeLimit) {
 }
 
 Player *Galaxis::player(uint8_t player) const {
-    if (player >= _playerCount)
+    if (player >= _players.size())
         return nullptr;
 
     return _players[player].get();
+}
+
+uint16_t Galaxis::join() {
+    if (_gameType == gameType::multi_board)
+        _board = std::make_shared<Board>();
+
+    _players.push_back(std::make_unique<Player>(0, _board));
+
+    return _players.size() - 1;
 }

@@ -10,6 +10,7 @@
 #include "abstract-game.h"
 #include "BLEDevice.h"
 #include "galaxis.h"
+#include "settings.h"
 
 class BLECentralGame : public Subject, public AbstractGame {
 public:
@@ -23,8 +24,10 @@ public:
 
 private:
     static BLECentralGame *_instance;
-    static BLECharacteristic _galaxisCharacteristic;
+    static BLECharacteristic _galaxisCharacteristic[MAX_PERIPHERALS];
     std::unique_ptr<Galaxis> _galaxis;
+    static uint8_t _connectionCount;
+    static bool _isScanning;
 
     static void discoverHandler(BLEDevice peripheral);
 
@@ -41,6 +44,12 @@ private:
     void SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const;
 
     void NotifyUiConnected(bool connected);
+
+    static void SendPairingMessage();
+
+    void stopScanning();
+
+    static void startScanning();
 };
 
 

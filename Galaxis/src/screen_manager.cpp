@@ -107,7 +107,6 @@ void ScreenManager::showPeriheralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
-    gameModel->setMe(1);
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
     _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
