@@ -5,7 +5,7 @@
 #include "main_menu_controller.h"
 #include <utility>
 
-#define MENU_ITEM_COUNT 3
+#define MENU_ITEM_COUNT 2
 
 MainMenuController::MainMenuController(std::shared_ptr<MainMenuModel> model) : _model(std::move(model)) {}
 

@@ -45,6 +45,8 @@ private:
 
     void NotifyUiConnected(bool connected);
 
+    void NotifyUiClientConnected();
+
     static void SendPairingMessage();
 
     void stopScanning();

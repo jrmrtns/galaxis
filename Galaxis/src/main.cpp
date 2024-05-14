@@ -6,7 +6,6 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
-#include "notes.h"
 
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
@@ -59,6 +58,8 @@ void sleep(bool value) {
 }
 
 void extendGameView() {
+    lv_obj_set_style_text_align(ui_StatusLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_set_style_text_color(ui_CoordinatesX, primary,  LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_CoordinatesY, primary,  LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);

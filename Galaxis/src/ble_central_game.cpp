@@ -74,6 +74,7 @@ void BLECentralGame::SendPairingMessage() {
     _galaxisCharacteristic[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
     _connectionCount++;
     getInstance()->NotifyUiConnected(true);
+    getInstance()->NotifyUiClientConnected();
 }
 
 // NOLINTNEXTLINE
@@ -177,6 +178,16 @@ void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, ui
     for (int i = 0; i < _connectionCount; ++i) {
         _galaxisCharacteristic[i].writeValue(&message, sizeof(GalaxisMessage), true);
     }
+}
+
+void BLECentralGame::NotifyUiClientConnected() {
+    GalaxisMessage message = {0};
+    message.msgType = RESPONSE;
+    message.command = CLIENT_CONNECTED;
+    message.id = 0;
+    message.param1 = _connectionCount;
+    message.param2 = 0;
+    notifyObservers(message);
 }
 
 void BLECentralGame::NotifyUiConnected(bool connected) {

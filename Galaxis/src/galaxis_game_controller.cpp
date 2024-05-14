@@ -62,6 +62,10 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
         handleGameOver(message.param1);
     }
 
+    if (message.command == CLIENT_CONNECTED) {
+        handleClientConnectedMessage(message);
+    }
+
     if (message.command == NEW_GAME) {
         reset();
     }
@@ -80,7 +84,10 @@ void GalaxisGameController::initialize() {
     if (_galaxisModel->isStarted())
         _galaxisModel->setHint(START_MESSAGE);
     else
-        _galaxisModel->setHint(CONNECTING);
+        if (_galaxisModel->getMe() == 0)
+            _galaxisModel->setHint(CONNECTING);
+        else
+            _galaxisModel->setHint(WAIT_JOIN);
 }
 
 void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
@@ -98,8 +105,10 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
     if (message.param1 == 0xfe || message.param1 == 0xfd || message.param1 == 0xfa || message.param1 == 0xf0)
         return;
 
-    String text = PLAYER;
-    text += char(0x41 + message.id);
+    if (message.id > MAX_PERIPHERALS || message.id < 0)
+        return;
+
+    String text = playerNames[message.id];
     text += ": ";
     if (message.param1 == 0xff) {
         String counter = "0/0";
@@ -117,12 +126,20 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
 void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
     _galaxisModel->setMe(message.param2);
     _galaxisModel->setConnected(message.param1);
-    if (_galaxisModel->isActive())
+    if (_galaxisModel->isActive()) {
         _galaxisModel->setHint(START_MESSAGE);
+    }
     else {
-        String text = WAITING_FOR_PLAYER;
-        text += char(0x41 + _galaxisModel->getCurrent());
+        String text = PLAYER;
+        text+= playerNames[_galaxisModel->getMe()];
+        text+= "\n";
+        text += WAITING_FOR_PLAYER;
+        if (_galaxisModel->getCurrent() > MAX_PERIPHERALS || _galaxisModel->getCurrent() < 0)
+            text += "Error";
+        else
+            text += playerNames[_galaxisModel->getCurrent()];
         _galaxisModel->setHint(text.c_str());
+
     }
 }
 
@@ -133,4 +150,12 @@ void GalaxisGameController::reset() {
 void GalaxisGameController::makeGuess(int position) {
     uint32_t p = position % (MAX_X * MAX_Y);
     _galaxisGame->makeGuess(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
+}
+
+void GalaxisGameController::handleClientConnectedMessage(GalaxisMessage message) {
+    String text = START_MESSAGE;
+    text.concat("\n\n");
+    text.concat(CONNECTED);
+    text.concat(message.param2 + 1);
+    _galaxisModel->setHint(text.c_str());
 }
