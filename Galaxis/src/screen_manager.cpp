@@ -14,7 +14,9 @@
 #include "settings.h"
 #include "game_over_view.h"
 #include "ui.h"
+#include "noise_maker.h"
 
+extern NoiseMaker *noiseMaker;
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
 
 void ScreenManager::loop() {
@@ -105,6 +107,7 @@ void ScreenManager::showCentralGameView() {
 
 void ScreenManager::showPeriheralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
+    gameModel->setMe(0xff);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
 
@@ -125,4 +128,5 @@ void ScreenManager::showWinnerView() {
     lv_label_set_text(ui_GameOverHint, String(GAME_OVER_WINNER_HINT).c_str());
     _currentView = std::make_shared<GameOverView>(_encoder);
     _currentView->show();
+    noiseMaker->playWinner();
 }

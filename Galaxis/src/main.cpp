@@ -59,6 +59,8 @@ void sleep(bool value) {
 }
 
 void extendGameView() {
+    lv_obj_set_style_text_align(ui_StatusLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_set_style_text_color(ui_Coordinates, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_SearchResult, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_MainMenuItem, primary, LV_STATE_DEFAULT);

@@ -42,6 +42,8 @@ private:
 
     void handleConnectedMessage(GalaxisMessage message);
 
+    void handleClientConnectedMessage(GalaxisMessage message);
+
     void reset();
 };
 

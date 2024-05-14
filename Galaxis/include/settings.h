@@ -32,9 +32,11 @@
 
 #ifdef DE
 #define START_MESSAGE "Du bist dran"
-#define WAITING_FOR_PLAYER "Warte auf Spieler "
-#define CONNECTING "Verbinde ..."
-#define PLAYER "Spieler "
+#define WAITING_FOR_PLAYER "Warte auf "
+#define CONNECTING "Warte auf weitere Spieler...\noder spiele alleine"
+#define WAIT_JOIN "Warte auf Verbindung..."
+#define CONNECTED "Verbunden: "
+#define PLAYER "Hallo "
 #define GAME_OVER_MESSAGE "Game over"
 #define GAME_OVER_HINT "Nochmal spielen?"
 #define GAME_OVER_WINNER_MESSAGE "Gewinner"
@@ -43,18 +45,20 @@
 #define MAIN_MENU_SINGLE_HINT "Einzelspiel"
 #define MAIN_MENU_NEW_GAME "Neu"
 #define MAIN_MENU_NEW_GAME_HINT "Neues Spiel starten"
-#define MAIN_MENU_JOIN "Join"
+#define MAIN_MENU_JOIN "Beitreten"
 #define MAIN_MENU_JOIN_HINT "Einem Spiel beitreten"
 #define MAIN_MENU_OFF "Off"
 #define GAME_SCANNING_MESSAGE "Suche"
 #else
 #define START_MESSAGE "Start..."
-#define WAITING_FOR_PLAYER "Waiting for player "
-#define CONNECTING "Connecting ..."
-#define PLAYER "Player "
+#define WAITING_FOR_PLAYER "Waiting for "
+#define CONNECTING "Waiting for further players\nor just start single"
+#define WAIT_JOIN "Waiting for connection..."
+#define CONNECTED "Connected: "
+#define PLAYER "Hi  "
 #define GAME_OVER_MESSAGE "Game over"
 #define GAME_OVER_HINT "Press button for new game"
-#define GAME_OVER_WINNER_MESSAGE "** You Won **"
+#define GAME_OVER_WINNER_MESSAGE "** You did it **"
 #define GAME_OVER_WINNER_HINT "Press button for new game"
 #define MAIN_MENU_SINGLE "Single"
 #define MAIN_MENU_SINGLE_HINT "Singleplayer game"
@@ -67,5 +71,11 @@
 #endif
 
 const float conversion_factor = 3.3f / (1 << 12) * 3;
+static const char *playerNames[] = {
+        "Luke Skyrunner",
+        "Hank Solar",
+        "James T. Smirk",
+        "Tricia McMillan"
+};
 
 #endif //GALAXIS_SETTINGS_H
