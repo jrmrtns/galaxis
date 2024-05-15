@@ -35,6 +35,8 @@ private :
     void showGameOverView();
 
     void showWinnerView();
+
+    void showSettingsView();
 };
 
 

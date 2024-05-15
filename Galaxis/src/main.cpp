@@ -6,12 +6,16 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
+#include "preferences.h"
 
+Preferences preferences;
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 NoiseMaker *noiseMaker = nullptr;
 
 int screen_rotation = 1;
+bool playSound = true;
+bool playIdleSound = true;
 
 lv_obj_t *my_meter;
 lv_meter_indicator_t *my_indicator;
@@ -118,15 +122,18 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
+    preferences.begin("galaxis", true);
+    playSound = preferences.getBool("Sound", true);
+    playIdleSound = preferences.getBool("IdleSound", true);
+    preferences.end();
+
+    ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
+    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
+    noTone(PIN_TONE_OUTPUT);
 
 #ifdef PIN_ENC_GROUND
     pinMode(PIN_ENC_GROUND, OUTPUT);
     digitalWrite(PIN_ENC_GROUND, LOW);
-#endif
-
-#ifndef SILENT
-    ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
-    ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
 #endif
 
 #ifdef PIN_SPEAKER_GROUND

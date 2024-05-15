@@ -74,8 +74,8 @@ void MainMenuView::updateMenuItem() {
         hint = MAIN_MENU_NEW_GAME_HINT;
     }
     if (_model->getMenu() == 2) {
-        hint = MAIN_MENU_SINGLE_HINT;
-        txt = MAIN_MENU_SINGLE;
+        hint = MAIN_MENU_SETTINGS_HINT;
+        txt = MAIN_MENU_SETTINGS;
     }
     if (_model->getMenu() == 3)
         txt = MAIN_MENU_OFF;

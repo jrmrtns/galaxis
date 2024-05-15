@@ -9,7 +9,6 @@
 #include "settings.h"
 #include "view-update-message.h"
 #include "noise_maker.h"
-#include "sounds.h"
 
 extern lv_obj_t *my_meter;
 extern lv_meter_indicator_t *my_indicator;
@@ -121,21 +120,11 @@ void GalaxisGameView::updateSearchResult() {
 }
 
 void GalaxisGameView::playFeedback(uint8_t searchResult) const {
-    if (searchResult == 0)
-        noiseMaker->appendTones(beep_0, 1);
-    if (searchResult == 1)
-        noiseMaker->appendTones(beep_1, 2);
-    if (searchResult == 2)
-        noiseMaker->appendTones(beep_2, 4);
-    if (searchResult == 3)
-        noiseMaker->appendTones(beep_3, 6);
-    if (searchResult == 4)
-        noiseMaker->appendTones(beep_4, 8);
-    if (searchResult == 0xfe)
-        noiseMaker->appendTones(nope, 7);
     if (searchResult == 0xff)
         if (_galaxisModel->getShipCount() < SHIP_COUNT)
-            noiseMaker->appendTones(found, 15);
+            noiseMaker->playFound();
+
+    noiseMaker->playBeep(searchResult);
 }
 
 Screen GalaxisGameView::loop() {
@@ -170,7 +159,7 @@ Screen GalaxisGameView::loop() {
 
 void GalaxisGameView::playIdle() {
     if (millis() > _nextIdleToneTime && _galaxisModel->isActive()) {
-        noiseMaker->appendTones(idle, 3);
+        noiseMaker->playIdle();
         _nextIdleToneTime = millis() + IDLE_TIME * 1000;
     }
 }
@@ -216,7 +205,7 @@ void GalaxisGameView::startSearching() {
     lv_label_set_text(ui_CoordinatesX, "");
     lv_label_set_text(ui_CoordinatesY, "");
     search_anim_Animation(ui_Coordinates, 0);
-    noiseMaker->appendTones(search, 13);
+    noiseMaker->playSearch();
 }
 
 void GalaxisGameView::endSearching() {
