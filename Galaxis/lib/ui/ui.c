@@ -37,6 +37,16 @@ void ui_GameOver_screen_init(void);
 lv_obj_t * ui_GameOver;
 lv_obj_t * ui_GameOverItem;
 lv_obj_t * ui_GameOverHint;
+
+
+// SCREEN: ui_Settings
+void ui_Settings_screen_init(void);
+lv_obj_t * ui_Settings;
+lv_obj_t * ui_okButton;
+lv_obj_t * ui_okButtonLabel;
+lv_obj_t * ui_Container1;
+lv_obj_t * ui_shouldPlaySounds;
+lv_obj_t * ui_shouldPlayIdle;
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_1309046032[1] = {&ui_img_2092402157};
 
@@ -86,6 +96,7 @@ void ui_init(void)
     ui_MainMenu_screen_init();
     ui_Game_screen_init();
     ui_GameOver_screen_init();
+    ui_Settings_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_SplashScreen);
 }

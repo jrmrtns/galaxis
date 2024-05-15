@@ -12,12 +12,18 @@
 
 class NoiseMaker {
 public:
-    void appendTones(int melody[], int notesCount);
 
     void playWinner();
 
     void loop();
-    
+
+    void playBeep(uint8_t count);
+
+    void playFound();
+
+    void playSearch();
+
+    void playIdle();
 private:
     int _tempo = 115;
     int _wholeNote = (60000 * 4) / _tempo;
@@ -30,6 +36,8 @@ private:
     void playNextTone();
 
     void stopTone();
+
+    void appendTones(int melody[], int notesCount);
 };
 
 

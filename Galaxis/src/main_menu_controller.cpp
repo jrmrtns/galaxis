@@ -5,7 +5,7 @@
 #include "main_menu_controller.h"
 #include <utility>
 
-#define MENU_ITEM_COUNT 2
+#define MENU_ITEM_COUNT 3
 
 MainMenuController::MainMenuController(std::shared_ptr<MainMenuModel> model) : _model(std::move(model)) {}
 
@@ -26,7 +26,7 @@ void MainMenuController::btnClick(int position) {
             break;
 
         case 2:
-            _model->setSelectedMenuItem(Screen::SINGLE_GAME);
+            _model->setSelectedMenuItem(Screen::SETTINGS);
             break;
 
         default:

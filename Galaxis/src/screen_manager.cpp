@@ -15,6 +15,7 @@
 #include "game_over_view.h"
 #include "ui.h"
 #include "noise_maker.h"
+#include "settings_view.h"
 
 extern NoiseMaker *noiseMaker;
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
@@ -61,6 +62,9 @@ void ScreenManager::show(Screen screen) {
             break;
         case WINNER_SCREEN:
             showWinnerView();
+            break;
+        case SETTINGS:
+            showSettingsView();
             break;
     }
 }
@@ -129,4 +133,9 @@ void ScreenManager::showWinnerView() {
     _currentView = std::make_shared<GameOverView>(_encoder);
     _currentView->show();
     noiseMaker->playWinner();
+}
+
+void ScreenManager::showSettingsView() {
+    _currentView = std::make_shared<SettingsView>(_encoder);
+    _currentView->show();
 }
