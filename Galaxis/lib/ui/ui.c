@@ -45,11 +45,11 @@ lv_obj_t * ui_GameOverHint;
 // SCREEN: ui_Settings
 void ui_Settings_screen_init(void);
 lv_obj_t * ui_Settings;
-lv_obj_t * ui_okButton;
-lv_obj_t * ui_okButtonLabel;
-lv_obj_t * ui_Container1;
+lv_obj_t * ui_settingsContiner;
 lv_obj_t * ui_shouldPlaySounds;
 lv_obj_t * ui_shouldPlayIdle;
+lv_obj_t * ui_okButton;
+lv_obj_t * ui_okButtonLabel;
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_bg[1] = {&ui_img_bg2_png};
 
@@ -78,7 +78,7 @@ void search_anim_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
     lv_anim_set_playback_time(&PropertyAnimation_0, 0);
     lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_0, 5);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 3);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
     lv_anim_start(&PropertyAnimation_0);

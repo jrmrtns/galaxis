@@ -10,11 +10,50 @@ void ui_Settings_screen_init(void)
     ui_Settings = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Settings, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
+    lv_obj_set_style_bg_img_src(ui_Settings, &ui_img_bg2_png, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
+
+    ui_settingsContiner = lv_obj_create(ui_Settings);
+    lv_obj_remove_style_all(ui_settingsContiner);
+    lv_obj_set_width(ui_settingsContiner, 175);
+    lv_obj_set_height(ui_settingsContiner, 57);
+    lv_obj_set_x(ui_settingsContiner, 0);
+    lv_obj_set_y(ui_settingsContiner, -13);
+    lv_obj_set_align(ui_settingsContiner, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_settingsContiner, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_settingsContiner, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+    lv_obj_clear_flag(ui_settingsContiner, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_pad_row(ui_settingsContiner, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_settingsContiner, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_shouldPlaySounds = lv_checkbox_create(ui_settingsContiner);
+    lv_checkbox_set_text(ui_shouldPlaySounds, "Play Sounds");
+    lv_obj_set_width(ui_shouldPlaySounds, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_shouldPlaySounds, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_shouldPlaySounds, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_shouldPlaySounds, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
+
+    ui_shouldPlayIdle = lv_checkbox_create(ui_settingsContiner);
+    lv_checkbox_set_text(ui_shouldPlayIdle, "Play Idle Sound");
+    lv_obj_set_width(ui_shouldPlayIdle, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_shouldPlayIdle, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_shouldPlayIdle, 0);
+    lv_obj_set_y(ui_shouldPlayIdle, 24);
+    lv_obj_set_align(ui_shouldPlayIdle, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_shouldPlayIdle, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
+
     ui_okButton = lv_btn_create(ui_Settings);
     lv_obj_set_width(ui_okButton, 100);
-    lv_obj_set_height(ui_okButton, 25);
+    lv_obj_set_height(ui_okButton, 32);
     lv_obj_set_x(ui_okButton, 0);
-    lv_obj_set_y(ui_okButton, 49);
+    lv_obj_set_y(ui_okButton, 50);
     lv_obj_set_align(ui_okButton, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_okButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_okButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -27,45 +66,5 @@ void ui_Settings_screen_init(void)
     lv_obj_set_height(ui_okButtonLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_okButtonLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_okButtonLabel, "OK");
-
-    ui_Container1 = lv_obj_create(ui_Settings);
-    lv_obj_remove_style_all(ui_Container1);
-    lv_obj_set_width(ui_Container1, 158);
-    lv_obj_set_height(ui_Container1, 63);
-    lv_obj_set_x(ui_Container1, 0);
-    lv_obj_set_y(ui_Container1, -22);
-    lv_obj_set_align(ui_Container1, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_Container1, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_Container1, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-    lv_obj_clear_flag(ui_Container1, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_pad_row(ui_Container1, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Container1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_shouldPlaySounds = lv_checkbox_create(ui_Container1);
-    lv_checkbox_set_text(ui_shouldPlaySounds, "Play Sounds");
-    lv_obj_set_width(ui_shouldPlaySounds, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_shouldPlaySounds, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_shouldPlaySounds, -10);
-    lv_obj_set_y(ui_shouldPlaySounds, -30);
-    lv_obj_set_align(ui_shouldPlaySounds, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_shouldPlaySounds, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
-    lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
-
-    ui_shouldPlayIdle = lv_checkbox_create(ui_Container1);
-    lv_checkbox_set_text(ui_shouldPlayIdle, "Play Idle Sound");
-    lv_obj_set_width(ui_shouldPlayIdle, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_shouldPlayIdle, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_shouldPlayIdle, 2);
-    lv_obj_set_y(ui_shouldPlayIdle, 7);
-    lv_obj_set_align(ui_shouldPlayIdle, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_shouldPlayIdle, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
-    lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
-
 
 }

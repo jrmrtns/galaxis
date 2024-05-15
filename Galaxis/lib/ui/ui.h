@@ -53,11 +53,11 @@ extern lv_obj_t * ui_GameOverHint;
 // SCREEN: ui_Settings
 void ui_Settings_screen_init(void);
 extern lv_obj_t * ui_Settings;
-extern lv_obj_t * ui_okButton;
-extern lv_obj_t * ui_okButtonLabel;
-extern lv_obj_t * ui_Container1;
+extern lv_obj_t * ui_settingsContiner;
 extern lv_obj_t * ui_shouldPlaySounds;
 extern lv_obj_t * ui_shouldPlayIdle;
+extern lv_obj_t * ui_okButton;
+extern lv_obj_t * ui_okButtonLabel;
 extern lv_obj_t * ui____initial_actions0;
 
 
