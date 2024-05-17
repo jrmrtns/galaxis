@@ -63,20 +63,6 @@ void BLECentralGame::discoverHandler(BLEDevice peripheral) {
     startScanning();
 }
 
-void BLECentralGame::SendPairingMessage() {
-    uint16_t id = getInstance()->_galaxis->join();
-    GalaxisMessage message = {0};
-    message.msgType = PAIRING_RESPONSE;
-    message.command = CONNECT;
-    message.id = 0;
-    message.param1 = true;
-    message.param2 = id;
-    _galaxisCharacteristic[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
-    _connectionCount++;
-    getInstance()->NotifyUiConnected(true);
-    getInstance()->NotifyUiClientConnected();
-}
-
 // NOLINTNEXTLINE
 void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
     Serial.print("Disconnected event: ");
@@ -141,6 +127,20 @@ void BLECentralGame::startScanning() {
         BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
         _isScanning = true;
     }
+}
+
+void BLECentralGame::SendPairingMessage() {
+    uint16_t id = getInstance()->_galaxis->join();
+    GalaxisMessage message = {0};
+    message.msgType = PAIRING_RESPONSE;
+    message.command = CONNECT;
+    message.id = 0;
+    message.param1 = true;
+    message.param2 = id;
+    _galaxisCharacteristic[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
+    _connectionCount++;
+    getInstance()->NotifyUiConnected(true);
+    getInstance()->NotifyUiClientConnected();
 }
 
 void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
