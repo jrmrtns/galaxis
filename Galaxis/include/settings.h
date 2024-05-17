@@ -77,7 +77,7 @@
 const float conversion_factor = 3.3f / (1 << 12) * 3;
 static const char *playerNames[] = {
         "Luke Skyrunner",
-        "Hank Solar",
+        "San Holo",
         "James T. Smirk",
         "Tricia McMillan"
 };
