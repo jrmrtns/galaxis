@@ -13,7 +13,6 @@ enum ViewUpdateMessage {
     Coordinates,
     SearchResult,
     ShipCount,
-    ParticipantShipCount,
     Active,
     Hint,
     Connected,

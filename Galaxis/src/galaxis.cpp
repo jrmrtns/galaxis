@@ -102,11 +102,18 @@ Player *Galaxis::player(uint8_t player) const {
     return _players[player].get();
 }
 
-uint16_t Galaxis::join() {
+uint8_t Galaxis::join() {
     if (_gameType == gameType::multi_board)
         _board = std::make_shared<Board>();
 
     _players.push_back(std::make_unique<Player>(0, _board));
 
     return _players.size() - 1;
+}
+
+void Galaxis::remove(uint8_t id) {
+    if (id >= _players.size())
+        return;
+
+    _players.erase(_players.begin() + id);
 }

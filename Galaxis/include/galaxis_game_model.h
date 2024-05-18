@@ -8,9 +8,12 @@
 #include <cstdio>
 #include "subject.h"
 #include "WString.h"
+#include "settings.h"
 
 class GalaxisGameModel : public Subject {
 public:
+    explicit GalaxisGameModel();
+
     uint8_t getLastSearchResult() const;
 
     void setLastSearchResult(uint8_t lastSearchResult);
@@ -21,9 +24,9 @@ public:
 
     uint8_t getY() const;
 
-    uint8_t getShipCount() const;
+    uint8_t getShipCount(uint8_t id) const;
 
-    void setShipCount(uint8_t shipCount);
+    void setShipCount(uint8_t id, uint8_t shipCount);
 
     uint8_t getMe() const;
 
@@ -49,10 +52,6 @@ public:
 
     bool isActive() const;
 
-    uint8_t getParticipantShipCount() const;
-
-    void setParticipantShipCount(uint8_t participantShipCount);
-
     bool isStarted() const;
 
     void setStarted(bool started);
@@ -69,8 +68,7 @@ private:
     uint8_t _current = 0;
     uint8_t _x = 0;
     uint8_t _y = 0;
-    uint8_t _shipCount = 0;
-    uint8_t _participantShipCount = 0;
+    uint8_t _shipCount[MAX_PLAYERS];
     uint8_t _lastSearchResult = 0xfa;
     String _hint = "";
     bool _connected = false;

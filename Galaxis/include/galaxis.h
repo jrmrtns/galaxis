@@ -37,7 +37,9 @@ public:
 
     void tick(uint64_t elapsed);
 
-    uint16_t join();
+    uint8_t join();
+
+    void remove(uint8_t id);
 
     std::vector<Ship *> get_ships_by_player(uint8_t player) const;
 

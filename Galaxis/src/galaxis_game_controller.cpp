@@ -3,10 +3,8 @@
 //
 
 #include "galaxis_game_controller.h"
-
 #include <utility>
 #include "settings.h"
-#include "single_player_game.h"
 
 GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame,
                                              std::shared_ptr<GalaxisGameModel> galaxisModel) {
@@ -43,37 +41,43 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
     if (message.msgType != RESPONSE)
         return;
 
-    if (message.command == SEARCH) {
-        if (message.id == _galaxisModel->getMe())
-            handleSearchMessage(message);
-        else
-            handleSearchMessageForParticipants(message);
-    }
+    switch (message.command) {
+        case SEARCH:
+            if (message.id == _galaxisModel->getMe())
+                handleSearchMessage(message);
+            else
+                handleSearchMessageForParticipants(message);
+            break;
 
-    if (message.command == NEXT) {
-        handleNextMessage(message);
-    }
+        case NEXT:
+            handleNextMessage(message);
+            break;
 
-    if (message.command == CONNECT) {
-        handleConnectedMessage(message);
-    }
+        case CONNECT:
+            handleConnectedMessage(message);
+            break;
 
-    if (message.command == GAME_OVER) {
-        handleGameOver(message.param1);
-    }
+        case GAME_OVER:
+            handleGameOver(message.param1);
+            break;
 
-    if (message.command == CLIENT_CONNECTED) {
-        handleClientConnectedMessage(message);
-    }
+        case CLIENT_CONNECTED:
+            handleClientConnectedMessage(message);
+            break;
 
-    if (message.command == NEW_GAME) {
-        reset();
+        case NEW_GAME:
+            reset();
+            break;
+
+        default:
+            break;
     }
 }
 
 void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
     if (message.param1 == 0xff) {
-        _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
+        auto id = _galaxisModel->getCurrent();
+        _galaxisModel->setShipCount(id, _galaxisModel->getShipCount(id) + 1);
     }
     _galaxisModel->setLastSearchResult(message.param1);
     _galaxisModel->setHint("");
@@ -96,7 +100,6 @@ void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
 }
 
 void GalaxisGameController::handleGameOver(uint8_t i) {
-    _galaxisGame->shutdown();
     _galaxisModel->setGameOver(true);
     _galaxisModel->setWinner(i == _galaxisModel->getMe());
 }
@@ -105,7 +108,7 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
     if (message.param1 == 0xfe || message.param1 == 0xfd || message.param1 == 0xfa || message.param1 == 0xf0)
         return;
 
-    if (message.id > MAX_PERIPHERALS || message.id < 0)
+    if (message.id >= MAX_PLAYERS || message.id < 0)
         return;
 
     String text = playerNames[message.id];
@@ -119,7 +122,7 @@ void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage me
         text += message.param1;
     }
 
-    _galaxisModel->setParticipantShipCount(message.param2);
+    _galaxisModel->setShipCount(message.id, message.param2);
     _galaxisModel->setHint(text);
 }
 
@@ -134,7 +137,7 @@ void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
         text+= playerNames[_galaxisModel->getMe()];
         text+= "\n";
         text += WAITING_FOR_PLAYER;
-        if (_galaxisModel->getCurrent() > MAX_PERIPHERALS || _galaxisModel->getCurrent() < 0)
+        if (_galaxisModel->getCurrent() >= MAX_PLAYERS || _galaxisModel->getCurrent() < 0)
             text += "Error";
         else
             text += playerNames[_galaxisModel->getCurrent()];
