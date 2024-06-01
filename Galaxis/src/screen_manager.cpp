@@ -6,7 +6,6 @@
 #include "galaxis_game_view.h"
 #include "ble_device_game.h"
 #include "ble_central_game.h"
-#include "single_player_game.h"
 #include "main_menu_controller.h"
 #include "main_menu_model.h"
 #include "main_menu_view.h"
@@ -48,9 +47,6 @@ void ScreenManager::show(Screen screen) {
         case MENU:
             showMainMenu();
             break;
-        case SINGLE_GAME:
-            showSingleGameView();
-            break;
         case CENTRAL_GAME:
             showCentralGameView();
             break;
@@ -67,23 +63,6 @@ void ScreenManager::show(Screen screen) {
             showSettingsView();
             break;
     }
-}
-
-void ScreenManager::showSingleGameView() {
-    auto gameModel = std::make_shared<GalaxisGameModel>();
-    gameModel->setConnected(true);
-    gameModel->setStarted(true);
-#ifdef RND
-    randomSeed(1);
-#else
-    randomSeed(micros());
-#endif
-
-    std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-
-    auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
-    _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
-    _currentView->show();
 }
 
 void ScreenManager::showMainMenu() {

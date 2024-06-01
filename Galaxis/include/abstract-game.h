@@ -12,7 +12,6 @@ class AbstractGame  : public MessageSubject{
 public:
     virtual ~AbstractGame() = default;
     virtual void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) = 0;
-    virtual void shutdown() = 0;
 };
 
 #endif //GALAXIS_ABSTRACTGAME_H

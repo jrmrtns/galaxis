@@ -17,11 +17,8 @@ int screen_rotation = 1;
 bool playSound = true;
 bool playIdleSound = true;
 
-lv_obj_t *my_meter;
-lv_meter_indicator_t *my_indicator;
-
-lv_obj_t *your_meter;
-lv_meter_indicator_t *your_indicator;
+lv_obj_t *meters[MAX_PLAYERS];
+lv_meter_indicator_t *indicators[MAX_PLAYERS];
 
 lv_color_t primary = lv_color_white();
 lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
@@ -61,6 +58,26 @@ void sleep(bool value) {
     }
 }
 
+int getAngle(uint8_t i) {
+    switch (i) {
+        case 0: return 180;
+        case 1: return 330;
+        case 2: return 255;
+        case 3: return 60;
+    }
+    return 0;
+}
+
+lv_color_t getColor(uint8_t i){
+    switch (i) {
+        case 0: return primary;
+        case 1: return secondary;
+        case 2: return lv_palette_main(LV_PALETTE_CYAN);
+        case 3: return lv_color_hex(0xffffff);
+    }
+    return lv_palette_main(LV_PALETTE_NONE);
+}
+
 void extendGameView() {
     lv_obj_set_style_text_align(ui_StatusLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
 
@@ -71,31 +88,22 @@ void extendGameView() {
     lv_obj_set_style_text_color(ui_GameOverItem, primary, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Game, lv_color_hex(0x79e6f2), LV_STATE_CHECKED);
 
-    my_meter = lv_meter_create(ui_Game);
-    lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
-    lv_obj_remove_style(my_meter, nullptr, LV_PART_MAIN);
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        auto meter = lv_meter_create(ui_Game);
+        lv_obj_remove_style(meter, nullptr, LV_PART_INDICATOR);
+        lv_obj_remove_style(meter, nullptr, LV_PART_MAIN);
 
-    lv_obj_center(my_meter);
-    lv_obj_set_size(my_meter, 220, 220);
+        lv_obj_center(meter);
+        lv_obj_set_size(meter, 220, 220);
 
-    lv_meter_scale_t *scale = lv_meter_add_scale(my_meter);
-    lv_meter_set_scale_ticks(my_meter, scale, 5, 6, 20, lv_color_hex(0x292831));
-    lv_meter_set_scale_range(my_meter, scale, 0, 100, 30, 180);
+        lv_meter_scale_t *scale = lv_meter_add_scale(meter);
+        lv_meter_set_scale_ticks(meter, scale, 5, 6, 20, lv_color_hex(0x292831));
+        lv_meter_set_scale_range(meter, scale, 0, 100, 30, getAngle(i));
 
-    my_indicator = lv_meter_add_arc(my_meter, scale, 20, primary, 0);
-
-    your_meter = lv_meter_create(ui_Game);
-    lv_obj_remove_style(your_meter, nullptr, LV_PART_INDICATOR);
-    lv_obj_remove_style(your_meter, nullptr, LV_PART_MAIN);
-
-    lv_obj_center(your_meter);
-    lv_obj_set_size(your_meter, 220, 220);
-
-    lv_meter_scale_t *your_scale = lv_meter_add_scale(your_meter);
-    lv_meter_set_scale_ticks(your_meter, your_scale, 5, 6, 20, lv_color_hex(0x292831));
-    lv_meter_set_scale_range(your_meter, your_scale, 0, 100, 30, 330);
-
-    your_indicator = lv_meter_add_arc(your_meter, your_scale, 20, secondary, 0);
+        auto indicator = lv_meter_add_arc(meter, scale, 20, getColor(i), 0);
+        meters[i] = meter;
+        indicators[i] = indicator;
+    }
 }
 
 void initialize_encoder() {

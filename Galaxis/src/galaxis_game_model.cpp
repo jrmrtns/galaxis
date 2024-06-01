@@ -13,15 +13,18 @@ uint8_t GalaxisGameModel::getY() const {
     return _y;
 }
 
-uint8_t GalaxisGameModel::getShipCount() const {
-    return _shipCount;
+uint8_t GalaxisGameModel::getShipCount(uint8_t id) const {
+    if (id >= MAX_PLAYERS)
+        return 0;
+
+    return _shipCount[id];
 }
 
-void GalaxisGameModel::setShipCount(uint8_t shipCount) {
-    if (_shipCount == shipCount)
+void GalaxisGameModel::setShipCount(uint8_t id, uint8_t shipCount) {
+    if (id >= MAX_PLAYERS)
         return;
 
-    _shipCount = shipCount;
+    _shipCount[id] = shipCount;
     notifyView(ViewUpdateMessage::ShipCount);
 }
 
@@ -57,8 +60,6 @@ uint8_t GalaxisGameModel::getLastSearchResult() const {
 }
 
 void GalaxisGameModel::setLastSearchResult(uint8_t lastSearchResult) {
-    //if (_lastSearchResult == lastSearchResult)
-    //    return;
     _lastSearchResult = lastSearchResult;
     notifyView(ViewUpdateMessage::SearchResult);
 }
@@ -105,21 +106,9 @@ void GalaxisGameModel::setGameOver(bool gameOver) {
 
 void GalaxisGameModel::reset() {
     setHint("");
-    setShipCount(0);
+    setShipCount(0, 0);
     setLastSearchResult(0xfe);
     setCoordinates(0, 0);
-}
-
-uint8_t GalaxisGameModel::getParticipantShipCount() const {
-    return _participantShipCount;
-}
-
-void GalaxisGameModel::setParticipantShipCount(uint8_t participantShipCount) {
-    if (_participantShipCount == participantShipCount)
-        return;
-
-    _participantShipCount = participantShipCount;
-    notifyView(ViewUpdateMessage::ParticipantShipCount);
 }
 
 bool GalaxisGameModel::isStarted() const {
@@ -152,3 +141,9 @@ void GalaxisGameModel::setSearching(bool searching) {
 
     _searching = searching;
     notifyView(ViewUpdateMessage::Searching);}
+
+GalaxisGameModel::GalaxisGameModel() {
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        _shipCount[i] = 0;
+    }
+}

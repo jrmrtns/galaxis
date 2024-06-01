@@ -39,8 +39,6 @@ private:
     uint32_t _endAnimationTime = 0;
     uint32_t _nextIdleToneTime = 0;
 
-    void updateShipCount();
-
     void updateActive();
 
     void updateHint();
@@ -49,7 +47,7 @@ private:
 
     void updateGameOver();
 
-    void updateParticipantShipCount();
+    void updateShipCount();
 
     void startSearching();
 

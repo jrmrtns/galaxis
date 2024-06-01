@@ -24,8 +24,6 @@ private :
 
     std::shared_ptr<IView> _currentView;
 
-    void showSingleGameView();
-
     void showMainMenu();
 
     void showCentralGameView();

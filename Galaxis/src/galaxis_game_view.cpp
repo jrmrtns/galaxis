@@ -10,11 +10,8 @@
 #include "view-update-message.h"
 #include "noise_maker.h"
 
-extern lv_obj_t *my_meter;
-extern lv_meter_indicator_t *my_indicator;
-
-extern lv_obj_t *your_meter;
-extern lv_meter_indicator_t *your_indicator;
+extern lv_obj_t *meters[MAX_PLAYERS];
+extern lv_meter_indicator_t *indicators[MAX_PLAYERS];
 
 extern NoiseMaker *noiseMaker;
 
@@ -56,10 +53,6 @@ void GalaxisGameView::update(int param) {
             updateGameOver();
             break;
         case MenuItemChanged:
-            break;
-        case ParticipantShipCount:
-            updateParticipantShipCount();
-            break;
         case Started:
             break;
         case Searching:
@@ -73,8 +66,9 @@ void GalaxisGameView::show() {
     _galaxisController->initialize();
     updateHint();
     updateConnected();
-    updateShipCount();
-    updateParticipantShipCount();
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        updateShipCount();
+    }
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
@@ -87,8 +81,17 @@ void GalaxisGameView::updateCoordinates() {
 }
 
 void GalaxisGameView::updateShipCount() {
-    lv_meter_set_indicator_start_value(my_meter, my_indicator, 0);
-    lv_meter_set_indicator_end_value(my_meter, my_indicator, _galaxisModel->getShipCount() * 25);
+    uint8_t i = abs((int) _galaxisModel->getCurrent() - (int) _galaxisModel->getMe());
+    if (i >= MAX_PLAYERS || i < 0)
+        return;
+
+    if (i % 2) {
+        lv_meter_set_indicator_start_value(meters[i], indicators[i], 100 - (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25));
+        lv_meter_set_indicator_end_value(meters[i], indicators[i], 100);
+    } else {
+        lv_meter_set_indicator_start_value(meters[i], indicators[i], 0);
+        lv_meter_set_indicator_end_value(meters[i], indicators[i], _galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25);
+    }
 }
 
 void GalaxisGameView::updateActive() {
@@ -121,7 +124,7 @@ void GalaxisGameView::updateSearchResult() {
 
 void GalaxisGameView::playFeedback(uint8_t searchResult) const {
     if (searchResult == 0xff)
-        if (_galaxisModel->getShipCount() < SHIP_COUNT)
+        if (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) < SHIP_COUNT)
             noiseMaker->playFound();
 
     noiseMaker->playBeep(searchResult);
@@ -184,12 +187,6 @@ void GalaxisGameView::updateGameOver() {
         lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }
 
-void GalaxisGameView::updateParticipantShipCount() {
-    lv_meter_set_indicator_start_value(your_meter, your_indicator,
-                                       100 - (_galaxisModel->getParticipantShipCount() * 25));
-    lv_meter_set_indicator_end_value(your_meter, your_indicator, 100);
-}
-
 void GalaxisGameView::startSearching() {
     _nextIdleToneTime = millis() + IDLE_TIME * 1000;
 
@@ -217,3 +214,5 @@ void GalaxisGameView::endSearching() {
 
     _galaxisController->makeGuess(_encoder->getPosition());
 }
+
+

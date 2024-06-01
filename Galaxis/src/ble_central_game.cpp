@@ -9,9 +9,10 @@
 #include <memory>
 
 BLECentralGame *BLECentralGame::_instance = nullptr;
-BLECharacteristic BLECentralGame::_galaxisCharacteristic[MAX_PERIPHERALS];
+std::vector<BLECharacteristic> BLECentralGame::_galaxisCharacteristics;
 uint8_t BLECentralGame::_connectionCount = 0;
 bool BLECentralGame::_isScanning = false;
+bool BLECentralGame::_gameStarted = false;
 
 BLECentralGame::BLECentralGame() {
     _instance = this;
@@ -28,34 +29,28 @@ BLECentralGame::~BLECentralGame() {
     _instance = nullptr;
 }
 
-void BLECentralGame::shutdown() {
-    BLE.disconnect();
-    BLE.stopScan();
-    removeAllObservers();
-}
-
 BLECentralGame *BLECentralGame::getInstance() {
     return _instance;
 }
 
-void BLECentralGame::discoverHandler(BLEDevice peripheral) {
-    if (!peripheral.connect()) {
+void BLECentralGame::discoverHandler(BLEDevice bleDevice) {
+    if (!bleDevice.connect()) {
         return;
     }
 
-    if (!peripheral.discoverAttributes()) {
-        peripheral.disconnect();
+    if (!bleDevice.discoverAttributes()) {
+        bleDevice.disconnect();
         return;
     }
 
-    BLECharacteristic characteristic = peripheral.characteristic(GALAXIS_CHARACTERISTIC_UUID);
+    BLECharacteristic characteristic = bleDevice.characteristic(GALAXIS_CHARACTERISTIC_UUID);
     characteristic.setEventHandler(BLEWritten, galaxisCharacteristicWritten);
     if (!characteristic || !characteristic.canSubscribe()) {
-        peripheral.disconnect();
+        bleDevice.disconnect();
         return;
     }
 
-    _galaxisCharacteristic[_connectionCount] = characteristic;
+    _galaxisCharacteristics.push_back(characteristic);
     characteristic.subscribe();
 
     SendPairingMessage();
@@ -64,30 +59,30 @@ void BLECentralGame::discoverHandler(BLEDevice peripheral) {
 }
 
 // NOLINTNEXTLINE
-void BLECentralGame::peripheralDisconnectHandler(BLEDevice central) {
-    Serial.print("Disconnected event: ");
-    Serial.println(central.address());
-    startScanning();
+void BLECentralGame::peripheralDisconnectHandler(BLEDevice bleDevice) {
+    if (!_gameStarted)
+        startScanning();
+
+    BLECharacteristic characteristic = bleDevice.characteristic(GALAXIS_CHARACTERISTIC_UUID);
+    for (auto it = _galaxisCharacteristics.begin(); it != _galaxisCharacteristics.end();) {
+        if (*it == characteristic) {
+            uint8_t ct = std::distance(_galaxisCharacteristics.begin(), it) + 1;
+            getInstance()->_galaxis->remove(ct);
+            it = _galaxisCharacteristics.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     BLECentralGame::getInstance()->NotifyUiConnected(false);
 }
 
 // NOLINTNEXTLINE
-void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
+void BLECentralGame::galaxisCharacteristicWritten(BLEDevice bleDevice, BLECharacteristic characteristic) {
     GalaxisMessage galaxisMessage = {0};
     characteristic.readValue(&galaxisMessage, sizeof(galaxisMessage));
 
-    printf("Type %d \n\n", galaxisMessage.msgType);
-
-    Serial.print(galaxisMessage.msgType);
-    Serial.print(":");
-    Serial.print(galaxisMessage.command);
-    Serial.print(":");
-    Serial.print(galaxisMessage.id);
-    Serial.print(":");
-
-    Serial.print(galaxisMessage.param1);
-    Serial.print(":");
-    Serial.println(galaxisMessage.param2);
+    logMessage(galaxisMessage);
 
     if (galaxisMessage.msgType != REQUEST)
         return;
@@ -99,6 +94,18 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacte
     if (galaxisMessage.command == NEXT) {
         BLECentralGame::getInstance()->SendNextPlayerNotification();
     }
+}
+
+void BLECentralGame::logMessage(const GalaxisMessage &galaxisMessage) {
+    Serial.print(galaxisMessage.msgType);
+    Serial.print(":");
+    Serial.print(galaxisMessage.command);
+    Serial.print(":");
+    Serial.print(galaxisMessage.id);
+    Serial.print(":");
+    Serial.print(galaxisMessage.param1);
+    Serial.print(":");
+    Serial.println(galaxisMessage.param2);
 }
 
 void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
@@ -116,14 +123,15 @@ void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
 }
 
 void BLECentralGame::stopScanning() {
-    if(_isScanning) {
+    if (_isScanning) {
         BLE.stopScan();
         _isScanning = false;
     }
+    _gameStarted = true;
 }
 
 void BLECentralGame::startScanning() {
-    if (!_isScanning && _connectionCount < MAX_PERIPHERALS) {
+    if (!_isScanning && _connectionCount < MAX_PLAYERS - 1) {
         BLE.scanForUuid(GALAXIS_SERVICE_UUID, false);
         _isScanning = true;
     }
@@ -137,7 +145,7 @@ void BLECentralGame::SendPairingMessage() {
     message.id = 0;
     message.param1 = true;
     message.param2 = id;
-    _galaxisCharacteristic[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
+    _galaxisCharacteristics[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
     _connectionCount++;
     getInstance()->NotifyUiConnected(true);
     getInstance()->NotifyUiClientConnected();
@@ -149,8 +157,8 @@ void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
     message.command = GAME_OVER;
     message.id = 0xff;
     message.param1 = winner;
-    for (int i = 0; i < _connectionCount; ++i) {
-        _galaxisCharacteristic[i].writeValue(&message, sizeof(GalaxisMessage), true);
+    for (auto &characteristic: _galaxisCharacteristics) {
+        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
     }
     notifyObservers(message);
 }
@@ -162,8 +170,8 @@ void BLECentralGame::SendNextPlayerNotification() const {
     message.id = 0xff;
     message.param1 = _galaxis->getCurrentPlayerId();
     notifyObservers(message);
-    for (int i = 0; i < _connectionCount; ++i) {
-        _galaxisCharacteristic[i].writeValue(&message, sizeof(GalaxisMessage), true);
+    for (auto &characteristic: _galaxisCharacteristics) {
+        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
     }
 }
 
@@ -175,8 +183,8 @@ void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, ui
     message.param1 = guessResult;
     message.param2 = discovered;
     notifyObservers(message);
-    for (int i = 0; i < _connectionCount; ++i) {
-        _galaxisCharacteristic[i].writeValue(&message, sizeof(GalaxisMessage), true);
+    for (auto &characteristic: _galaxisCharacteristics) {
+        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
     }
 }
 

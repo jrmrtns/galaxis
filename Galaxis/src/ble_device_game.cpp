@@ -29,37 +29,22 @@ BLEDeviceGame::~BLEDeviceGame() {
     _instance = nullptr;
 }
 
-void BLEDeviceGame::shutdown() {
-    BLE.stopAdvertise();
-    BLE.disconnect();
-    removeAllObservers();
-}
-
 BLEDeviceGame *BLEDeviceGame::getInstance() {
     return _instance;
 }
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::peripheralConnectHandler(BLEDevice central)  {
-    Serial.print("Connected event, central: ");
-    Serial.println(central.address());
-
     BLEDeviceGame::getInstance()->NotifyUiConnected(true);
 }
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::peripheralDisconnectHandler(BLEDevice central) {
-    Serial.print("Disconnected event, central: ");
-    Serial.println(central.address());
-
     BLEDeviceGame::getInstance()->NotifyUiConnected(false);
 }
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::galaxisCharacteristicSubscribed(BLEDevice central, BLECharacteristic characteristic) {
-    Serial.print("Subscribed event, central: ");
-    Serial.println(central.address());
-
     GalaxisMessage message = {0};
     message.msgType = REQUEST;
     message.command = NEXT;
@@ -71,22 +56,10 @@ void BLEDeviceGame::galaxisCharacteristicSubscribed(BLEDevice central, BLECharac
 
 // NOLINTNEXTLINE
 void BLEDeviceGame::galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
-    Serial.print("Write event, central: ");
-    Serial.print(central.address());
-    Serial.print(" Message: ");
-
     GalaxisMessage galaxisMessage = {0};
     characteristic.readValue(&galaxisMessage, sizeof (galaxisMessage));
 
-    Serial.print(galaxisMessage.msgType);
-    Serial.print(":");
-    Serial.print(galaxisMessage.command);
-    Serial.print(":");
-    Serial.print(galaxisMessage.id);
-    Serial.print(":");
-    Serial.print(galaxisMessage.param1);
-    Serial.print(":");
-    Serial.println(galaxisMessage.param2);
+    logMessage(galaxisMessage);
 
     if (galaxisMessage.msgType != RESPONSE && galaxisMessage.msgType != PAIRING_RESPONSE)
         return;
@@ -112,4 +85,16 @@ void BLEDeviceGame::NotifyUiConnected(bool connected) {
     message.param1 = connected;
     message.param2 = 0;
     notifyObservers(message);
+}
+
+void BLEDeviceGame::logMessage(const GalaxisMessage &galaxisMessage) {
+    Serial.print(galaxisMessage.msgType);
+    Serial.print(":");
+    Serial.print(galaxisMessage.command);
+    Serial.print(":");
+    Serial.print(galaxisMessage.id);
+    Serial.print(":");
+    Serial.print(galaxisMessage.param1);
+    Serial.print(":");
+    Serial.println(galaxisMessage.param2);
 }
