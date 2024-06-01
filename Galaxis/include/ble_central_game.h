@@ -51,6 +51,8 @@ private:
     static void stopScanning();
 
     static void startScanning();
+
+    static void logMessage(const GalaxisMessage &galaxisMessage);
 };
 
 

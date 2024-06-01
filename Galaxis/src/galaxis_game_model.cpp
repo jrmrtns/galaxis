@@ -24,9 +24,6 @@ void GalaxisGameModel::setShipCount(uint8_t id, uint8_t shipCount) {
     if (id >= MAX_PLAYERS)
         return;
 
-    if (_shipCount[id] == shipCount)
-        return;
-
     _shipCount[id] = shipCount;
     notifyView(ViewUpdateMessage::ShipCount);
 }
@@ -63,8 +60,6 @@ uint8_t GalaxisGameModel::getLastSearchResult() const {
 }
 
 void GalaxisGameModel::setLastSearchResult(uint8_t lastSearchResult) {
-    //if (_lastSearchResult == lastSearchResult)
-    //    return;
     _lastSearchResult = lastSearchResult;
     notifyView(ViewUpdateMessage::SearchResult);
 }

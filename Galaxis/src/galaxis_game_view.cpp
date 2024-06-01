@@ -10,8 +10,8 @@
 #include "view-update-message.h"
 #include "noise_maker.h"
 
-extern lv_obj_t *_meters[MAX_PLAYERS];
-extern lv_meter_indicator_t *_indicators[MAX_PLAYERS];
+extern lv_obj_t *meters[MAX_PLAYERS];
+extern lv_meter_indicator_t *indicators[MAX_PLAYERS];
 
 extern NoiseMaker *noiseMaker;
 
@@ -82,13 +82,15 @@ void GalaxisGameView::updateCoordinates() {
 
 void GalaxisGameView::updateShipCount() {
     uint8_t i = abs((int) _galaxisModel->getCurrent() - (int) _galaxisModel->getMe());
+    if (i >= MAX_PLAYERS || i < 0)
+        return;
 
-    if (_galaxisModel->getCurrent() % 2) {
-        lv_meter_set_indicator_start_value(_meters[i], _indicators[i], 100 - (_galaxisModel->getShipCount(i) * 25));
-        lv_meter_set_indicator_end_value(_meters[i], _indicators[i], 100);
+    if (i % 2) {
+        lv_meter_set_indicator_start_value(meters[i], indicators[i], 100 - (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25));
+        lv_meter_set_indicator_end_value(meters[i], indicators[i], 100);
     } else {
-        lv_meter_set_indicator_start_value(_meters[i], _indicators[i], 0);
-        lv_meter_set_indicator_end_value(_meters[i], _indicators[i], _galaxisModel->getShipCount(i) * 25);
+        lv_meter_set_indicator_start_value(meters[i], indicators[i], 0);
+        lv_meter_set_indicator_end_value(meters[i], indicators[i], _galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25);
     }
 }
 

@@ -75,10 +75,7 @@ void GalaxisGameController::messageReceived(GalaxisMessage message) {
 }
 
 void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
-    if (message.param1 == 0xff) {
-        auto id = _galaxisModel->getCurrent();
-        _galaxisModel->setShipCount(id, _galaxisModel->getShipCount(id) + 1);
-    }
+    _galaxisModel->setShipCount(message.id, message.param2);
     _galaxisModel->setLastSearchResult(message.param1);
     _galaxisModel->setHint("");
 }
@@ -142,7 +139,6 @@ void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
         else
             text += playerNames[_galaxisModel->getCurrent()];
         _galaxisModel->setHint(text.c_str());
-
     }
 }
 

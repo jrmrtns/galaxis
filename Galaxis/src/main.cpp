@@ -17,8 +17,8 @@ int screen_rotation = 1;
 bool playSound = true;
 bool playIdleSound = true;
 
-lv_obj_t *_meters[MAX_PLAYERS];
-lv_meter_indicator_t *_indicators[MAX_PLAYERS];
+lv_obj_t *meters[MAX_PLAYERS];
+lv_meter_indicator_t *indicators[MAX_PLAYERS];
 
 lv_color_t primary = lv_palette_main(LV_PALETTE_RED);
 lv_color_t secondary = lv_palette_main(LV_PALETTE_ORANGE);
@@ -88,20 +88,20 @@ void extendGameView() {
     lv_obj_set_style_bg_color(ui_Game, secondary, LV_STATE_CHECKED);
 
     for (int i = 0; i < MAX_PLAYERS; ++i) {
-        auto my_meter = lv_meter_create(ui_Game);
-        lv_obj_remove_style(my_meter, nullptr, LV_PART_INDICATOR);
-        lv_obj_remove_style(my_meter, nullptr, LV_PART_MAIN);
+        auto meter = lv_meter_create(ui_Game);
+        lv_obj_remove_style(meter, nullptr, LV_PART_INDICATOR);
+        lv_obj_remove_style(meter, nullptr, LV_PART_MAIN);
 
-        lv_obj_center(my_meter);
-        lv_obj_set_size(my_meter, 220, 220);
+        lv_obj_center(meter);
+        lv_obj_set_size(meter, 220, 220);
 
-        lv_meter_scale_t *scale = lv_meter_add_scale(my_meter);
-        lv_meter_set_scale_ticks(my_meter, scale, 5, 6, 20, lv_color_hex(0x292831));
-        lv_meter_set_scale_range(my_meter, scale, 0, 100, 30, getAngle(i));
+        lv_meter_scale_t *scale = lv_meter_add_scale(meter);
+        lv_meter_set_scale_ticks(meter, scale, 5, 6, 20, lv_color_hex(0x292831));
+        lv_meter_set_scale_range(meter, scale, 0, 100, 30, getAngle(i));
 
-        auto my_indicator = lv_meter_add_arc(my_meter, scale, 20, getColor(i), 0);
-        _meters[i] = my_meter;
-        _indicators[i] = my_indicator;
+        auto indicator = lv_meter_add_arc(meter, scale, 20, getColor(i), 0);
+        meters[i] = meter;
+        indicators[i] = indicator;
     }
 }
 

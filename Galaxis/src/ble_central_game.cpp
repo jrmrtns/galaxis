@@ -82,16 +82,7 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice bleDevice, BLECharac
     GalaxisMessage galaxisMessage = {0};
     characteristic.readValue(&galaxisMessage, sizeof(galaxisMessage));
 
-    Serial.print(galaxisMessage.msgType);
-    Serial.print(":");
-    Serial.print(galaxisMessage.command);
-    Serial.print(":");
-    Serial.print(galaxisMessage.id);
-    Serial.print(":");
-
-    Serial.print(galaxisMessage.param1);
-    Serial.print(":");
-    Serial.println(galaxisMessage.param2);
+    logMessage(galaxisMessage);
 
     if (galaxisMessage.msgType != REQUEST)
         return;
@@ -103,6 +94,18 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice bleDevice, BLECharac
     if (galaxisMessage.command == NEXT) {
         BLECentralGame::getInstance()->SendNextPlayerNotification();
     }
+}
+
+void BLECentralGame::logMessage(const GalaxisMessage &galaxisMessage) {
+    Serial.print(galaxisMessage.msgType);
+    Serial.print(":");
+    Serial.print(galaxisMessage.command);
+    Serial.print(":");
+    Serial.print(galaxisMessage.id);
+    Serial.print(":");
+    Serial.print(galaxisMessage.param1);
+    Serial.print(":");
+    Serial.println(galaxisMessage.param2);
 }
 
 void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
