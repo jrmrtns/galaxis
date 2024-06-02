@@ -56,6 +56,10 @@ private:
     void playIdle();
 
     void playFeedback(uint8_t searchResult) const;
+
+    void showShipCount(uint8_t i) const;
+
+    uint8_t getIndicatorIndex() const;
 };
 
 

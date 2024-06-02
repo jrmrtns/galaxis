@@ -67,7 +67,7 @@ void GalaxisGameView::show() {
     updateHint();
     updateConnected();
     for (int i = 0; i < MAX_PLAYERS; ++i) {
-        updateShipCount();
+        showShipCount(i);
     }
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
@@ -81,16 +81,35 @@ void GalaxisGameView::updateCoordinates() {
 }
 
 void GalaxisGameView::updateShipCount() {
-    uint8_t i = abs((int) _galaxisModel->getCurrent() - (int) _galaxisModel->getMe());
-    if (i >= MAX_PLAYERS || i < 0)
+    uint8_t i = getIndicatorIndex();
+    showShipCount(i);
+}
+
+uint8_t GalaxisGameView::getIndicatorIndex() const {
+    if (_galaxisModel->getCurrent() == _galaxisModel->getMe()) {
+        return 0;
+    } else {
+        int index = _galaxisModel->getCurrent() > _galaxisModel->getMe()
+                ? _galaxisModel->getCurrent()
+                : _galaxisModel->getCurrent() + 1;
+        return index % MAX_PLAYERS;
+    }
+}
+
+void GalaxisGameView::showShipCount(uint8_t i) const {
+    if (i >= MAX_PLAYERS)
         return;
 
     if (i % 2) {
-        lv_meter_set_indicator_start_value(meters[i], indicators[i], 100 - (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25));
+        lv_meter_set_indicator_start_value(meters[i],
+            indicators[i],
+            100 - (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25));
         lv_meter_set_indicator_end_value(meters[i], indicators[i], 100);
     } else {
         lv_meter_set_indicator_start_value(meters[i], indicators[i], 0);
-        lv_meter_set_indicator_end_value(meters[i], indicators[i], _galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25);
+        lv_meter_set_indicator_end_value(meters[i],
+            indicators[i],
+            _galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25);
     }
 }
 
