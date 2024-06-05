@@ -9,13 +9,9 @@
 #include "settings.h"
 #include "view-update-message.h"
 #include "noise_maker.h"
-#include "sounds.h"
 
-extern lv_obj_t *my_meter;
-extern lv_meter_indicator_t *my_indicator;
-
-extern lv_obj_t *your_meter;
-extern lv_meter_indicator_t *your_indicator;
+extern lv_obj_t *meters[MAX_PLAYERS];
+extern lv_meter_indicator_t *indicators[MAX_PLAYERS];
 
 extern NoiseMaker *noiseMaker;
 
@@ -26,14 +22,15 @@ GalaxisGameView::GalaxisGameView(RotaryEncoder *encoder, std::shared_ptr<Galaxis
                                                                                    _galaxisModel(
                                                                                            std::move(galaxisModel)) {
     _galaxisModel->registerObserver(this);
+    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
 }
 
 GalaxisGameView::~GalaxisGameView() {
     _galaxisModel->removeObserver(this);
 }
 
-void GalaxisGameView::update(int param) {
-    switch ((ViewUpdateMessage) param) {
+void GalaxisGameView::update(ViewUpdateMessage param) {
+    switch (param) {
         case Coordinates:
             updateCoordinates();
             break;
@@ -56,10 +53,6 @@ void GalaxisGameView::update(int param) {
             updateGameOver();
             break;
         case MenuItemChanged:
-            break;
-        case ParticipantShipCount:
-            updateParticipantShipCount();
-            break;
         case Started:
             break;
         case Searching:
@@ -73,8 +66,9 @@ void GalaxisGameView::show() {
     _galaxisController->initialize();
     updateHint();
     updateConnected();
-    updateShipCount();
-    updateParticipantShipCount();
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        showShipCount(i);
+    }
     lv_scr_load_anim(ui_Game, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, false);
 }
 
@@ -87,8 +81,36 @@ void GalaxisGameView::updateCoordinates() {
 }
 
 void GalaxisGameView::updateShipCount() {
-    lv_meter_set_indicator_start_value(my_meter, my_indicator, 0);
-    lv_meter_set_indicator_end_value(my_meter, my_indicator, _galaxisModel->getShipCount() * 25);
+    uint8_t i = getIndicatorIndex();
+    showShipCount(i);
+}
+
+uint8_t GalaxisGameView::getIndicatorIndex() const {
+    if (_galaxisModel->getCurrent() == _galaxisModel->getMe()) {
+        return 0;
+    } else {
+        int index = _galaxisModel->getCurrent() > _galaxisModel->getMe()
+                ? _galaxisModel->getCurrent()
+                : _galaxisModel->getCurrent() + 1;
+        return index % MAX_PLAYERS;
+    }
+}
+
+void GalaxisGameView::showShipCount(uint8_t i) const {
+    if (i >= MAX_PLAYERS)
+        return;
+
+    if (i % 2) {
+        lv_meter_set_indicator_start_value(meters[i],
+            indicators[i],
+            100 - (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25));
+        lv_meter_set_indicator_end_value(meters[i], indicators[i], 100);
+    } else {
+        lv_meter_set_indicator_start_value(meters[i], indicators[i], 0);
+        lv_meter_set_indicator_end_value(meters[i],
+            indicators[i],
+            _galaxisModel->getShipCount(_galaxisModel->getCurrent()) * 25);
+    }
 }
 
 void GalaxisGameView::updateActive() {
@@ -106,8 +128,6 @@ void GalaxisGameView::updateSearchResult() {
     String txt = " ";
     if (searchResult == 0xff) {
         txt = "*";
-        if (_galaxisModel->getShipCount() < SHIP_COUNT)
-            noiseMaker->appendTones(found, 15);
     } else if (searchResult == 0xfe)
         txt = "-";
     else if (searchResult == 0xfa)
@@ -117,16 +137,16 @@ void GalaxisGameView::updateSearchResult() {
     }
 
     lv_label_set_text(ui_SearchResult, txt.c_str());
-    if (searchResult == 0)
-        noiseMaker->appendTones(beep_0, 1);
-    if (searchResult == 1)
-        noiseMaker->appendTones(beep_1, 2);
-    if (searchResult == 2)
-        noiseMaker->appendTones(beep_2, 4);
-    if (searchResult == 3)
-        noiseMaker->appendTones(beep_3, 6);
-    if (searchResult == 4)
-        noiseMaker->appendTones(beep_4, 8);
+
+    playFeedback(searchResult);
+}
+
+void GalaxisGameView::playFeedback(uint8_t searchResult) const {
+    if (searchResult == 0xff)
+        if (_galaxisModel->getShipCount(_galaxisModel->getCurrent()) < SHIP_COUNT)
+            noiseMaker->playFound();
+
+    noiseMaker->playBeep(searchResult);
 }
 
 Screen GalaxisGameView::loop() {
@@ -135,6 +155,8 @@ Screen GalaxisGameView::loop() {
         _galaxisController->move(position);
         _lastPosition = position;
     }
+
+    playIdle();
 
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
@@ -157,6 +179,13 @@ Screen GalaxisGameView::loop() {
     return Screen::NO_CHANGE;
 }
 
+void GalaxisGameView::playIdle() {
+    if (millis() > _nextIdleToneTime && _galaxisModel->isActive()) {
+        noiseMaker->playIdle();
+        _nextIdleToneTime = millis() + IDLE_TIME * 1000;
+    }
+}
+
 void GalaxisGameView::updateHint() {
     lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }
@@ -177,13 +206,9 @@ void GalaxisGameView::updateGameOver() {
         lv_label_set_text(ui_StatusLabel, _galaxisModel->getHint().c_str());
 }
 
-void GalaxisGameView::updateParticipantShipCount() {
-    lv_meter_set_indicator_start_value(your_meter, your_indicator,
-                                       100 - (_galaxisModel->getParticipantShipCount() * 25));
-    lv_meter_set_indicator_end_value(your_meter, your_indicator, 100);
-}
-
 void GalaxisGameView::startSearching() {
+    resetNextIdleTime();
+
     if (!_galaxisModel->isSearching())
         return;
 
@@ -194,13 +219,19 @@ void GalaxisGameView::startSearching() {
     lv_label_set_text(ui_SearchResult, "");
     lv_label_set_text(ui_StatusLabel, "");
     search_anim_Animation(ui_Coordinates, 0);
-    noiseMaker->appendTones(search, 13);
+    noiseMaker->playSearch();
 }
 
+void GalaxisGameView::resetNextIdleTime() { _nextIdleToneTime = millis() + IDLE_TIME * 1000; }
+
 void GalaxisGameView::endSearching() {
+    resetNextIdleTime();
+
     _galaxisModel->setSearching(false);
     _endAnimationTime = 0;
     updateCoordinates();
 
     _galaxisController->makeGuess(_encoder->getPosition());
 }
+
+

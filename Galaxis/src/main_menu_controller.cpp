@@ -26,7 +26,7 @@ void MainMenuController::btnClick(int position) {
             break;
 
         case 2:
-            _model->setSelectedMenuItem(Screen::SINGLE_GAME);
+            _model->setSelectedMenuItem(Screen::SETTINGS);
             break;
 
         default:

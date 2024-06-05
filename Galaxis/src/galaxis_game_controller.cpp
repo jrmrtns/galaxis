@@ -3,10 +3,26 @@
 //
 
 #include "galaxis_game_controller.h"
-
 #include <utility>
+#include <memory>
+#include <map>
 #include "settings.h"
-#include "single_player_game.h"
+#include "message_handler/message_handler.h"
+#include "message_handler/search_message_handler.h"
+#include "message_handler/next_message_handler.h"
+#include "message_handler/connect_message_handler.h"
+#include "message_handler/game_over_message_handler.h"
+#include "message_handler/client_connected_message_handler.h"
+#include "message_handler/new_game_message_handler.h"
+
+std::map<Command, std::shared_ptr<MessageHandler>> messageHandlers = {
+        {Command::SEARCH, std::make_shared<SearchMessageHandler>()},
+        {Command::NEXT, std::make_shared<NextMessageHandler>()},
+        {Command::GAME_OVER, std::make_shared<GameOverMessageHandler>()},
+        {Command::CLIENT_CONNECTED, std::make_shared<ClientConnectedMessageHandler>()},
+        {Command::NEW_GAME, std::make_shared<NewGameMessageHandler>()},
+        {Command::CONNECT, std::make_shared<ConnectMessageHandler>()}
+};
 
 GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame,
                                              std::shared_ptr<GalaxisGameModel> galaxisModel) {
@@ -34,39 +50,22 @@ void GalaxisGameController::btnClick() {
 }
 
 void GalaxisGameController::messageReceived(GalaxisMessage message) {
+    if (message.msgType == PAIRING_RESPONSE){
+        if (message.command == CONNECT) {
+            MessageHandler* messageHandler = messageHandlers[message.command].get();
+            if (messageHandler) {
+                messageHandler->handle(_galaxisModel, message);
+            }
+        }
+    }
+
     if (message.msgType != RESPONSE)
         return;
 
-    if (message.command == SEARCH) {
-        if (message.id == _galaxisModel->getMe())
-            handleSearchMessage(message);
-        else
-            handleSearchMessageForParticipants(message);
+    MessageHandler* messageHandler = messageHandlers[message.command].get();
+    if (messageHandler) {
+        messageHandler->handle(_galaxisModel, message);
     }
-
-    if (message.command == NEXT) {
-        handleNextMessage(message);
-    }
-
-    if (message.command == CONNECTED) {
-        handleConnectedMessage(message);
-    }
-
-    if (message.command == GAME_OVER) {
-        handleGameOver(message.param1);
-    }
-
-    if (message.command == NEW_GAME) {
-        reset();
-    }
-}
-
-void GalaxisGameController::handleSearchMessage(const GalaxisMessage &message) {
-    if (message.param1 == 0xff) {
-        _galaxisModel->setShipCount(_galaxisModel->getShipCount() + 1);
-    }
-    _galaxisModel->setLastSearchResult(message.param1);
-    _galaxisModel->setHint("");
 }
 
 void GalaxisGameController::initialize() {
@@ -74,53 +73,10 @@ void GalaxisGameController::initialize() {
     if (_galaxisModel->isStarted())
         _galaxisModel->setHint(START_MESSAGE);
     else
-        _galaxisModel->setHint(CONNECTING);
-}
-
-void GalaxisGameController::handleNextMessage(const GalaxisMessage &message) {
-    uint8_t nextUser = message.param1;
-    _galaxisModel->setCurrent(nextUser);
-}
-
-void GalaxisGameController::handleGameOver(uint8_t i) {
-    _galaxisGame->shutdown();
-    _galaxisModel->setGameOver(true);
-    _galaxisModel->setWinner(i == _galaxisModel->getMe());
-}
-
-void GalaxisGameController::handleSearchMessageForParticipants(GalaxisMessage message) {
-    if (message.param1 == 0xfe || message.param1 == 0xfd || message.param1 == 0xfa || message.param1 == 0xf0)
-        return;
-
-    String text = PLAYER;
-    text += char(0x41 + message.id);
-    text += ": ";
-    if (message.param1 == 0xff) {
-        String counter = "0/0";
-        counter[0] = char(0x30 + message.param2);
-        counter[2] = char(0x30 + SHIP_COUNT);
-        text += counter;
-    } else {
-        text += message.param1;
-    }
-
-    _galaxisModel->setParticipantShipCount(message.param2);
-    _galaxisModel->setHint(text);
-}
-
-void GalaxisGameController::handleConnectedMessage(GalaxisMessage message) {
-    _galaxisModel->setConnected(message.param1);
-    if (_galaxisModel->isActive())
-        _galaxisModel->setHint(START_MESSAGE);
-    else {
-        String text = WAITING_FOR_PLAYER;
-        text += char(0x41 + _galaxisModel->getCurrent());
-        _galaxisModel->setHint(text.c_str());
-    }
-}
-
-void GalaxisGameController::reset() {
-    _galaxisModel->reset();
+        if (_galaxisModel->getMe() == 0)
+            _galaxisModel->setHint(CONNECTING);
+        else
+            _galaxisModel->setHint(WAIT_JOIN);
 }
 
 void GalaxisGameController::makeGuess(int position) {

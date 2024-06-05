@@ -11,15 +11,13 @@
 #include <ArduinoBLE.h>
 #include <memory>
 
-class BLEDeviceGame : public Subject, public AbstractGame {
+class BLEDeviceGame : public AbstractGame {
 public:
     BLEDeviceGame();
 
     static BLEDeviceGame *getInstance();
 
     ~BLEDeviceGame() override;
-
-    void shutdown() override;
 
 private:
     static BLEDeviceGame *_instance;
@@ -35,6 +33,8 @@ private:
     void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) override;
 
     void NotifyUiConnected(bool connected);
+
+    static void logMessage(const GalaxisMessage &galaxisMessage);
 };
 
 #endif //GALAXIS_BLE_DEVICE_GAME_H

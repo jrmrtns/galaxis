@@ -10,8 +10,9 @@
 #include "abstract-game.h"
 #include "BLEDevice.h"
 #include "galaxis.h"
+#include "settings.h"
 
-class BLECentralGame : public Subject, public AbstractGame {
+class BLECentralGame : public AbstractGame {
 public:
     BLECentralGame();
 
@@ -19,20 +20,21 @@ public:
 
     ~BLECentralGame() override;
 
-    void shutdown() override;
-
 private:
     static BLECentralGame *_instance;
-    static BLECharacteristic _galaxisCharacteristic;
+    static std::vector<BLEDevice> devices;
     std::unique_ptr<Galaxis> _galaxis;
+    static uint8_t _connectionCount;
+    static bool _isScanning;
+    static bool _gameStarted;
 
-    static void discoverHandler(BLEDevice peripheral);
+    static void discoverHandler(BLEDevice bleDevice);
 
-    static void galaxisCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic);
+    static void galaxisCharacteristicWritten(BLEDevice bleDevice, BLECharacteristic characteristic);
 
     void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) override;
 
-    static void peripheralDisconnectHandler(BLEDevice central);
+    static void peripheralDisconnectHandler(BLEDevice bleDevice);
 
     void SendGameOverNotification(uint8_t winner) const;
 
@@ -41,6 +43,16 @@ private:
     void SendGuessResponse(uint8_t receiver, uint8_t guessResult, uint8_t discovered) const;
 
     void NotifyUiConnected(bool connected);
+
+    void NotifyUiClientConnected();
+
+    static void SendPairingMessage();
+
+    static void stopScanning();
+
+    static void startScanning();
+
+    static void logMessage(const GalaxisMessage &galaxisMessage);
 };
 
 

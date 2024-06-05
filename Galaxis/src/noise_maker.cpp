@@ -6,32 +6,13 @@
 #include "settings.h"
 #include "Arduino.h"
 #include "tone.h"
+#include "sounds.h"
 
-//void NoiseMaker::playMelody(int melody[], int notesCount) {
-//#ifdef SILENT
-//    return;
-//#else
-//    for (int thisNote = 0; thisNote < notesCount * 2; thisNote += 2) {
-//        uint16_t divider = melody[thisNote + 1];
-//        int8_t noteDuration;
-//        if (divider > 0) {
-//            noteDuration = (_wholeNote) / divider;
-//        } else if (divider < 0) {
-//            noteDuration = (_wholeNote) / abs(divider);
-//            noteDuration *= 1.5;
-//        }
-//
-//        tone(PIN_TONE_OUTPUT, melody[thisNote], noteDuration * 0.9);
-//        //delay(noteDuration);
-//        noTone(PIN_TONE_OUTPUT);
-//    }
-//#endif
-//}
+extern bool playSound;
+extern bool playIdleSound;
 
 void NoiseMaker::appendTones(int melody[], int notesCount) {
-#ifdef SILENT
-    return;
-#else
+    if (!playSound) return;
     for (int thisNote = 0; thisNote < notesCount * 2; thisNote += 2) {
         int divider = melody[thisNote + 1];
         int noteDuration = (_wholeNote) / abs(divider);
@@ -41,13 +22,11 @@ void NoiseMaker::appendTones(int melody[], int notesCount) {
 
         _tones.push(std::make_unique<Tone>(Tone({static_cast<uint16_t>(melody[thisNote]), noteDuration})));
     }
-#endif
 }
 
 void NoiseMaker::loop() {
-#ifdef SILENT
-    return;
-#else
+    if (!playSound) return;
+
     if (isPlaying())
         return;
 
@@ -57,8 +36,6 @@ void NoiseMaker::loop() {
     }
 
     playNextTone();
-
-#endif
 }
 
 void NoiseMaker::stopTone() {
@@ -77,9 +54,6 @@ void NoiseMaker::playNextTone() {
 bool NoiseMaker::isPlaying() const { return _playUntil > millis(); }
 
 void NoiseMaker::playWinner() {
-#ifdef SILENT
-    return;
-#else
     for (int j = 0; j < 5; ++j) {
         for (int i = 0; i < 25; i++) {
             _tones.push(std::make_unique<Tone>(Tone{440 + i * 30, 20}));
@@ -88,5 +62,32 @@ void NoiseMaker::playWinner() {
             _tones.push(std::make_unique<Tone>(Tone{440 + i * 30, 20}));
         }
     }
-#endif
+}
+
+void NoiseMaker::playBeep(uint8_t count) {
+    if (count == 0)
+        appendTones(beep_0, 1);
+    if (count == 1)
+        appendTones(beep_1, 2);
+    if (count == 2)
+        appendTones(beep_2, 4);
+    if (count == 3)
+        appendTones(beep_3, 6);
+    if (count == 4)
+        appendTones(beep_4, 8);
+    if (count == 0xfe)
+        appendTones(nope, 7);
+}
+
+void NoiseMaker::playFound() {
+    appendTones(found, 15);
+}
+
+void NoiseMaker::playIdle() {
+    if (playIdleSound)
+        appendTones(idle, 3);
+}
+
+void NoiseMaker::playSearch() {
+    appendTones(search, 13);
 }

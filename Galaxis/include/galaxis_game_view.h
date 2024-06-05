@@ -22,7 +22,7 @@ public:
 
     Screen loop() override;
 
-    void update(int param) override;
+    void update(ViewUpdateMessage param) override;
 
 private:
     RotaryEncoder *_encoder;
@@ -37,8 +37,7 @@ private:
     uint32_t _lastButtonPress = 0;
     uint32_t _debounceTimeSpan = 25;
     uint32_t _endAnimationTime = 0;
-
-    void updateShipCount();
+    uint32_t _nextIdleToneTime = 0;
 
     void updateActive();
 
@@ -48,11 +47,21 @@ private:
 
     void updateGameOver();
 
-    void updateParticipantShipCount();
+    void updateShipCount();
 
     void startSearching();
 
     void endSearching();
+
+    void playIdle();
+
+    void playFeedback(uint8_t searchResult) const;
+
+    void showShipCount(uint8_t i) const;
+
+    uint8_t getIndicatorIndex() const;
+
+    void resetNextIdleTime();
 };
 
 

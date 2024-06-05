@@ -24,8 +24,6 @@ private :
 
     std::shared_ptr<IView> _currentView;
 
-    void showSingleGameView();
-
     void showMainMenu();
 
     void showCentralGameView();
@@ -35,6 +33,8 @@ private :
     void showGameOverView();
 
     void showWinnerView();
+
+    void showSettingsView();
 };
 
 

@@ -11,8 +11,9 @@
 #include "abstract-game.h"
 #include "message_observer.h"
 #include <memory>
+#include <map>
 
-class GalaxisGameController: protected MessageObserver{
+class GalaxisGameController: protected MessageObserver {
 public:
     GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame, std::shared_ptr<GalaxisGameModel> galaxisModel);
 
@@ -31,19 +32,8 @@ private:
     std::shared_ptr<GalaxisGameModel> _galaxisModel;
 
     std::shared_ptr<AbstractGame> _galaxisGame;
-
-    void handleSearchMessage(const GalaxisMessage &message);
-
-    void handleNextMessage(const GalaxisMessage &message);
-
-    void handleGameOver(uint8_t i);
-
-    void handleSearchMessageForParticipants(GalaxisMessage message);
-
-    void handleConnectedMessage(GalaxisMessage message);
-
-    void reset();
 };
+
 
 
 #endif //GALAXIS_GALAXIS_GAME_CONTROLLER_H

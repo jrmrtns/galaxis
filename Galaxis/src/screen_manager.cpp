@@ -6,7 +6,6 @@
 #include "galaxis_game_view.h"
 #include "ble_device_game.h"
 #include "ble_central_game.h"
-#include "single_player_game.h"
 #include "main_menu_controller.h"
 #include "main_menu_model.h"
 #include "main_menu_view.h"
@@ -14,7 +13,10 @@
 #include "settings.h"
 #include "game_over_view.h"
 #include "ui.h"
+#include "noise_maker.h"
+#include "settings_view.h"
 
+extern NoiseMaker *noiseMaker;
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
 
 void ScreenManager::loop() {
@@ -45,9 +47,6 @@ void ScreenManager::show(Screen screen) {
         case MENU:
             showMainMenu();
             break;
-        case SINGLE_GAME:
-            showSingleGameView();
-            break;
         case CENTRAL_GAME:
             showCentralGameView();
             break;
@@ -60,24 +59,10 @@ void ScreenManager::show(Screen screen) {
         case WINNER_SCREEN:
             showWinnerView();
             break;
+        case SETTINGS:
+            showSettingsView();
+            break;
     }
-}
-
-void ScreenManager::showSingleGameView() {
-    auto gameModel = std::make_shared<GalaxisGameModel>();
-    gameModel->setConnected(true);
-    gameModel->setStarted(true);
-#ifdef RND
-    randomSeed(1);
-#else
-    randomSeed(micros());
-#endif
-
-    std::shared_ptr<AbstractGame> game = std::make_shared<SinglePlayerGame>();
-
-    auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
-    _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
-    _currentView->show();
 }
 
 void ScreenManager::showMainMenu() {
@@ -105,9 +90,9 @@ void ScreenManager::showCentralGameView() {
 
 void ScreenManager::showPeriheralGameView() {
     auto gameModel = std::make_shared<GalaxisGameModel>();
+    gameModel->setMe(0xff);
 
     std::shared_ptr<AbstractGame> game = std::make_shared<BLEDeviceGame>();
-    gameModel->setMe(1);
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
     _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
@@ -125,5 +110,11 @@ void ScreenManager::showWinnerView() {
     lv_label_set_text(ui_GameOverItem, String(GAME_OVER_WINNER_MESSAGE).c_str());
     lv_label_set_text(ui_GameOverHint, String(GAME_OVER_WINNER_HINT).c_str());
     _currentView = std::make_shared<GameOverView>(_encoder);
+    _currentView->show();
+    noiseMaker->playWinner();
+}
+
+void ScreenManager::showSettingsView() {
+    _currentView = std::make_shared<SettingsView>(_encoder);
     _currentView->show();
 }
