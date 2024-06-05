@@ -18,7 +18,7 @@ public:
         observers.remove(observer);
     }
 
-    void notifyView(int param) const {
+    void notifyView(ViewUpdateMessage param) const {
         for (auto observer: observers) observer->update(param);
     }
 

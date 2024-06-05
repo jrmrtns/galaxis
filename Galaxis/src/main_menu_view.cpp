@@ -42,7 +42,7 @@ Screen MainMenuView::loop() {
     return _model->getSelectedMenuItem();
 }
 
-void MainMenuView::update(int param) {
+void MainMenuView::update(ViewUpdateMessage param) {
     switch ((ViewUpdateMessage) param) {
         case Coordinates:
         case SearchResult:

@@ -21,7 +21,7 @@ public:
 
     Screen loop() override;
 
-    void update(int param) override;
+    void update(ViewUpdateMessage param) override;
 private:
     RotaryEncoder *_encoder;
     std::shared_ptr<MainMenuController> _controller;

@@ -11,7 +11,7 @@
 #include <ArduinoBLE.h>
 #include <memory>
 
-class BLEDeviceGame : public Subject, public AbstractGame {
+class BLEDeviceGame : public AbstractGame {
 public:
     BLEDeviceGame();
 

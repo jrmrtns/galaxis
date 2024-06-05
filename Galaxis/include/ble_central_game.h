@@ -12,7 +12,7 @@
 #include "galaxis.h"
 #include "settings.h"
 
-class BLECentralGame : public Subject, public AbstractGame {
+class BLECentralGame : public AbstractGame {
 public:
     BLECentralGame();
 
@@ -22,7 +22,7 @@ public:
 
 private:
     static BLECentralGame *_instance;
-    static std::vector<BLECharacteristic> _galaxisCharacteristics;
+    static std::vector<BLEDevice> devices;
     std::unique_ptr<Galaxis> _galaxis;
     static uint8_t _connectionCount;
     static bool _isScanning;

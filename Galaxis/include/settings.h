@@ -31,7 +31,7 @@
 #define GALAXIS_CHARACTERISTIC_UUID "5A9AB001-CF0B-4281-BB4F-60C67E9ACC28"
 
 #ifdef DE
-#define START_MESSAGE "Du bist dran"
+#define START_MESSAGE "Starte ...\noder warte auf weitere Spieler"
 #define WAITING_FOR_PLAYER "Warte auf "
 #define CONNECTING "Warte auf weitere Spieler...\noder spiele alleine"
 #define WAIT_JOIN "Warte auf Verbindung..."
@@ -43,7 +43,7 @@
 #define GAME_OVER_WINNER_HINT "Nochmal spielen?"
 #define MAIN_MENU_SINGLE "Einzel"
 #define MAIN_MENU_SINGLE_HINT "Einzelspiel"
-#define MAIN_MENU_SETTINGS "Einstell."
+#define MAIN_MENU_SETTINGS "Einst."
 #define MAIN_MENU_SETTINGS_HINT "Einstellungen"
 #define MAIN_MENU_NEW_GAME "Neu"
 #define MAIN_MENU_NEW_GAME_HINT "Neues Spiel starten"
@@ -52,9 +52,9 @@
 #define MAIN_MENU_OFF "Off"
 #define GAME_SCANNING_MESSAGE "Suche"
 #else
-#define START_MESSAGE "Start..."
+#define START_MESSAGE "Start...\nor wait for other players"
 #define WAITING_FOR_PLAYER "Waiting for "
-#define CONNECTING "Waiting for further players\nor just start single"
+#define CONNECTING "Wait for further players\nor just start single"
 #define WAIT_JOIN "Waiting for connection..."
 #define CONNECTED "Connected: "
 #define PLAYER "Hi  "
@@ -77,7 +77,7 @@
 const float conversion_factor = 3.3f / (1 << 12) * 3;
 static const char *playerNames[] = {
         "Luke Skyrunner",
-        "San Holo",
+        "Han Solar",
         "James T. Smirk",
         "Tricia McMillan"
 };
