@@ -5,10 +5,6 @@
 #ifndef GALAXIS_VIEW_UPDATE_MESSAGE_H
 #define GALAXIS_VIEW_UPDATE_MESSAGE_H
 
-#include "WString.h"
-#include "subject.h"
-#include <cstdio>
-
 enum ViewUpdateMessage {
     Coordinates,
     SearchResult,

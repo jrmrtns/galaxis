@@ -7,11 +7,12 @@
 
 #include <cstdint>
 #include "galaxis-message.h"
+#include "view-update-message.h"
 
 class Observer {
 public:
-    virtual ~Observer(){};
-    virtual void update(int param) = 0;
+    virtual ~Observer()= default;
+    virtual void update(ViewUpdateMessage param) = 0;
 };
 
 

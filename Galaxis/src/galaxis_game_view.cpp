@@ -29,8 +29,8 @@ GalaxisGameView::~GalaxisGameView() {
     _galaxisModel->removeObserver(this);
 }
 
-void GalaxisGameView::update(int param) {
-    switch ((ViewUpdateMessage) param) {
+void GalaxisGameView::update(ViewUpdateMessage param) {
+    switch (param) {
         case Coordinates:
             updateCoordinates();
             break;
@@ -207,7 +207,7 @@ void GalaxisGameView::updateGameOver() {
 }
 
 void GalaxisGameView::startSearching() {
-    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
+    resetNextIdleTime();
 
     if (!_galaxisModel->isSearching())
         return;
@@ -222,8 +222,11 @@ void GalaxisGameView::startSearching() {
     noiseMaker->playSearch();
 }
 
+void GalaxisGameView::resetNextIdleTime() { _nextIdleToneTime = millis() + IDLE_TIME * 1000; }
+
 void GalaxisGameView::endSearching() {
-    _nextIdleToneTime = millis() + IDLE_TIME * 1000;
+    resetNextIdleTime();
+
     _galaxisModel->setSearching(false);
     _endAnimationTime = 0;
     updateCoordinates();

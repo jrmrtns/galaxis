@@ -54,7 +54,7 @@
 #else
 #define START_MESSAGE "Start...\nor wait for other players"
 #define WAITING_FOR_PLAYER "Waiting for "
-#define CONNECTING "Waiting for further players\nor just start single"
+#define CONNECTING "Wait for further players\nor just start single"
 #define WAIT_JOIN "Waiting for connection..."
 #define CONNECTED "Connected: "
 #define PLAYER "Hi  "

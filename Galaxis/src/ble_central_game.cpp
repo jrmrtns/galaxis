@@ -5,11 +5,10 @@
 #include "ble_central_game.h"
 #include "settings.h"
 #include <ArduinoBLE.h>
-
 #include <memory>
 
 BLECentralGame *BLECentralGame::_instance = nullptr;
-std::vector<BLECharacteristic> BLECentralGame::_galaxisCharacteristics;
+std::vector<BLEDevice> BLECentralGame::devices;
 uint8_t BLECentralGame::_connectionCount = 0;
 bool BLECentralGame::_isScanning = false;
 bool BLECentralGame::_gameStarted = false;
@@ -50,7 +49,7 @@ void BLECentralGame::discoverHandler(BLEDevice bleDevice) {
         return;
     }
 
-    _galaxisCharacteristics.push_back(characteristic);
+    devices.push_back(bleDevice);
     characteristic.subscribe();
 
     SendPairingMessage();
@@ -63,12 +62,11 @@ void BLECentralGame::peripheralDisconnectHandler(BLEDevice bleDevice) {
     if (!_gameStarted)
         startScanning();
 
-    BLECharacteristic characteristic = bleDevice.characteristic(GALAXIS_CHARACTERISTIC_UUID);
-    for (auto it = _galaxisCharacteristics.begin(); it != _galaxisCharacteristics.end();) {
-        if (*it == characteristic) {
-            uint8_t ct = std::distance(_galaxisCharacteristics.begin(), it) + 1;
+    for (auto it = devices.begin(); it != devices.end();) {
+        if (*it == bleDevice) {
+            uint8_t ct = std::distance(devices.begin(), it) + 1;
             getInstance()->_galaxis->remove(ct);
-            it = _galaxisCharacteristics.erase(it);
+            it = devices.erase(it);
         } else {
             ++it;
         }
@@ -145,7 +143,9 @@ void BLECentralGame::SendPairingMessage() {
     message.id = 0;
     message.param1 = true;
     message.param2 = id;
-    _galaxisCharacteristics[_connectionCount].writeValue(&message, sizeof(GalaxisMessage), true);
+    devices[_connectionCount]
+        .characteristic(GALAXIS_CHARACTERISTIC_UUID)
+        .writeValue(&message, sizeof(GalaxisMessage), true);
     _connectionCount++;
     getInstance()->NotifyUiConnected(true);
     getInstance()->NotifyUiClientConnected();
@@ -157,9 +157,13 @@ void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
     message.command = GAME_OVER;
     message.id = 0xff;
     message.param1 = winner;
-    for (auto &characteristic: _galaxisCharacteristics) {
-        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+
+    BLE.setEventHandler(BLEDisconnected, nullptr);
+
+    for (auto &device: devices) {
+        device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
     }
+
     notifyObservers(message);
 }
 
@@ -170,8 +174,8 @@ void BLECentralGame::SendNextPlayerNotification() const {
     message.id = 0xff;
     message.param1 = _galaxis->getCurrentPlayerId();
     notifyObservers(message);
-    for (auto &characteristic: _galaxisCharacteristics) {
-        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+    for (auto &device: devices) {
+        device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
     }
 }
 
@@ -183,8 +187,8 @@ void BLECentralGame::SendGuessResponse(uint8_t receiver, uint8_t guessResult, ui
     message.param1 = guessResult;
     message.param2 = discovered;
     notifyObservers(message);
-    for (auto &characteristic: _galaxisCharacteristics) {
-        characteristic.writeValue(&message, sizeof(GalaxisMessage), true);
+    for (auto &device: devices) {
+        device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
     }
 }
 

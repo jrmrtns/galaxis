@@ -22,7 +22,7 @@ public:
 
     Screen loop() override;
 
-    void update(int param) override;
+    void update(ViewUpdateMessage param) override;
 
 private:
     RotaryEncoder *_encoder;
@@ -60,6 +60,8 @@ private:
     void showShipCount(uint8_t i) const;
 
     uint8_t getIndicatorIndex() const;
+
+    void resetNextIdleTime();
 };
 
 
