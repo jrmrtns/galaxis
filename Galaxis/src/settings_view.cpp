@@ -5,7 +5,7 @@
 #include "settings_view.h"
 #include "ui.h"
 #include "settings.h"
-#include "preferences.h"
+#include "Preferences.h"
 
 extern bool playSound;
 extern bool playIdleSound;

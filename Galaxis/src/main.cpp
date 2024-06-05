@@ -6,7 +6,7 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
-#include "preferences.h"
+#include "Preferences.h"
 
 Preferences preferences;
 RotaryEncoder *encoder = nullptr;
