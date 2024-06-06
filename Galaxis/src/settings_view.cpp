@@ -5,11 +5,11 @@
 #include "settings_view.h"
 #include "ui.h"
 #include "settings.h"
-//#include "Preferences.h"
+#include "Preferences.h"
 
 extern bool playSound;
 extern bool playIdleSound;
-//extern Preferences preferences;
+extern Preferences preferences;
 
 Screen SettingsView::loop() {
     int position = _encoder->getPosition();
@@ -75,10 +75,10 @@ bool SettingsView::click() {
     if (_focusedElement == 1)
         playIdleSound = !playIdleSound;
     if (_focusedElement == 2) {
-        //preferences.begin("galaxis", false);
-        //preferences.putBool("Sound", playSound);
-        //preferences.putBool("IdleSound", playIdleSound);
-        //preferences.end();
+        preferences.begin("galaxis", false);
+        preferences.putBool("Sound", playSound);
+        preferences.putBool("IdleSound", playIdleSound);
+        preferences.end();
         return true;
     }
     updateStates();
