@@ -6,9 +6,9 @@
 #include "screen_manager.h"
 #include "settings.h"
 #include "noise_maker.h"
-#include "Preferences.h"
+//#include "Preferences.h"
 
-Preferences preferences;
+//Preferences preferences;
 RotaryEncoder *encoder = nullptr;
 ScreenManager *screenManager = nullptr;
 NoiseMaker *noiseMaker = nullptr;
@@ -129,10 +129,10 @@ void dispFlushCallback(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *c
 
 void setup() {
     Serial.begin(115200);
-    preferences.begin("galaxis", true);
-    playSound = preferences.getBool("Sound", true);
-    playIdleSound = preferences.getBool("IdleSound", true);
-    preferences.end();
+    //preferences.begin("galaxis", true);
+    //playSound = preferences.getBool("Sound", true);
+    //playIdleSound = preferences.getBool("IdleSound", true);
+    //preferences.end();
 
     ledcSetup(TONE_PWM_CHANNEL, 12000, 9);
     ledcAttachPin(PIN_TONE_OUTPUT, TONE_PWM_CHANNEL);
