@@ -1,7 +1,7 @@
 # Galaxis
 
 A tribute to Galaxis, an electronic game from Ravensburger, I loved to play as child.
-<br/>This version of the game runs on a ESP32-C3 or ESP32-S3 and makes use of Bluetooth LE to connect two players.
+<br/>This version of the game runs on a ESP32-C3 or ESP32-S3 and makes use of Bluetooth LE to connect up to four players.
 
 The game is a kind of deductive boardgame like Mastermind for one to two players. The goal of the game is to discover
 missing space ships, lost in space. These ships can be found if you enter coordinates into the board computer. Then the
@@ -18,7 +18,7 @@ directions, how many of the spaceships are seen from a certain point is reported
 
 * Player A starts a new game by turning the dial until "New" appears on the display and confirming by pressing the
   middle button to confirm
-* Player B joins a game by pressing "Join".
+* Up to three additional players can join a game by pressing "Join".
 * A yellow ring on the screen indicates the active player
 * The player sets a coordinate and presses the middle button.
 * The search begins, a radio beam is emitted. Either a number appears on the screen, or a star if one of the ships has
@@ -79,8 +79,8 @@ In case of PlatformIO Core CLI, please follow these instructions:
 
 ## 3D Files
 
-Even if there is a single player version, I recommend to print the deck twice. To assemble one deck, you need to print
-all the following parts:
+Even if there is a single player version, I recommend to print the deck minimum twice. The hardware can connect up to four decks. 
+To assemble one deck, you need to print all the following parts:
 
 * 1 x [Bottom of the case](./3d/Boden.stl)
 * 1 x [Lid of the case](./3d/Deckel.stl)
