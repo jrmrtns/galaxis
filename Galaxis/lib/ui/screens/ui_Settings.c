@@ -49,7 +49,7 @@ void ui_Settings_screen_init(void)
     lv_obj_set_y(ui_shouldPlaySounds, -30);
     lv_obj_set_align(ui_shouldPlaySounds, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_shouldPlaySounds, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xAAAAAA), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_shouldPlaySounds, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
     lv_obj_set_style_text_opa(ui_shouldPlaySounds, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
@@ -62,7 +62,7 @@ void ui_Settings_screen_init(void)
     lv_obj_set_y(ui_shouldPlayIdle, 7);
     lv_obj_set_align(ui_shouldPlayIdle, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_shouldPlayIdle, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xAAAAAA), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_shouldPlayIdle, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_FOCUSED);
     lv_obj_set_style_text_opa(ui_shouldPlayIdle, 255, LV_PART_MAIN | LV_STATE_FOCUSED);

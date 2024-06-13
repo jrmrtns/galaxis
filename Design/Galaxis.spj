@@ -4675,9 +4675,9 @@
                             "nid": 1772109960,
                             "strtype": "_style/Text_Color",
                             "intarray": [
-                              255,
-                              0,
-                              0,
+                              170,
+                              170,
+                              170,
                               255
                             ],
                             "InheritedType": 7
@@ -4942,9 +4942,9 @@
                             "nid": -1501623990,
                             "strtype": "_style/Text_Color",
                             "intarray": [
-                              255,
-                              0,
-                              0,
+                              170,
+                              170,
+                              170,
                               255
                             ],
                             "InheritedType": 7
@@ -5728,7 +5728,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib\\ui",
     "projectExportFolderPath": "D:\\Projekte\\Galaxis.Nxt\\Galaxis\\lib",
-    "backup_cnt": 205,
+    "backup_cnt": 206,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",
