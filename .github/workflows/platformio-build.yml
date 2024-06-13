@@ -33,7 +33,7 @@ jobs:
         working-directory: ./Galaxis
         run: pio run -e seeed_xiao_esp32s3 -e seeed_xiao_esp32c3
         env:
-          PLATFORMIO_BUILD_FLAGS: -DDE
+          PLATFORMIO_BUILD_FLAGS: ${seeed_xiao_tft_espi.build_flags} -DDE
 
       - name: Rename Firmware S3
         working-directory: ./Galaxis/.pio/build/seeed_xiao_esp32s3/
