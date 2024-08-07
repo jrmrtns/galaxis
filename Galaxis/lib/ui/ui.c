@@ -30,6 +30,8 @@ lv_obj_t * ui_SearchResult;
 lv_obj_t * ui_Coordinates;
 lv_obj_t * ui_StatusLabel;
 lv_obj_t * ui_Connected;
+lv_obj_t * ui_Round;
+lv_obj_t * ui_ElapsedTime;
 
 
 // SCREEN: ui_GameOver
