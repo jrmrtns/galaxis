@@ -42,6 +42,8 @@ extern lv_obj_t * ui_SearchResult;
 extern lv_obj_t * ui_Coordinates;
 extern lv_obj_t * ui_StatusLabel;
 extern lv_obj_t * ui_Connected;
+extern lv_obj_t * ui_Round;
+extern lv_obj_t * ui_ElapsedTime;
 // SCREEN: ui_GameOver
 void ui_GameOver_screen_init(void);
 extern lv_obj_t * ui_GameOver;

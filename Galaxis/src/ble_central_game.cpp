@@ -157,6 +157,7 @@ void BLECentralGame::SendGameOverNotification(uint8_t winner) const {
     message.command = GAME_OVER;
     message.id = 0xff;
     message.param1 = winner;
+    message.param2 = _galaxis->getRound();
 
     BLE.setEventHandler(BLEDisconnected, nullptr);
 
@@ -173,6 +174,8 @@ void BLECentralGame::SendNextPlayerNotification() const {
     message.command = NEXT;
     message.id = 0xff;
     message.param1 = _galaxis->getCurrentPlayerId();
+    message.param2 = _galaxis->getRound();
+
     notifyObservers(message);
     for (auto &device: devices) {
         device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
