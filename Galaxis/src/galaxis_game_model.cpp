@@ -147,3 +147,12 @@ GalaxisGameModel::GalaxisGameModel() {
         _shipCount[i] = 0;
     }
 }
+
+uint8_t GalaxisGameModel::getRound() const {
+    return _round;
+}
+
+void GalaxisGameModel::setRound(uint8_t round) {
+    _round = round;
+    notifyView(ViewUpdateMessage::Round);
+}

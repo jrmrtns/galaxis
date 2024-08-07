@@ -43,18 +43,21 @@ public:
 
     std::vector<Ship *> get_ships_by_player(uint8_t player) const;
 
+    void setTimeLimit(uint64_t timeLimit);
+
+    uint64_t getTimeLimit() const;
+
+    int getRound() const;
+
 private:
     gameType _gameType;
     int _currentPlayer = 0;
+    int _round = 0;
     bool _time_limited = false;
     std::vector<std::unique_ptr<Player>> _players;
     gameState _gameState;
     uint64_t _time_limit = 0;
     std::shared_ptr<Board> _board;
-public:
-    void setTimeLimit(uint64_t timeLimit);
-
-    uint64_t getTimeLimit() const;
 };
 
 

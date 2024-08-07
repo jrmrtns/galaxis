@@ -62,8 +62,10 @@ void Galaxis::next(uint64_t elapsed) {
     _time_limit = elapsed + MAX_TIME * 1000 * 1000;
 
     _currentPlayer++;
-    if (_currentPlayer >= _players.size())
+    if (_currentPlayer >= _players.size()) {
         _currentPlayer = 0;
+        _round++;
+    }
     _gameState = gameState::idle;
 }
 
@@ -116,4 +118,8 @@ void Galaxis::remove(uint8_t id) {
         return;
 
     _players.erase(_players.begin() + id);
+}
+
+int Galaxis::getRound() const {
+    return _round;
 }

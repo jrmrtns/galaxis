@@ -41,6 +41,7 @@ void BLEDeviceGame::peripheralConnectHandler(BLEDevice central)  {
 // NOLINTNEXTLINE
 void BLEDeviceGame::peripheralDisconnectHandler(BLEDevice central) {
     BLEDeviceGame::getInstance()->NotifyUiConnected(false);
+    BLE.advertise();
 }
 
 // NOLINTNEXTLINE
