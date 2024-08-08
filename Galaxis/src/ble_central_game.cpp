@@ -107,8 +107,6 @@ void BLECentralGame::logMessage(const GalaxisMessage &galaxisMessage) {
 }
 
 void BLECentralGame::makeGuess(uint8_t playerId, uint8_t x, uint8_t y) {
-    stopScanning();
-
     uint8_t currentPlayerId = _galaxis->getCurrentPlayerId();
     uint8_t guessResult = _galaxis->guess(playerId, x, y);
     uint8_t discovered = _galaxis->player(currentPlayerId)->getDiscovered();
@@ -214,3 +212,22 @@ void BLECentralGame::NotifyUiConnected(bool connected) {
     message.param2 = 0;
     notifyObservers(message);
 }
+
+void BLECentralGame::startGame() {
+    if (_gameStarted)
+        return;
+
+    stopScanning();
+
+    GalaxisMessage message = {0};
+    message.msgType = RESPONSE;
+    message.command = START;
+    message.id = 0xff;
+    message.param1 = _galaxis->getRound();
+
+    notifyObservers(message);
+    for (auto &device: devices) {
+        device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
+    }
+}
+

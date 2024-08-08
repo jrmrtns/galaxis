@@ -53,7 +53,9 @@ void GalaxisGameView::update(ViewUpdateMessage param) {
             updateGameOver();
             break;
         case MenuItemChanged:
+            break;
         case Started:
+            startGame();
             break;
         case Searching:
             startSearching();
@@ -215,8 +217,6 @@ void GalaxisGameView::updateGameOver() {
 
 void GalaxisGameView::startSearching() {
     resetNextIdleTime();
-    if (_startTime == 0)
-        _startTime = millis();
 
     if (!_galaxisModel->isSearching())
         return;
@@ -244,11 +244,14 @@ void GalaxisGameView::endSearching() {
 }
 
 void GalaxisGameView::updateRound() {
-    lv_label_set_text(ui_Round, String(_galaxisModel->getRound()).c_str());
+    if (!_galaxisModel->isStarted())
+        return;
+
+    lv_label_set_text(ui_Round, String(_galaxisModel->getRound() + 1).c_str());
 }
 
 void GalaxisGameView::drawElapsedTime() {
-    if (_startTime == 0)
+    if (!_galaxisModel->isStarted())
         return;
 
     uint32_t elapsed = (millis() - _startTime) / 1000;
@@ -260,4 +263,8 @@ void GalaxisGameView::drawElapsedTime() {
 
     _elapsedTime = txt;
     lv_label_set_text(ui_ElapsedTime, txt.c_str());
+}
+
+void GalaxisGameView::startGame() {
+    _startTime = millis();
 }
