@@ -99,3 +99,7 @@ void BLEDeviceGame::logMessage(const GalaxisMessage &galaxisMessage) {
     Serial.print(":");
     Serial.println(galaxisMessage.param2);
 }
+
+void BLEDeviceGame::startGame() {
+
+}

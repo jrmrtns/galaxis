@@ -68,6 +68,8 @@ private:
     void resetNextIdleTime();
 
     void drawElapsedTime();
+
+    void startGame();
 };
 
 
