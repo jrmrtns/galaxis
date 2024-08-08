@@ -15,7 +15,8 @@ enum ViewUpdateMessage {
     GameOver,
     MenuItemChanged,
     Started,
-    Searching
+    Searching,
+    Round
 };
 
 #endif //GALAXIS_VIEW_UPDATE_MESSAGE_H

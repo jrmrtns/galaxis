@@ -19,6 +19,8 @@ public:
 
     ~BLEDeviceGame() override;
 
+    void startGame() override;
+
 private:
     static BLEDeviceGame *_instance;
 
