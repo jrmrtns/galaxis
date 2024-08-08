@@ -101,11 +101,33 @@ void ui_Game_screen_init(void)
     lv_obj_set_style_text_align(ui_Coordinates, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Coordinates, &ui_font_Destruct24, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Coordinates, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Coordinates, 150, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Coordinates, 175, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_Coordinates, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_Coordinates, 25, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_Coordinates, 25, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui_Coordinates, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_Coordinates, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Round = lv_label_create(ui_GamePanel);
+    lv_obj_set_width(ui_Round, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Round, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Round, -36);
+    lv_obj_set_y(ui_Round, 73);
+    lv_obj_set_align(ui_Round, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Round, "");
+    lv_obj_set_style_text_align(ui_Round, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Round, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Round, 148, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_ElapsedTime = lv_label_create(ui_GamePanel);
+    lv_obj_set_width(ui_ElapsedTime, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ElapsedTime, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_ElapsedTime, 30);
+    lv_obj_set_y(ui_ElapsedTime, 73);
+    lv_obj_set_align(ui_ElapsedTime, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_ElapsedTime, "");
+    lv_obj_set_style_text_align(ui_ElapsedTime, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_ElapsedTime, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_ElapsedTime, 148, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
