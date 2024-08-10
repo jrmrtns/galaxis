@@ -247,10 +247,10 @@ void GalaxisGameView::endSearching() {
 }
 
 void GalaxisGameView::updateRound() {
-    if (!_galaxisModel->isStarted())
+    if (!_galaxisModel->isStarted() || _galaxisModel->getRound() == 0)
         return;
 
-    lv_label_set_text(ui_Round, String(_galaxisModel->getRound() + 1).c_str());
+    lv_label_set_text(ui_Round, String(_galaxisModel->getRound()).c_str());
 }
 
 void GalaxisGameView::drawElapsedTime() {
