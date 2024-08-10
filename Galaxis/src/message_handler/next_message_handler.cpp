@@ -6,5 +6,6 @@
 
 void NextMessageHandler::handle(std::shared_ptr<GalaxisGameModel> &galaxisGameModel, GalaxisMessage &message) {
     uint8_t nextUser = message.param1;
+    galaxisGameModel->setRound(message.param2);
     galaxisGameModel->setCurrent(nextUser);
 }

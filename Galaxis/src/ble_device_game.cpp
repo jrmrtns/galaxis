@@ -41,6 +41,7 @@ void BLEDeviceGame::peripheralConnectHandler(BLEDevice central)  {
 // NOLINTNEXTLINE
 void BLEDeviceGame::peripheralDisconnectHandler(BLEDevice central) {
     BLEDeviceGame::getInstance()->NotifyUiConnected(false);
+    BLE.advertise();
 }
 
 // NOLINTNEXTLINE
@@ -97,4 +98,8 @@ void BLEDeviceGame::logMessage(const GalaxisMessage &galaxisMessage) {
     Serial.print(galaxisMessage.param1);
     Serial.print(":");
     Serial.println(galaxisMessage.param2);
+}
+
+void BLEDeviceGame::startGame() {
+
 }

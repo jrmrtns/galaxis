@@ -63,6 +63,11 @@ public:
     bool isWinner() const;
 
     void setWinner(bool won);
+
+    uint8_t getRound() const;
+
+    void setRound(uint8_t round);
+
 private:
     uint8_t _me = 0;
     uint8_t _current = 0;
@@ -76,6 +81,7 @@ private:
     bool _winner = false;
     bool _started = false;
     bool _searching = false;
+    uint8_t _round = 0;
 };
 
 

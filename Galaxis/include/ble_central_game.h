@@ -53,6 +53,8 @@ private:
     static void startScanning();
 
     static void logMessage(const GalaxisMessage &galaxisMessage);
+
+    void startGame() override;
 };
 
 

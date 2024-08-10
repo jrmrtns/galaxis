@@ -38,6 +38,8 @@ private:
     uint32_t _debounceTimeSpan = 25;
     uint32_t _endAnimationTime = 0;
     uint32_t _nextIdleToneTime = 0;
+    uint32_t _startTime = 0;
+    String _elapsedTime = "";
 
     void updateActive();
 
@@ -48,6 +50,8 @@ private:
     void updateGameOver();
 
     void updateShipCount();
+
+    void updateRound();
 
     void startSearching();
 
@@ -62,6 +66,10 @@ private:
     uint8_t getIndicatorIndex() const;
 
     void resetNextIdleTime();
+
+    void drawElapsedTime();
+
+    void startGame();
 };
 
 

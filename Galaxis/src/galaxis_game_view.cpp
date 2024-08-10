@@ -53,10 +53,15 @@ void GalaxisGameView::update(ViewUpdateMessage param) {
             updateGameOver();
             break;
         case MenuItemChanged:
+            break;
         case Started:
+            startGame();
             break;
         case Searching:
             startSearching();
+            break;
+        case Round:
+            updateRound();
             break;
     }
 }
@@ -114,8 +119,10 @@ void GalaxisGameView::showShipCount(uint8_t i) const {
 }
 
 void GalaxisGameView::updateActive() {
-    if (_galaxisModel->isActive())
+    if (_galaxisModel->isActive()) {
+        _nextIdleToneTime = millis();
         _ui_state_modify(ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+    }
     else
         _ui_state_modify(ui_Game, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
 }
@@ -157,6 +164,8 @@ Screen GalaxisGameView::loop() {
     }
 
     playIdle();
+
+    drawElapsedTime();
 
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
@@ -234,4 +243,28 @@ void GalaxisGameView::endSearching() {
     _galaxisController->makeGuess(_encoder->getPosition());
 }
 
+void GalaxisGameView::updateRound() {
+    if (!_galaxisModel->isStarted() || _galaxisModel->getRound() == 0)
+        return;
 
+    lv_label_set_text(ui_Round, String(_galaxisModel->getRound()).c_str());
+}
+
+void GalaxisGameView::drawElapsedTime() {
+    if (!_galaxisModel->isStarted())
+        return;
+
+    uint32_t elapsed = (millis() - _startTime) / 1000;
+    uint32_t minutes = elapsed / 60;
+    uint32_t seconds = elapsed % 60;
+    String txt = String(minutes) + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+    if (txt == _elapsedTime)
+        return;
+
+    _elapsedTime = txt;
+    lv_label_set_text(ui_ElapsedTime, txt.c_str());
+}
+
+void GalaxisGameView::startGame() {
+    _startTime = millis();
+}
