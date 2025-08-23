@@ -1,3 +1,4 @@
+#include "lv_conf.h"
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 #include <ui.h>
