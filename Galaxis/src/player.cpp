@@ -41,3 +41,7 @@ uint8_t Player::getDiscovered() const {
 std::vector<Ship *> Player::getHiddenShips() const {
     return _board->getHiddenShips();
 }
+
+std::shared_ptr<Board> Player::getBoard() const {
+    return _board;
+}

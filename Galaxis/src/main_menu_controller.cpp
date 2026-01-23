@@ -22,7 +22,7 @@ void MainMenuController::btnClick(int position) {
             break;
 
         case 1:
-            _model->setSelectedMenuItem(Screen::CENTRAL_GAME);
+            _model->setSelectedMenuItem(Screen::SELECT_MODE_SCREEN);
             break;
 
         case 2:

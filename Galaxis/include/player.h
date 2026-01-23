@@ -26,6 +26,8 @@ public:
 
     uint8_t getDiscovered() const;
 
+    std::shared_ptr<Board> getBoard() const;
+
 private:
     int _id;
     std::shared_ptr<Board> _board;

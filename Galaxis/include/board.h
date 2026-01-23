@@ -25,6 +25,10 @@ public:
 
     std::vector<Ship *> getHiddenShips() const;
 
+    void addShip(uint8_t x, uint8_t y);
+
+    void clearShips();
+
 private:
     std::vector<std::unique_ptr<Ship>> _ships;
 

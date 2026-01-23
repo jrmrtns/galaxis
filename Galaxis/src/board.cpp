@@ -80,6 +80,14 @@ void Board::dump() {
     printf("\n\n");
 }
 
+void Board::addShip(uint8_t x, uint8_t y) {
+    _ships.push_back(std::make_unique<Ship>(x, y));
+}
+
+void Board::clearShips() {
+    _ships.clear();
+}
+
 Ship *Board::findShip(uint8_t x, uint8_t y) {
     auto it = std::find_if(_ships.begin(), _ships.end(), [x, y](const auto& ship)
     {

@@ -15,6 +15,7 @@
 #include "message_handler/game_over_message_handler.h"
 #include "message_handler/client_connected_message_handler.h"
 #include "message_handler/new_game_message_handler.h"
+#include "message_handler/select_mode_message_handler.h"
 
 std::map<Command, std::shared_ptr<MessageHandler>> messageHandlers = {{Command::SEARCH,           std::make_shared<SearchMessageHandler>()},
                                                                       {Command::START,            std::make_shared<StartMessageHandler>()},
@@ -22,7 +23,8 @@ std::map<Command, std::shared_ptr<MessageHandler>> messageHandlers = {{Command::
                                                                       {Command::GAME_OVER,        std::make_shared<GameOverMessageHandler>()},
                                                                       {Command::CLIENT_CONNECTED, std::make_shared<ClientConnectedMessageHandler>()},
                                                                       {Command::NEW_GAME,         std::make_shared<NewGameMessageHandler>()},
-                                                                      {Command::CONNECT,          std::make_shared<ConnectMessageHandler>()}};
+                                                                      {Command::CONNECT,          std::make_shared<ConnectMessageHandler>()},
+                                                                      {Command::SELECT_MODE,      std::make_shared<SelectModeMessageHandler>()}};
 
 GalaxisGameController::GalaxisGameController(std::shared_ptr<AbstractGame> galaxisGame,
                                              std::shared_ptr<GalaxisGameModel> galaxisModel) {
@@ -43,8 +45,17 @@ void GalaxisGameController::btnClick() {
     if (_galaxisModel->isGameOver())
         return;
 
-    if (!_galaxisModel->isStarted()) {
+    if (!_galaxisModel->isStarted() && !_galaxisModel->isHiding()) {
         _galaxisGame->startGame();
+    }
+
+    if (_galaxisModel->isHiding()) {
+        uint8_t x = _galaxisModel->getX();
+        uint8_t y = _galaxisModel->getY();
+        // Hier müsste man eigentlich prüfen ob schon Schiffe gesetzt wurden
+        // Aber das machen wir im View / Model lokaler.
+        // Der Controller leitet es nur weiter wenn nötig.
+        return;
     }
 
     if (_galaxisModel->getCurrent() != _galaxisModel->getMe())
@@ -84,5 +95,9 @@ void GalaxisGameController::initialize() {
 
 void GalaxisGameController::makeGuess(int position) {
     uint32_t p = position % (MAX_X * MAX_Y);
+    if (_galaxisModel->isHiding()) {
+        _galaxisGame->setShips(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
+        return;
+    }
     _galaxisGame->makeGuess(_galaxisModel->getMe(), p / MAX_Y, p % MAX_Y);
 }

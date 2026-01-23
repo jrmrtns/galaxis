@@ -15,8 +15,19 @@
 #include "ui.h"
 #include "noise_maker.h"
 #include "settings_view.h"
+#include "select_mode_view.h"
 
 extern NoiseMaker *noiseMaker;
+uint8_t ScreenManager::_selectedGameMode = 0;
+
+uint8_t ScreenManager::getSelectedGameMode() {
+    return _selectedGameMode;
+}
+
+void ScreenManager::setSelectedGameMode(uint8_t mode) {
+    _selectedGameMode = mode;
+}
+
 ScreenManager::ScreenManager(RotaryEncoder *encoder) : _encoder(encoder) {}
 
 void ScreenManager::loop() {
@@ -62,6 +73,9 @@ void ScreenManager::show(Screen screen) {
         case SETTINGS:
             showSettingsView();
             break;
+        case SELECT_MODE_SCREEN:
+            showSelectModeView();
+            break;
     }
 }
 
@@ -84,6 +98,7 @@ void ScreenManager::showCentralGameView() {
     gameModel->setMe(0);
 
     auto gameController = std::make_shared<GalaxisGameController>(game, gameModel);
+    game->selectMode(getSelectedGameMode());
     _currentView = std::make_shared<GalaxisGameView>(_encoder, gameController, gameModel);
     _currentView->show();
 }
@@ -116,5 +131,10 @@ void ScreenManager::showWinnerView() {
 
 void ScreenManager::showSettingsView() {
     _currentView = std::make_shared<SettingsView>(_encoder);
+    _currentView->show();
+}
+
+void ScreenManager::showSelectModeView() {
+    _currentView = std::make_shared<SelectModeView>(_encoder);
     _currentView->show();
 }

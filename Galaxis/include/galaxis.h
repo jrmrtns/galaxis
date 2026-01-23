@@ -41,6 +41,10 @@ public:
 
     void remove(uint8_t id);
 
+    void prepareManualStart();
+
+    void addShipToPlayerBoard(uint8_t playerId, uint8_t x, uint8_t y);
+
     std::vector<Ship *> get_ships_by_player(uint8_t player) const;
 
     void setTimeLimit(uint64_t timeLimit);

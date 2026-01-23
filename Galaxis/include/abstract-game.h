@@ -13,6 +13,8 @@ public:
     virtual ~AbstractGame() = default;
     virtual void makeGuess(uint8_t playerId, uint8_t x, uint8_t y) = 0;
     virtual void startGame() = 0;
+    virtual void setShips(uint8_t playerId, uint8_t x, uint8_t y) = 0;
+    virtual void selectMode(uint8_t mode) = 0;
 };
 
 #endif //GALAXIS_ABSTRACTGAME_H

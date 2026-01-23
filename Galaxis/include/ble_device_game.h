@@ -21,6 +21,10 @@ public:
 
     void startGame() override;
 
+    void setShips(uint8_t playerId, uint8_t x, uint8_t y);
+
+    void selectMode(uint8_t mode);
+
 private:
     static BLEDeviceGame *_instance;
 

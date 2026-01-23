@@ -140,7 +140,20 @@ void GalaxisGameModel::setSearching(bool searching) {
         return;
 
     _searching = searching;
-    notifyView(ViewUpdateMessage::Searching);}
+    notifyView(ViewUpdateMessage::Searching);
+}
+
+bool GalaxisGameModel::isHiding() const {
+    return _hiding;
+}
+
+void GalaxisGameModel::setHiding(bool hiding) {
+    if (hiding == _hiding)
+        return;
+
+    _hiding = hiding;
+    notifyView(ViewUpdateMessage::Hiding);
+}
 
 GalaxisGameModel::GalaxisGameModel() {
     for (int i = 0; i < MAX_PLAYERS; ++i) {

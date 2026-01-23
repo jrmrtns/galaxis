@@ -12,7 +12,7 @@ enum MessageType {
 };
 
 enum Command : uint8_t {
-    CONNECT, START, SEARCH, NEXT, GAME_OVER, NEW_GAME, CLIENT_CONNECTED, ERROR
+    CONNECT, START, SEARCH, NEXT, GAME_OVER, NEW_GAME, CLIENT_CONNECTED, ERROR, SET_SHIPS, SELECT_MODE
 };
 
 typedef struct GalaxisMessage {

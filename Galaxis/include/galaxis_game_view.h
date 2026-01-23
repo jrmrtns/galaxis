@@ -70,6 +70,11 @@ private:
     void drawElapsedTime();
 
     void startGame();
+
+    uint8_t _hidingShipsCount = 0;
+    uint8_t _hidingShipsX[SHIP_COUNT];
+    uint8_t _hidingShipsY[SHIP_COUNT];
+    void updateHiding();
 };
 
 

@@ -17,6 +17,9 @@ public:
 
     void show(Screen screen);
 
+    static uint8_t getSelectedGameMode();
+    static void setSelectedGameMode(uint8_t mode);
+
 private :
     RotaryEncoder *_encoder;
 
@@ -35,7 +38,10 @@ private :
     void showWinnerView();
 
     void showSettingsView();
-};
 
+    void showSelectModeView();
+
+    static uint8_t _selectedGameMode;
+};
 
 #endif //GALAXIS_SCREEN_MANAGER_H

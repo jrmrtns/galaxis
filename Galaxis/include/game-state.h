@@ -6,7 +6,7 @@
 #define PICOLAXIS_GAME_STATE_H
 
 enum gameState {
-    idle, gameOver
+    idle, gameOver, hiding
 };
 
 enum gameType {

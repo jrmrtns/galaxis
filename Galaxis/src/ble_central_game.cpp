@@ -19,6 +19,10 @@ BLECentralGame::BLECentralGame() {
     _galaxis = std::make_unique<Galaxis>(single_board, false);
     _galaxis->dumpCurrent();
 
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        _shipsPlaced[i] = 0;
+    }
+
     BLE.setEventHandler(BLEDiscovered, discoverHandler);
     BLE.setEventHandler(BLEDisconnected, peripheralDisconnectHandler);
     startScanning();
@@ -91,6 +95,14 @@ void BLECentralGame::galaxisCharacteristicWritten(BLEDevice bleDevice, BLECharac
 
     if (galaxisMessage.command == NEXT) {
         BLECentralGame::getInstance()->SendNextPlayerNotification();
+    }
+
+    if (galaxisMessage.command == SET_SHIPS) {
+        BLECentralGame::getInstance()->handleSetShips(galaxisMessage.id, galaxisMessage.param1, galaxisMessage.param2);
+    }
+
+    if (galaxisMessage.command == SELECT_MODE) {
+        BLECentralGame::getInstance()->handleSelectMode(galaxisMessage.param1);
     }
 }
 
@@ -219,15 +231,74 @@ void BLECentralGame::startGame() {
 
     stopScanning();
 
-    GalaxisMessage message = {0};
-    message.msgType = RESPONSE;
-    message.command = START;
-    message.id = 0xff;
-    message.param1 = _galaxis->getRound();
+    if (_isHidingMode) {
+        _galaxis->prepareManualStart();
+        GalaxisMessage message = {0};
+        message.msgType = RESPONSE;
+        message.command = SELECT_MODE;
+        message.id = 0xff;
+        message.param1 = 1; // 1 = Hiding mode
 
-    notifyObservers(message);
-    for (auto &device: devices) {
-        device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
+        notifyObservers(message);
+        for (auto &device: devices) {
+            device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
+        }
+    } else {
+        _gameStarted = true;
+        GalaxisMessage message = {0};
+        message.msgType = RESPONSE;
+        message.command = START;
+        message.id = 0xff;
+        message.param1 = _galaxis->getRound();
+
+        notifyObservers(message);
+        for (auto &device: devices) {
+            device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
+        }
     }
+}
+
+void BLECentralGame::handleSetShips(uint8_t playerId, uint8_t x, uint8_t y) {
+    if (!_isHidingMode) return;
+
+    _galaxis->addShipToPlayerBoard(playerId, x, y);
+    _shipsPlaced[playerId]++;
+
+    // Prüfen ob alle Spieler 4 Schiffe gesetzt haben
+    bool allReady = true;
+    for (int i = 0; i < _galaxis->getPlayerCount(); ++i) {
+        if (_shipsPlaced[i] < SHIP_COUNT) {
+            allReady = false;
+            break;
+        }
+    }
+
+    if (allReady) {
+        _isHidingMode = false;
+        _gameStarted = true;
+        GalaxisMessage message = {0};
+        message.msgType = RESPONSE;
+        message.command = START;
+        message.id = 0xff;
+        message.param1 = _galaxis->getRound();
+
+        notifyObservers(message);
+        for (auto &device: devices) {
+            device.characteristic(GALAXIS_CHARACTERISTIC_UUID).writeValue(&message, sizeof(GalaxisMessage), true);
+        }
+    }
+}
+
+void BLECentralGame::handleSelectMode(uint8_t mode) {
+    _isHidingMode = (mode == 1);
+    startGame();
+}
+
+void BLECentralGame::setShips(uint8_t playerId, uint8_t x, uint8_t y) {
+    handleSetShips(playerId, x, y);
+}
+
+void BLECentralGame::selectMode(uint8_t mode) {
+    handleSelectMode(mode);
 }
 

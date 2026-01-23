@@ -55,6 +55,17 @@ private:
     static void logMessage(const GalaxisMessage &galaxisMessage);
 
     void startGame() override;
+
+    void handleSetShips(uint8_t playerId, uint8_t x, uint8_t y);
+
+    void handleSelectMode(uint8_t mode);
+
+    void setShips(uint8_t playerId, uint8_t x, uint8_t y) override;
+
+    void selectMode(uint8_t mode) override;
+
+    uint8_t _shipsPlaced[MAX_PLAYERS];
+    bool _isHidingMode = false;
 };
 
 

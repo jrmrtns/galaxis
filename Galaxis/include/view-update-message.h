@@ -16,7 +16,8 @@ enum ViewUpdateMessage {
     MenuItemChanged,
     Started,
     Searching,
-    Round
+    Round,
+    Hiding
 };
 
 #endif //GALAXIS_VIEW_UPDATE_MESSAGE_H

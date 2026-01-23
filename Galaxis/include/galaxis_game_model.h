@@ -60,6 +60,10 @@ public:
 
     void setSearching(bool searching);
 
+    bool isHiding() const;
+
+    void setHiding(bool hiding);
+
     bool isWinner() const;
 
     void setWinner(bool won);
@@ -81,6 +85,7 @@ private:
     bool _winner = false;
     bool _started = false;
     bool _searching = false;
+    bool _hiding = false;
     uint8_t _round = 0;
 };
 

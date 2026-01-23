@@ -120,6 +120,25 @@ void Galaxis::remove(uint8_t id) {
     _players.erase(_players.begin() + id);
 }
 
+void Galaxis::prepareManualStart() {
+    _gameState = gameState::hiding;
+    for (auto &player : _players) {
+        player->getBoard()->clearShips();
+    }
+}
+
+void Galaxis::addShipToPlayerBoard(uint8_t playerId, uint8_t x, uint8_t y) {
+    if (playerId >= _players.size())
+        return;
+    
+    // Wir verstecken für den NÄCHSTEN Spieler (Ring-Tausch)
+    // Wenn es nur ein Board gibt, landen alle auf dem gleichen Board.
+    // Wenn multi_board, dann hat jeder sein eigenes.
+    // User sagt: "jeder Spieler die vier Raumschiffe für jeweils einen Spieler verstecken kann"
+    // Wir weisen die Schiffe dem Board des Spielers zu, der sie später suchen soll.
+    _players[playerId]->getBoard()->addShip(x, y);
+}
+
 int Galaxis::getRound() const {
     return _round;
 }

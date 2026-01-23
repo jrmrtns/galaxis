@@ -101,5 +101,31 @@ void BLEDeviceGame::logMessage(const GalaxisMessage &galaxisMessage) {
 }
 
 void BLEDeviceGame::startGame() {
+    GalaxisMessage message = {0};
+    message.msgType = REQUEST;
+    message.command = START;
+    message.id = 0;
+    message.param1 = 0;
+    message.param2 = 0;
+    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
+}
 
+void BLEDeviceGame::setShips(uint8_t playerId, uint8_t x, uint8_t y) {
+    GalaxisMessage message = {0};
+    message.msgType = REQUEST;
+    message.command = SET_SHIPS;
+    message.id = playerId;
+    message.param1 = x;
+    message.param2 = y;
+    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
+}
+
+void BLEDeviceGame::selectMode(uint8_t mode) {
+    GalaxisMessage message = {0};
+    message.msgType = REQUEST;
+    message.command = SELECT_MODE;
+    message.id = 0;
+    message.param1 = mode;
+    message.param2 = 0;
+    galaxisCharacteristic.writeValue(&message, sizeof(GalaxisMessage));
 }

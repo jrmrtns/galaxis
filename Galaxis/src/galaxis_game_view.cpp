@@ -63,6 +63,9 @@ void GalaxisGameView::update(ViewUpdateMessage param) {
         case Round:
             updateRound();
             break;
+        case Hiding:
+            updateHiding();
+            break;
     }
 }
 
@@ -170,7 +173,33 @@ Screen GalaxisGameView::loop() {
     int button = digitalRead(PIN_ENC_BUTTON);
     if (button != _lastButtonState && ((millis() - _lastButtonPress) > _debounceTimeSpan)) {
         if (button == HIGH) {
-            _galaxisController->btnClick();
+            if (_galaxisModel->isHiding()) {
+                uint8_t x = _galaxisModel->getX();
+                uint8_t y = _galaxisModel->getY();
+                
+                bool alreadySet = false;
+                for (int i = 0; i < _hidingShipsCount; i++) {
+                    if (_hidingShipsX[i] == x && _hidingShipsY[i] == y) {
+                        alreadySet = true;
+                        break;
+                    }
+                }
+
+                if (!alreadySet) {
+                    _hidingShipsX[_hidingShipsCount] = x;
+                    _hidingShipsY[_hidingShipsCount] = y;
+                    _galaxisController->makeGuess(position);
+                    _hidingShipsCount++;
+                    if (_hidingShipsCount < SHIP_COUNT) {
+                        String h = String(HIDE_SHIPS_MESSAGE) + " (" + String(_hidingShipsCount) + "/" + String(SHIP_COUNT) + ")";
+                        _galaxisModel->setHint(h);
+                    } else {
+                        _galaxisModel->setHint("Warte auf andere...");
+                    }
+                }
+            } else {
+                _galaxisController->btnClick();
+            }
         }
         _lastButtonState = button;
         _lastButtonPress = millis();
@@ -267,4 +296,12 @@ void GalaxisGameView::drawElapsedTime() {
 
 void GalaxisGameView::startGame() {
     _startTime = millis();
+}
+
+void GalaxisGameView::updateHiding() {
+    if (_galaxisModel->isHiding()) {
+        _hidingShipsCount = 0;
+        String h = String(HIDE_SHIPS_MESSAGE) + " (" + String(_hidingShipsCount) + "/" + String(SHIP_COUNT) + ")";
+        _galaxisModel->setHint(h);
+    }
 }

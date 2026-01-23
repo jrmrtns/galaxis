@@ -51,6 +51,10 @@
 #define MAIN_MENU_JOIN_HINT "Einem Spiel beitreten"
 #define MAIN_MENU_OFF "Off"
 #define GAME_SCANNING_MESSAGE "Suche"
+#define HIDE_SHIPS_MESSAGE "Verstecke 4 Schiffe!"
+#define SELECT_MODE_TITLE "Modus"
+#define SELECT_MODE_RANDOM "Zufall"
+#define SELECT_MODE_HIDE "Hide"
 #else
 #define START_MESSAGE "Start...\nor wait for other players"
 #define WAITING_FOR_PLAYER "Waiting for "
@@ -72,6 +76,10 @@
 #define MAIN_MENU_JOIN_HINT "Join a game"
 #define MAIN_MENU_OFF "Off"
 #define GAME_SCANNING_MESSAGE "Scanning"
+#define HIDE_SHIPS_MESSAGE "Hide 4 ships!"
+#define SELECT_MODE_TITLE "Select mode"
+#define SELECT_MODE_RANDOM "Random"
+#define SELECT_MODE_HIDE "Hiding"
 #endif
 
 const float conversion_factor = 3.3f / (1 << 12) * 3;
