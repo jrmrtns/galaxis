@@ -171,6 +171,7 @@ void setup() {
     lv_disp_draw_buf_init(&draw_buf, buf, nullptr, screenWidth * screenHeight / 10);
 
     static lv_disp_drv_t disp_drv;
+
     lv_disp_drv_init(&disp_drv);
 
     disp_drv.hor_res = screenWidth;
@@ -185,7 +186,7 @@ void setup() {
     lv_timer_handler();
     delay(2500);
 
-    screenManager->show(MENU);
+    screenManager->show(HIDE_SHIPS);
 }
 
 void checkButtonState() {

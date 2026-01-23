@@ -21,6 +21,8 @@ typedef struct GalaxisMessage {
     uint8_t id;
     uint8_t param1;
     uint8_t param2;
+    uint8_t param3;
+    uint8_t param4;
 } GalaxisMessage;
 
 #endif //GALAXIS_GALAXIS_MESSAGE_H

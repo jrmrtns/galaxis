@@ -9,6 +9,7 @@
 
 class IView {
 public:
+    virtual ~IView() = default;
     virtual Screen loop() = 0;
 
     virtual void show() = 0;

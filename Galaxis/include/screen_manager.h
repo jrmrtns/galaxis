@@ -35,6 +35,8 @@ private :
     void showWinnerView();
 
     void showSettingsView();
+
+    void showHideShipsView();
 };
 
 

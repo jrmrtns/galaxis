@@ -12,6 +12,7 @@
 #include "screen.h"
 #include "settings.h"
 #include "game_over_view.h"
+#include "hide_ships_view.h"
 #include "ui.h"
 #include "noise_maker.h"
 #include "settings_view.h"
@@ -61,6 +62,9 @@ void ScreenManager::show(Screen screen) {
             break;
         case SETTINGS:
             showSettingsView();
+            break;
+        case HIDE_SHIPS:
+            showHideShipsView();
             break;
     }
 }
@@ -116,5 +120,11 @@ void ScreenManager::showWinnerView() {
 
 void ScreenManager::showSettingsView() {
     _currentView = std::make_shared<SettingsView>(_encoder);
+    _currentView->show();
+}
+
+void ScreenManager::showHideShipsView()
+{
+    _currentView = std::make_shared<HideShipsView>(_encoder);
     _currentView->show();
 }
